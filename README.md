@@ -1,69 +1,56 @@
 # MusicTubearr
 
-YouTube-first music collection manager forked from [Lidarr](https://github.com/Lidarr/Lidarr). Same *arr UI and automation (library, Wanted, Interactive Search, Queue), but **YouTube + yt-dlp + ffmpeg** replace MusicBrainz/SkyHook metadata and Usenet/torrent indexers.
+YouTube-first music manager (Lidarr *arr UI) powered by **yt-dlp** + **ffmpeg**.
 
-## Features
+Search YouTube artists → browse albums/playlists → download & convert → import into your library.
 
-* Search YouTube artists/channels and add them like Lidarr artists
-* Browse channel **Uploads** and **playlists** as albums/tracks
-* Interactive Search to pick videos, or Automatic Search / Wanted / RSS-style channel polling
-* Download with **yt-dlp**, convert with **ffmpeg** to MP3/M4A/FLAC/Opus/WAV
-* Netscape **cookies.txt** auth (Stacher-style) under Settings → Metadata → YouTube / yt-dlp
-* Import, rename, and organize into your music library (e.g. `C:\docker\media\youtube-music`)
+## Easiest: Docker (recommended)
 
-## Requirements
+No .NET, yarn, yt-dlp, or ffmpeg install on the host. Everything is in the image.
 
-* .NET 8 SDK (for building)
-* [yt-dlp](https://github.com/yt-dlp/yt-dlp) on PATH (or configure path in settings)
-* [ffmpeg](https://ffmpeg.org/) on PATH (or configure path in settings)
-* Optional: YouTube `cookies.txt` for age-restricted / member content
+```powershell
+git clone https://github.com/tjet009/Musictubearr.git
+cd Musictubearr
+git checkout cursor/youtube-first-musictubearr-bb21
 
-## Quick start (Docker)
-
-See [`docker/docker-compose.yml`](docker/docker-compose.yml).
-
-```bash
-# Example mounts for a Windows host library
-# C:\docker\media\youtube-music -> /music
-# Place cookies at ./cookies/cookies.txt
-docker compose -f docker/docker-compose.yml up -d
+# Edit docker/docker-compose.yml if your library path isn't C:\docker\media\youtube-music
+docker compose -f docker/docker-compose.yml up -d --build
 ```
 
-Open `http://localhost:8686`, set Root Folder to `/music`, configure cookies/format under **Settings → Metadata**.
+Open **http://localhost:8686**
 
-### Cookie export
+1. Add Root Folder → `/music` (maps to your host library folder)
+2. Settings → Metadata → **Upload** your YouTube `cookies.txt`
+3. (Optional) Click **Download** next to yt-dlp/ffmpeg — already included in Docker, but available for native installs
+4. Add New → search a YouTube artist → Interactive Search → Grab
 
-1. Open a private/incognito browser window and log into YouTube  
-2. Export `youtube.com` cookies in Netscape format  
-3. Close the private window (avoids cookie rotation)  
-4. Mount/upload as `cookies.txt` and set **Cookies File** in settings (or `POST /api/v1/config/youtube/cookies`)
+### Cookie export (needed for most YouTube downloads)
+
+1. Private/incognito window → log into YouTube  
+2. Export `youtube.com` cookies as Netscape `cookies.txt`  
+3. Close the private window  
+4. Upload in Settings → Metadata (or put the file in `docker/cookies/cookies.txt`)
+
+## Native install (optional)
+
+If you prefer not to use Docker:
+
+1. Build with .NET 8 + yarn (see CONTRIBUTING.md)
+2. Start MusicTubearr
+3. Settings → Metadata → click **Download** for yt-dlp and ffmpeg (Windows auto-fetches both)
+
+On first launch MusicTubearr also tries to auto-download yt-dlp into its AppData `tools` folder.
 
 ## Architecture
 
 | Lidarr concept | MusicTubearr |
 |---|---|
-| Artist | YouTube channel (`yt:channel:UC…`) |
-| Album | Playlist or synthetic Uploads album |
-| Track | YouTube video |
-| Indexer | Built-in **YouTube** indexer |
-| Download client | Built-in **yt-dlp** client |
-| Metadata | **YouTubeProxy** via yt-dlp JSON (not SkyHook) |
-
-On first start, MusicTubearr auto-creates the YouTube indexer and yt-dlp download client.
-
-## Development
-
-```bash
-# Backend
-./build.sh
-
-# Frontend
-yarn install
-yarn start
-```
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the Lidarr-based build workflow.
+| Artist | YouTube channel |
+| Album | Playlist / Uploads |
+| Track | Video |
+| Indexer | Built-in YouTube |
+| Download client | Built-in yt-dlp |
 
 ## License
 
-GPL-3.0 (inherited from Lidarr). See [LICENSE.md](LICENSE.md).
+GPL-3.0 (from Lidarr). See [LICENSE.md](LICENSE.md).

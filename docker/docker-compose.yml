@@ -1,13 +1,20 @@
-# MusicTubearr — YouTube-first Lidarr fork
-# Adjust host paths for your machine. Example library path from the project owner:
-#   Windows: C:\docker\media\youtube-music
-#   Linux:   /data/media/youtube-music
+# MusicTubearr — one-command setup
+#
+# Windows (PowerShell), from the repo root:
+#   docker compose -f docker/docker-compose.yml up -d --build
+#
+# Then open http://localhost:8686
+#   - Add Root Folder: /music  (maps to C:\docker\media\youtube-music below)
+#   - Settings → Metadata → Upload cookies.txt (and/or Download yt-dlp — already in the image)
+#
+# yt-dlp + ffmpeg are baked into the image. No .NET/yarn install needed on the host.
 
 services:
   musictubearr:
-    image: ghcr.io/linuxserver/lidarr:latest
-    # Until a dedicated MusicTubearr image is published, build from this repo
-    # and replace the image above, or mount a custom build.
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: musictubearr:local
     container_name: musictubearr
     environment:
       - PUID=1000
@@ -16,26 +23,9 @@ services:
     volumes:
       - ./config:/config
       - ./cookies:/cookies
-      # Host music library (yt-dlp imports land here via root folder)
-      - /path/to/youtube-music:/music
-      # Optional: incomplete/download working folder
       - ./downloads:/downloads
+      # Change this host path to your library
+      - C:/docker/media/youtube-music:/music
     ports:
       - "8686:8686"
     restart: unless-stopped
-
-# Suggested first-run settings inside the UI:
-# - Root Folder: /music
-# - Settings → Metadata → YouTube / yt-dlp:
-#     Cookies File: /cookies/cookies.txt
-#     yt-dlp Path: yt-dlp
-#     FFmpeg Path: ffmpeg
-#     Audio Format: mp3
-# - Indexers: YouTube (auto-created)
-# - Download Clients: yt-dlp with Download Folder /downloads (auto-created under config if missing)
-#
-# Cookie export (Netscape format, Stacher-style):
-# 1. Open a private/incognito window and log into YouTube
-# 2. Export youtube.com cookies with a cookies.txt extension
-# 3. Close the private window (so cookies are not rotated)
-# 4. Place the file at ./cookies/cookies.txt on the host

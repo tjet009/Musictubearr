@@ -6,6 +6,7 @@ using NzbDrone.Common.Disk;
 using NzbDrone.Common.EnvironmentInfo;
 using NzbDrone.Core.Download;
 using NzbDrone.Core.Download.Clients.YtDlp;
+using NzbDrone.Core.Download.YtDlp;
 using NzbDrone.Core.Indexers;
 using NzbDrone.Core.Indexers.YouTube;
 using NzbDrone.Core.Lifecycle;
@@ -19,6 +20,7 @@ namespace NzbDrone.Core.MusicTubearr
         private readonly IIndexerFactory _indexerFactory;
         private readonly IDownloadClientFactory _downloadClientFactory;
         private readonly IDelayProfileService _delayProfileService;
+        private readonly IYtDlpInstaller _ytDlpInstaller;
         private readonly IAppFolderInfo _appFolderInfo;
         private readonly IDiskProvider _diskProvider;
         private readonly Logger _logger;
@@ -26,6 +28,7 @@ namespace NzbDrone.Core.MusicTubearr
         public MusicTubearrBootstrapService(IIndexerFactory indexerFactory,
                                             IDownloadClientFactory downloadClientFactory,
                                             IDelayProfileService delayProfileService,
+                                            IYtDlpInstaller ytDlpInstaller,
                                             IAppFolderInfo appFolderInfo,
                                             IDiskProvider diskProvider,
                                             Logger logger)
@@ -33,6 +36,7 @@ namespace NzbDrone.Core.MusicTubearr
             _indexerFactory = indexerFactory;
             _downloadClientFactory = downloadClientFactory;
             _delayProfileService = delayProfileService;
+            _ytDlpInstaller = ytDlpInstaller;
             _appFolderInfo = appFolderInfo;
             _diskProvider = diskProvider;
             _logger = logger;
@@ -40,9 +44,40 @@ namespace NzbDrone.Core.MusicTubearr
 
         public void Handle(ApplicationStartedEvent message)
         {
+            EnsureTools();
             var client = EnsureYtDlpClient();
             EnsureYouTubeIndexer(client?.Id ?? 0);
             EnsureYouTubeProtocolAllowed();
+        }
+
+        private void EnsureTools()
+        {
+            try
+            {
+                var yt = _ytDlpInstaller.EnsureYtDlp();
+                if (yt.Success)
+                {
+                    _logger.Info("yt-dlp ready: {0} ({1})", yt.Path, yt.Message);
+                }
+                else
+                {
+                    _logger.Warn("yt-dlp not ready: {0}", yt.Message);
+                }
+
+                var ff = _ytDlpInstaller.EnsureFfmpeg();
+                if (ff.Success)
+                {
+                    _logger.Info("ffmpeg ready: {0} ({1})", ff.Path, ff.Message);
+                }
+                else
+                {
+                    _logger.Warn("ffmpeg not ready: {0}", ff.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Warn(ex, "Unable to auto-install yt-dlp/ffmpeg tools");
+            }
         }
 
         private void EnsureYouTubeIndexer(int downloadClientId)
