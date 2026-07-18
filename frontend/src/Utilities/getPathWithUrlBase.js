@@ -1,3 +1,3 @@
 export default function getPathWithUrlBase(path) {
-  return `${window.Lidarr.urlBase}${path}`;
+  return `${window.MusicTubearr.urlBase}${path}`;
 }

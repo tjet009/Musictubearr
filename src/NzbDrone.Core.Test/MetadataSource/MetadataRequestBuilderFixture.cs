@@ -20,14 +20,14 @@ namespace NzbDrone.Core.Test.MetadataSource
 
             Mocker.GetMock<ILidarrCloudRequestBuilder>()
                 .Setup(s => s.Search)
-                .Returns(new HttpRequestBuilder("https://api.lidarr.audio/api/v0.4/{route}").CreateFactory());
+                .Returns(new HttpRequestBuilder("https://api.github.com/tjet009/Musictubearr/api/v0.4/{route}").CreateFactory());
         }
 
         private void WithCustomProvider()
         {
             Mocker.GetMock<IConfigService>()
                 .Setup(s => s.MetadataSource)
-                .Returns("http://api.lidarr.audio/api/testing/");
+                .Returns("http://api.github.com/tjet009/Musictubearr/api/testing/");
         }
 
         [TestCase]

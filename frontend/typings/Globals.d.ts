@@ -1,7 +1,7 @@
 declare module '*.module.css';
 
 interface Window {
-  Lidarr: {
+  MusicTubearr: {
     apiKey: string;
     instanceName: string;
     theme: string;

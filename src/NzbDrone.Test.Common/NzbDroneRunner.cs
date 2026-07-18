@@ -71,7 +71,7 @@ namespace NzbDrone.Test.Common
 
                 if (_nzbDroneProcess.HasExited)
                 {
-                    TestContext.Progress.WriteLine("Lidarr has exited unexpectedly");
+                    TestContext.Progress.WriteLine("MusicTubearr has exited unexpectedly");
                     Thread.Sleep(2000);
                     var output = _startupLog.Join(Environment.NewLine);
                     Assert.Fail("Process has exited: ExitCode={0} Output={1}", _nzbDroneProcess.ExitCode, output);
@@ -86,11 +86,11 @@ namespace NzbDrone.Test.Common
                 if (statusCall.ResponseStatus == ResponseStatus.Completed)
                 {
                     _startupLog = null;
-                    TestContext.Progress.WriteLine($"Lidarr {Port} is started. Running Tests");
+                    TestContext.Progress.WriteLine($"MusicTubearr {Port} is started. Running Tests");
                     return;
                 }
 
-                TestContext.Progress.WriteLine("Waiting for Lidarr to start. Response Status : {0}  [{1}] {2}", statusCall.ResponseStatus, statusCall.StatusDescription, statusCall.ErrorException.Message);
+                TestContext.Progress.WriteLine("Waiting for MusicTubearr to start. Response Status : {0}  [{1}] {2}", statusCall.ResponseStatus, statusCall.StatusDescription, statusCall.ErrorException.Message);
 
                 Thread.Sleep(500);
             }
@@ -146,12 +146,12 @@ namespace NzbDrone.Test.Common
             StringDictionary envVars = new ();
             if (PostgresOptions?.Host != null)
             {
-                envVars.Add("Lidarr__Postgres__Host", PostgresOptions.Host);
-                envVars.Add("Lidarr__Postgres__Port", PostgresOptions.Port.ToString());
-                envVars.Add("Lidarr__Postgres__User", PostgresOptions.User);
-                envVars.Add("Lidarr__Postgres__Password", PostgresOptions.Password);
-                envVars.Add("Lidarr__Postgres__MainDb", PostgresOptions.MainDb);
-                envVars.Add("Lidarr__Postgres__LogDb", PostgresOptions.LogDb);
+                envVars.Add("MusicTubearr__Postgres__Host", PostgresOptions.Host);
+                envVars.Add("MusicTubearr__Postgres__Port", PostgresOptions.Port.ToString());
+                envVars.Add("MusicTubearr__Postgres__User", PostgresOptions.User);
+                envVars.Add("MusicTubearr__Postgres__Password", PostgresOptions.Password);
+                envVars.Add("MusicTubearr__Postgres__MainDb", PostgresOptions.MainDb);
+                envVars.Add("MusicTubearr__Postgres__LogDb", PostgresOptions.LogDb);
 
                 TestContext.Progress.WriteLine("Using env vars:\n{0}", envVars.ToJson());
             }

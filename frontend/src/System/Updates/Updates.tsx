@@ -284,8 +284,8 @@ function Updates() {
               <div>
                 <InlineMarkdown
                   data={translate('InstallMajorVersionUpdateMessageLink', {
-                    domain: 'lidarr.audio',
-                    url: 'https://lidarr.audio/#downloads',
+                    domain: 'github.com/tjet009/Musictubearr',
+                    url: 'https://github.com/tjet009/Musictubearr',
                   })}
                 />
               </div>

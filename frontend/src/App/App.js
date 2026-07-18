@@ -9,7 +9,7 @@ import AppRoutes from './AppRoutes';
 
 function App({ store, history }) {
   return (
-    <DocumentTitle title={window.Lidarr.instanceName}>
+    <DocumentTitle title={window.MusicTubearr.instanceName}>
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <ApplyTheme />

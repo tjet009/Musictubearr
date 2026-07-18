@@ -1203,7 +1203,7 @@
         }
       }
     },
-    "/feed/v1/calendar/lidarr.ics": {
+    "/feed/v1/calendar/musictubearr.ics": {
       "get": {
         "tags": [
           "CalendarFeed"

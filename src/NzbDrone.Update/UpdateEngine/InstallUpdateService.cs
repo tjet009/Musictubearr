@@ -86,11 +86,11 @@ namespace NzbDrone.Update.UpdateEngine
         public void Start(string installationFolder, int processId)
         {
             _logger.Info("Installation Folder: {0}", installationFolder);
-            _logger.Info("Updating Lidarr from version {0} to version {1}", _detectExistingVersion.GetExistingVersion(installationFolder), BuildInfo.Version);
+            _logger.Info("Updating MusicTubearr from version {0} to version {1}", _detectExistingVersion.GetExistingVersion(installationFolder), BuildInfo.Version);
 
             Verify(installationFolder, processId);
 
-            if (installationFolder.EndsWith(@"\bin\Lidarr") || installationFolder.EndsWith(@"/bin/Lidarr"))
+            if (installationFolder.EndsWith(@"\bin\MusicTubearr") || installationFolder.EndsWith(@"/bin/MusicTubearr"))
             {
                 installationFolder = installationFolder.GetParentPath();
                 _logger.Info("Fixed Installation Folder: {0}", installationFolder);
@@ -115,7 +115,7 @@ namespace NzbDrone.Update.UpdateEngine
                 {
                     if (_processProvider.Exists(ProcessProvider.LIDARR_CONSOLE_PROCESS_NAME) || _processProvider.Exists(ProcessProvider.LIDARR_PROCESS_NAME))
                     {
-                        _logger.Error("Lidarr was restarted prematurely by external process.");
+                        _logger.Error("MusicTubearr was restarted prematurely by external process.");
                         return;
                     }
                 }
@@ -125,10 +125,10 @@ namespace NzbDrone.Update.UpdateEngine
                     _logger.Info("Copying new files to target folder");
                     _diskTransferService.MirrorFolder(_appFolderInfo.GetUpdatePackageFolder(), installationFolder);
 
-                    // Set executable flag on Lidarr app and bundled fpcalc
+                    // Set executable flag on MusicTubearr app and bundled fpcalc
                     if (OsInfo.IsOsx || OsInfo.IsLinux)
                     {
-                        _diskProvider.SetFilePermissions(Path.Combine(installationFolder, "Lidarr"), "755", null);
+                        _diskProvider.SetFilePermissions(Path.Combine(installationFolder, "MusicTubearr"), "755", null);
                         _diskProvider.SetFilePermissions(Path.Combine(installationFolder, "fpcalc"), "755", null);
                     }
                 }
@@ -156,7 +156,7 @@ namespace NzbDrone.Update.UpdateEngine
 
                         if (_processProvider.Exists(ProcessProvider.LIDARR_PROCESS_NAME))
                         {
-                            _logger.Info("Lidarr was restarted by external process.");
+                            _logger.Info("MusicTubearr was restarted by external process.");
                             break;
                         }
                     }

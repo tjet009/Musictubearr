@@ -86,7 +86,7 @@ namespace NzbDrone.Core.MediaCover
         {
             if (entityId == 0)
             {
-                // Artist isn't in Lidarr yet, map via a proxy to circument referrer issues
+                // Artist isn't in MusicTubearr yet, map via a proxy to circument referrer issues
                 foreach (var mediaCover in covers)
                 {
                     mediaCover.RemoteUrl = mediaCover.Url;

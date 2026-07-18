@@ -431,7 +431,7 @@ class PageSidebar extends Component {
       transform
     } = this.state;
 
-    const urlBase = window.Lidarr.urlBase;
+    const urlBase = window.MusicTubearr.urlBase;
     const pathname = urlBase ? location.pathname.substr(urlBase.length) || '/' : location.pathname;
     const activeParent = getActiveParent(pathname);
 

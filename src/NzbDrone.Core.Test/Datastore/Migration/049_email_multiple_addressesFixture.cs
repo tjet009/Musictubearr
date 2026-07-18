@@ -34,7 +34,7 @@ namespace NzbDrone.Core.Test.Datastore.Migration
                     {
                         Server = "smtp.gmail.com",
                         Port = 563,
-                        To = "lidarr@lidarr.audio"
+                        To = "lidarr@github.com/tjet009/Musictubearr"
                     }.ToJson(),
                     ConfigContract = "EmailSettings"
                 });

@@ -117,7 +117,7 @@ class FileBrowserModalContent extends Component {
                 className={styles.mappedDrivesWarning}
                 kind={kinds.WARNING}
               >
-                <InlineMarkdown data={translate('MappedNetworkDrivesWindowsService', { url: 'https://wiki.servarr.com/lidarr/faq#why-cant-lidarr-see-my-files-on-a-remote-server' })} />
+                <InlineMarkdown data={translate('MappedNetworkDrivesWindowsService', { url: 'https://github.com/tjet009/Musictubearr/faq#why-cant-lidarr-see-my-files-on-a-remote-server' })} />
               </Alert>
           }
 

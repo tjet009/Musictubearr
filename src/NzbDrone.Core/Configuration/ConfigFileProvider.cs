@@ -249,8 +249,8 @@ namespace NzbDrone.Core.Configuration
         public string PostgresHost => _postgresOptions?.Host ?? GetValue("PostgresHost", string.Empty, persist: false);
         public string PostgresUser => _postgresOptions?.User ?? GetValue("PostgresUser", string.Empty, persist: false);
         public string PostgresPassword => _postgresOptions?.Password ?? GetValue("PostgresPassword", string.Empty, persist: false);
-        public string PostgresMainDb => _postgresOptions?.MainDb ?? GetValue("PostgresMainDb", "lidarr-main", persist: false);
-        public string PostgresLogDb => _postgresOptions?.LogDb ?? GetValue("PostgresLogDb", "lidarr-log", persist: false);
+        public string PostgresMainDb => _postgresOptions?.MainDb ?? GetValue("PostgresMainDb", "musictubearr-main", persist: false);
+        public string PostgresLogDb => _postgresOptions?.LogDb ?? GetValue("PostgresLogDb", "musictubearr-log", persist: false);
         public int PostgresPort => (_postgresOptions?.Port ?? 0) != 0 ? _postgresOptions.Port : GetValueInt("PostgresPort", 5432, persist: false);
         public string PostgresMainDbConnectionString => _postgresOptions?.MainDbConnectionString ?? GetValue("PostgresMainDbConnectionString", string.Empty, persist: false);
         public string PostgresLogDbConnectionString => _postgresOptions?.LogDbConnectionString ?? GetValue("PostgresLogDbConnectionString", string.Empty, persist: false);
@@ -441,12 +441,12 @@ namespace NzbDrone.Core.Configuration
 
                         if (contents.IsNullOrWhiteSpace())
                         {
-                            throw new InvalidConfigFileException($"{_configFile} is empty. Please delete the config file and Lidarr will recreate it.");
+                            throw new InvalidConfigFileException($"{_configFile} is empty. Please delete the config file and MusicTubearr will recreate it.");
                         }
 
                         if (contents.All(char.IsControl))
                         {
-                            throw new InvalidConfigFileException($"{_configFile} is corrupt. Please delete the config file and Lidarr will recreate it.");
+                            throw new InvalidConfigFileException($"{_configFile} is corrupt. Please delete the config file and MusicTubearr will recreate it.");
                         }
 
                         var xDoc = XDocument.Parse(_diskProvider.ReadAllText(_configFile));
@@ -454,7 +454,7 @@ namespace NzbDrone.Core.Configuration
 
                         if (config.Count != 1)
                         {
-                            throw new InvalidConfigFileException($"{_configFile} is invalid. Please delete the config file and Lidarr will recreate it.");
+                            throw new InvalidConfigFileException($"{_configFile} is invalid. Please delete the config file and MusicTubearr will recreate it.");
                         }
 
                         return xDoc;
@@ -468,11 +468,11 @@ namespace NzbDrone.Core.Configuration
             }
             catch (XmlException ex)
             {
-                throw new InvalidConfigFileException($"{_configFile} is corrupt is invalid. Please delete the config file and Lidarr will recreate it.", ex);
+                throw new InvalidConfigFileException($"{_configFile} is corrupt is invalid. Please delete the config file and MusicTubearr will recreate it.", ex);
             }
             catch (UnauthorizedAccessException ex)
             {
-                throw new AccessDeniedConfigFileException($"Lidarr does not have access to config file: {_configFile}. Please fix permissions", ex);
+                throw new AccessDeniedConfigFileException($"MusicTubearr does not have access to config file: {_configFile}. Please fix permissions", ex);
             }
         }
 
@@ -487,7 +487,7 @@ namespace NzbDrone.Core.Configuration
             }
             catch (UnauthorizedAccessException ex)
             {
-                throw new AccessDeniedConfigFileException($"Lidarr does not have access to config file: {_configFile}. Please fix permissions", ex);
+                throw new AccessDeniedConfigFileException($"MusicTubearr does not have access to config file: {_configFile}. Please fix permissions", ex);
             }
         }
 

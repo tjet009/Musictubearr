@@ -378,13 +378,13 @@ namespace NzbDrone.Core.MediaFiles
 
                 if (mount == null)
                 {
-                    _logger.Error("Import failed, path does not exist or is not accessible by Lidarr: {0}. Unable to find a volume mounted for the path. If you're using a mapped network drive see the FAQ for more info", path);
+                    _logger.Error("Import failed, path does not exist or is not accessible by MusicTubearr: {0}. Unable to find a volume mounted for the path. If you're using a mapped network drive see the FAQ for more info", path);
                     return;
                 }
 
                 if (mount.DriveType == DriveType.Network)
                 {
-                    _logger.Error("Import failed, path does not exist or is not accessible by Lidarr: {0}. It's recommended to avoid mapped network drives when running as a Windows service. See the FAQ for more info", path);
+                    _logger.Error("Import failed, path does not exist or is not accessible by MusicTubearr: {0}. It's recommended to avoid mapped network drives when running as a Windows service. See the FAQ for more info", path);
                     return;
                 }
             }
@@ -393,12 +393,12 @@ namespace NzbDrone.Core.MediaFiles
             {
                 if (path.StartsWith(@"\\"))
                 {
-                    _logger.Error("Import failed, path does not exist or is not accessible by Lidarr: {0}. Ensure the user running Lidarr has access to the network share", path);
+                    _logger.Error("Import failed, path does not exist or is not accessible by MusicTubearr: {0}. Ensure the user running MusicTubearr has access to the network share", path);
                     return;
                 }
             }
 
-            _logger.Error("Import failed, path does not exist or is not accessible by Lidarr: {0}. Ensure the path exists and the user running Lidarr has the correct permissions to access this file/folder", path);
+            _logger.Error("Import failed, path does not exist or is not accessible by MusicTubearr: {0}. Ensure the path exists and the user running MusicTubearr has the correct permissions to access this file/folder", path);
         }
     }
 }

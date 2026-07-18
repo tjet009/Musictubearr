@@ -12,7 +12,7 @@ namespace NzbDrone.Core.ImportLists.MusicBrainzSeries
     {
         public override string Name => "MusicBrainz Series";
 
-        public override ProviderMessage Message => new ProviderMessage("MusicBrainz Series only supports release groups within series, other types of member will not be picked up by Lidarr", ProviderMessageType.Warning);
+        public override ProviderMessage Message => new ProviderMessage("MusicBrainz Series only supports release groups within series, other types of member will not be picked up by MusicTubearr", ProviderMessageType.Warning);
 
         public override ImportListType ListType => ImportListType.Other;
         public override TimeSpan MinRefreshInterval => TimeSpan.FromHours(12);

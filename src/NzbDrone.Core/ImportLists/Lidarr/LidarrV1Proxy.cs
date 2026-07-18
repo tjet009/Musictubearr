@@ -7,7 +7,7 @@ using NLog;
 using NzbDrone.Common.Extensions;
 using NzbDrone.Common.Http;
 
-namespace NzbDrone.Core.ImportLists.Lidarr
+namespace NzbDrone.Core.ImportLists.MusicTubearr
 {
     public interface ILidarrV1Proxy
     {
@@ -71,8 +71,8 @@ namespace NzbDrone.Core.ImportLists.Lidarr
 
                 if (ex.Response.HasHttpRedirect)
                 {
-                    _logger.Error(ex, "Lidarr returned redirect and is invalid");
-                    return new ValidationFailure("BaseUrl", "Lidarr URL is invalid, are you missing a URL base?");
+                    _logger.Error(ex, "MusicTubearr returned redirect and is invalid");
+                    return new ValidationFailure("BaseUrl", "MusicTubearr URL is invalid, are you missing a URL base?");
                 }
 
                 _logger.Error(ex, "Unable to connect to import list.");

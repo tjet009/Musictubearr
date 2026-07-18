@@ -6,7 +6,7 @@ let hasWarned = false;
 
 function checkActivationWarning() {
   if (!hasWarned) {
-    console.log('Activated LidarrApi console helpers.');
+    console.log('Activated MusicTubearrApi console helpers.');
     console.warn('Be warned: There will be no further confirmation checks.');
     hasWarned = true;
   }
@@ -116,6 +116,6 @@ class ConsoleApi {
   }
 }
 
-window.LidarrApi = new ConsoleApi();
+window.MusicTubearrApi = new ConsoleApi();
 
 export default ConsoleApi;

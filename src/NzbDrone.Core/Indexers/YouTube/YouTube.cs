@@ -232,7 +232,7 @@ namespace NzbDrone.Core.Indexers.YouTube
                 ? "MP3"
                 : _configService.YoutubeAudioFormat.ToUpperInvariant();
 
-            // Prefer "Artist - Album MP3" so Lidarr quality/album parsers succeed.
+            // Prefer "Artist - Album MP3" so MusicTubearr quality/album parsers succeed.
             // Use bare codec token (not brackets-only) for QualityParser word-boundary matches.
             var qualityToken = format.Equals("MP3", StringComparison.OrdinalIgnoreCase) ? "MP3 320" : format;
             string releaseTitle;

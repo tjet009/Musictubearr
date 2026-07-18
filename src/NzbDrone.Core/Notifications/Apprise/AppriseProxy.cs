@@ -80,7 +80,7 @@ namespace NzbDrone.Core.Notifications.Apprise
 
         public ValidationFailure Test(AppriseSettings settings)
         {
-            const string title = "Lidarr - Test Notification";
+            const string title = "MusicTubearr - Test Notification";
             const string body = "Success! You have properly configured your apprise notification settings.";
 
             try

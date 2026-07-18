@@ -297,12 +297,12 @@ namespace NzbDrone.Core.Download.Clients.Deluge
                     case WebExceptionStatus.ConnectionClosed:
                         return new NzbDroneValidationFailure("UseSsl", "Verify SSL settings")
                         {
-                            DetailedDescription = "Please verify your SSL configuration on both Deluge and Lidarr."
+                            DetailedDescription = "Please verify your SSL configuration on both Deluge and MusicTubearr."
                         };
                     case WebExceptionStatus.SecureChannelFailure:
                         return new NzbDroneValidationFailure("UseSsl", "Unable to connect through SSL")
                         {
-                            DetailedDescription = "Lidarr is unable to connect to Deluge using SSL. This problem could be computer related. Please try to configure both drone and Deluge to not use SSL."
+                            DetailedDescription = "MusicTubearr is unable to connect to Deluge using SSL. This problem could be computer related. Please try to configure both drone and Deluge to not use SSL."
                         };
                     default:
                         return new NzbDroneValidationFailure(string.Empty, "Unknown exception: " + ex.Message);
@@ -349,7 +349,7 @@ namespace NzbDrone.Core.Download.Clients.Deluge
                 {
                     return new NzbDroneValidationFailure("MusicCategory", "Configuration of label failed")
                     {
-                        DetailedDescription = "Lidarr was unable to add the label to Deluge."
+                        DetailedDescription = "MusicTubearr was unable to add the label to Deluge."
                     };
                 }
             }
@@ -363,7 +363,7 @@ namespace NzbDrone.Core.Download.Clients.Deluge
                 {
                     return new NzbDroneValidationFailure("MusicImportedCategory", "Configuration of label failed")
                     {
-                        DetailedDescription = "Lidarr was unable to add the label to Deluge."
+                        DetailedDescription = "MusicTubearr was unable to add the label to Deluge."
                     };
                 }
             }

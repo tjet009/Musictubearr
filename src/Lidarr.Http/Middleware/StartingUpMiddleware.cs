@@ -9,7 +9,7 @@ namespace Lidarr.Http.Middleware
 {
     public class StartingUpMiddleware
     {
-        private const string MESSAGE = "Lidarr is starting up, please try again later";
+        private const string MESSAGE = "MusicTubearr is starting up, please try again later";
         private readonly RequestDelegate _next;
         private readonly IRuntimeInfo _runtimeInfo;
 

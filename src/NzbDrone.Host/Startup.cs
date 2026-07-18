@@ -111,7 +111,7 @@ namespace NzbDrone.Host
                     License = new OpenApiLicense
                     {
                         Name = "GPL-3.0",
-                        Url = new Uri("https://github.com/Lidarr/Lidarr/blob/develop/LICENSE.md")
+                        Url = new Uri("https://github.com/tjet009/Musictubearr/blob/develop/LICENSE.md")
                     }
                 });
 

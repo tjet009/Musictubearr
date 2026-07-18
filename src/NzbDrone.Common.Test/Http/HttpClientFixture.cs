@@ -327,14 +327,14 @@ namespace NzbDrone.Common.Test.Http
         public async Task should_follow_redirects_to_https()
         {
             var request = new HttpRequestBuilder($"https://{_httpBinHost}/redirect-to")
-                .AddQueryParam("url", $"https://lidarr.audio/")
+                .AddQueryParam("url", $"https://github.com/tjet009/Musictubearr")
                 .Build();
             request.AllowAutoRedirect = true;
 
             var response = await Subject.GetAsync(request);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            response.Content.Should().Contain("Lidarr");
+            response.Content.Should().Contain("MusicTubearr");
 
             ExceptionVerification.ExpectedErrors(0);
         }
@@ -361,7 +361,7 @@ namespace NzbDrone.Common.Test.Http
 
             var userAgent = response.Resource.Headers["User-Agent"].ToString();
 
-            userAgent.Should().Contain("Lidarr");
+            userAgent.Should().Contain("MusicTubearr");
         }
 
         [TestCase("Accept", "text/xml, text/rss+xml, application/rss+xml")]
@@ -380,7 +380,7 @@ namespace NzbDrone.Common.Test.Http
         {
             var file = GetTempFilePath();
 
-            var url = "https://lidarr.audio/img/slider/artistdetails.png";
+            var url = "https://github.com/tjet009/Musictubearrimg/slider/artistdetails.png";
 
             await Subject.DownloadFileAsync(url, file);
 
@@ -398,7 +398,7 @@ namespace NzbDrone.Common.Test.Http
             var file = GetTempFilePath();
 
             var request = new HttpRequestBuilder($"https://{_httpBinHost}/redirect-to")
-                .AddQueryParam("url", $"https://lidarr.audio/img/slider/artistdetails.png")
+                .AddQueryParam("url", $"https://github.com/tjet009/Musictubearrimg/slider/artistdetails.png")
                 .Build();
 
             await Subject.DownloadFileAsync(request.Url.FullUri, file);

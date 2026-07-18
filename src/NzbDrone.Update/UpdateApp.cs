@@ -34,7 +34,7 @@ namespace NzbDrone.Update
                 var startupContext = new StartupContext(args);
                 NzbDroneLogger.Register(startupContext, true, true);
 
-                Logger.Info("Starting Lidarr Update Client");
+                Logger.Info("Starting MusicTubearr Update Client");
 
                 var assemblies = AssemblyLoader.LoadUpdateAssemblies();
                 var container = new Container(rules => rules.WithNzbDroneRules())
@@ -106,7 +106,7 @@ namespace NzbDrone.Update
                 throw new ArgumentOutOfRangeException(nameof(arg), "Invalid process ID");
             }
 
-            Logger.Debug("Lidarr process ID: {0}", id);
+            Logger.Debug("MusicTubearr process ID: {0}", id);
             return id;
         }
 

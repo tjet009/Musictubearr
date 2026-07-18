@@ -4,7 +4,7 @@ using FluentValidation;
 using NzbDrone.Core.Annotations;
 using NzbDrone.Core.Validation;
 
-namespace NzbDrone.Core.ImportLists.Lidarr
+namespace NzbDrone.Core.ImportLists.MusicTubearr
 {
     public class LidarrSettingsValidator : AbstractValidator<LidarrSettings>
     {
@@ -28,10 +28,10 @@ namespace NzbDrone.Core.ImportLists.Lidarr
             RootFolderPaths = Array.Empty<string>();
         }
 
-        [FieldDefinition(0, Label = "Full URL", HelpText = "URL, including port, of the Lidarr instance to import from")]
+        [FieldDefinition(0, Label = "Full URL", HelpText = "URL, including port, of the MusicTubearr instance to import from")]
         public string BaseUrl { get; set; }
 
-        [FieldDefinition(1, Label = "API Key", Privacy = PrivacyLevel.ApiKey, HelpText = "Apikey of the Lidarr instance to import from")]
+        [FieldDefinition(1, Label = "API Key", Privacy = PrivacyLevel.ApiKey, HelpText = "Apikey of the MusicTubearr instance to import from")]
         public string ApiKey { get; set; }
 
         [FieldDefinition(2, Type = FieldType.Select, SelectOptionsProviderAction = "getProfiles", Label = "Profiles", HelpText = "Profiles from the source instance to import from")]

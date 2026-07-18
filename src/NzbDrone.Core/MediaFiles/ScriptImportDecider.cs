@@ -57,48 +57,48 @@ namespace NzbDrone.Core.MediaFiles
 
             var environmentVariables = new StringDictionary
             {
-                { "Lidarr_SourcePath", sourcePath },
-                { "Lidarr_DestinationPath", destinationFilePath },
-                { "Lidarr_InstanceName", _configFileProvider.InstanceName },
-                { "Lidarr_ApplicationUrl", _configService.ApplicationUrl },
-                { "Lidarr_TransferMode", mode.ToString() },
-                { "Lidarr_Artist_Id", artist.Id.ToString() },
-                { "Lidarr_Artist_Name", artist.Name },
-                { "Lidarr_Artist_Path", artist.Path },
-                { "Lidarr_Artist_MBId", artist.ForeignArtistId },
-                { "Lidarr_Artist_Tags", string.Join("|", artist.Tags.Select(t => _tagRepository.Get(t).Label)) },
-                { "Lidarr_Album_Id", album.Id.ToString() },
-                { "Lidarr_Album_Title", album.Title },
-                { "Lidarr_Album_MBId", album.ForeignAlbumId },
-                { "Lidarr_Album_ReleaseDate", album.ReleaseDate?.ToString("yyyy-MM-dd") ?? string.Empty },
-                { "Lidarr_Album_Genres", string.Join("|", album.Genres) },
-                { "Lidarr_TrackFile_TrackCount", localTrack.Tracks.Count.ToString() },
-                { "Lidarr_TrackFile_TrackIds", string.Join(",", localTrack.Tracks.Select(t => t.Id)) },
-                { "Lidarr_TrackFile_TrackNumbers", string.Join(",", localTrack.Tracks.Select(t => t.TrackNumber)) },
-                { "Lidarr_TrackFile_TrackTitles", string.Join("|", localTrack.Tracks.Select(t => t.Title)) },
-                { "Lidarr_TrackFile_Quality", localTrack.Quality.Quality.Name },
-                { "Lidarr_TrackFile_QualityVersion", localTrack.Quality.Revision.Version.ToString() },
-                { "Lidarr_TrackFile_ReleaseGroup", localTrack.ReleaseGroup ?? string.Empty },
-                { "Lidarr_TrackFile_SceneName", localTrack.SceneName ?? string.Empty },
-                { "Lidarr_Download_Client", downloadClientInfo?.Name ?? string.Empty },
-                { "Lidarr_Download_Client_Type", downloadClientInfo?.Type ?? string.Empty },
-                { "Lidarr_Download_Id", downloadId ?? string.Empty }
+                { "MusicTubearr_SourcePath", sourcePath },
+                { "MusicTubearr_DestinationPath", destinationFilePath },
+                { "MusicTubearr_InstanceName", _configFileProvider.InstanceName },
+                { "MusicTubearr_ApplicationUrl", _configService.ApplicationUrl },
+                { "MusicTubearr_TransferMode", mode.ToString() },
+                { "MusicTubearr_Artist_Id", artist.Id.ToString() },
+                { "MusicTubearr_Artist_Name", artist.Name },
+                { "MusicTubearr_Artist_Path", artist.Path },
+                { "MusicTubearr_Artist_MBId", artist.ForeignArtistId },
+                { "MusicTubearr_Artist_Tags", string.Join("|", artist.Tags.Select(t => _tagRepository.Get(t).Label)) },
+                { "MusicTubearr_Album_Id", album.Id.ToString() },
+                { "MusicTubearr_Album_Title", album.Title },
+                { "MusicTubearr_Album_MBId", album.ForeignAlbumId },
+                { "MusicTubearr_Album_ReleaseDate", album.ReleaseDate?.ToString("yyyy-MM-dd") ?? string.Empty },
+                { "MusicTubearr_Album_Genres", string.Join("|", album.Genres) },
+                { "MusicTubearr_TrackFile_TrackCount", localTrack.Tracks.Count.ToString() },
+                { "MusicTubearr_TrackFile_TrackIds", string.Join(",", localTrack.Tracks.Select(t => t.Id)) },
+                { "MusicTubearr_TrackFile_TrackNumbers", string.Join(",", localTrack.Tracks.Select(t => t.TrackNumber)) },
+                { "MusicTubearr_TrackFile_TrackTitles", string.Join("|", localTrack.Tracks.Select(t => t.Title)) },
+                { "MusicTubearr_TrackFile_Quality", localTrack.Quality.Quality.Name },
+                { "MusicTubearr_TrackFile_QualityVersion", localTrack.Quality.Revision.Version.ToString() },
+                { "MusicTubearr_TrackFile_ReleaseGroup", localTrack.ReleaseGroup ?? string.Empty },
+                { "MusicTubearr_TrackFile_SceneName", localTrack.SceneName ?? string.Empty },
+                { "MusicTubearr_Download_Client", downloadClientInfo?.Name ?? string.Empty },
+                { "MusicTubearr_Download_Client_Type", downloadClientInfo?.Type ?? string.Empty },
+                { "MusicTubearr_Download_Id", downloadId ?? string.Empty }
             };
 
             // Audio-specific MediaInfo (no video properties for music files)
             if (localTrack.FileTrackInfo?.MediaInfo != null)
             {
                 var mediaInfo = localTrack.FileTrackInfo.MediaInfo;
-                environmentVariables.Add("Lidarr_TrackFile_MediaInfo_AudioChannels", mediaInfo.AudioChannels.ToString());
-                environmentVariables.Add("Lidarr_TrackFile_MediaInfo_AudioCodec", mediaInfo.AudioFormat ?? string.Empty);
-                environmentVariables.Add("Lidarr_TrackFile_MediaInfo_AudioBitRate", mediaInfo.AudioBitrate.ToString());
-                environmentVariables.Add("Lidarr_TrackFile_MediaInfo_AudioSampleRate", mediaInfo.AudioSampleRate.ToString());
-                environmentVariables.Add("Lidarr_TrackFile_MediaInfo_BitsPerSample", mediaInfo.AudioBits.ToString());
+                environmentVariables.Add("MusicTubearr_TrackFile_MediaInfo_AudioChannels", mediaInfo.AudioChannels.ToString());
+                environmentVariables.Add("MusicTubearr_TrackFile_MediaInfo_AudioCodec", mediaInfo.AudioFormat ?? string.Empty);
+                environmentVariables.Add("MusicTubearr_TrackFile_MediaInfo_AudioBitRate", mediaInfo.AudioBitrate.ToString());
+                environmentVariables.Add("MusicTubearr_TrackFile_MediaInfo_AudioSampleRate", mediaInfo.AudioSampleRate.ToString());
+                environmentVariables.Add("MusicTubearr_TrackFile_MediaInfo_BitsPerSample", mediaInfo.AudioBits.ToString());
             }
 
             // CustomFormats for music files
             var customFormats = _customFormatCalculationService.ParseCustomFormat(localTrack);
-            environmentVariables.Add("Lidarr_TrackFile_CustomFormat", string.Join("|", customFormats.Select(x => x.Name)));
+            environmentVariables.Add("MusicTubearr_TrackFile_CustomFormat", string.Join("|", customFormats.Select(x => x.Name)));
 
             _logger.Debug("Executing external script: {0}", _configService.ScriptImportPath);
 
@@ -115,7 +115,7 @@ namespace NzbDrone.Core.MediaFiles
                     trackFile.MediaInfo = _audioTagService.ReadTags(destinationFilePath).MediaInfo;
                     trackFile.Path = null;
                     return ScriptImportDecision.RenameRequested;
-                case 3: // Let Lidarr handle it
+                case 3: // Let MusicTubearr handle it
                     return ScriptImportDecision.DeferMove;
                 default: // Error, fail to import
                     throw new ScriptImportException("Moving with script failed! Exit code {0}", processOutput.ExitCode);

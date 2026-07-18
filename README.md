@@ -1,6 +1,6 @@
 # MusicTubearr
 
-YouTube-first music manager (Lidarr *arr UI) powered by **yt-dlp** + **ffmpeg**.
+YouTube-first music manager (*arr UI) powered by **yt-dlp** + **ffmpeg**.
 
 Search YouTube artists → browse albums/playlists → download & convert → import into your library.
 
@@ -53,4 +53,4 @@ On first launch MusicTubearr also tries to auto-download yt-dlp into its AppData
 
 ## License
 
-GPL-3.0 (from Lidarr). See [LICENSE.md](LICENSE.md).
+GPL-3.0 (from MusicTubearr). See [LICENSE.md](LICENSE.md).

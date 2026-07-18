@@ -71,7 +71,7 @@ namespace NzbDrone.Core.Notifications
 
         private string GetAlbumIncompleteImportMessage(string source)
         {
-            return string.Format("Lidarr failed to Import all tracks for {0}",
+            return string.Format("MusicTubearr failed to Import all tracks for {0}",
                 source);
         }
 
@@ -430,7 +430,7 @@ namespace NzbDrone.Core.Notifications
         public void Handle(UpdateInstalledEvent message)
         {
             var updateMessage = new ApplicationUpdateMessage();
-            updateMessage.Message = $"Lidarr updated from {message.PreviousVerison.ToString()} to {message.NewVersion.ToString()}";
+            updateMessage.Message = $"MusicTubearr updated from {message.PreviousVerison.ToString()} to {message.NewVersion.ToString()}";
             updateMessage.PreviousVersion = message.PreviousVerison;
             updateMessage.NewVersion = message.NewVersion;
 

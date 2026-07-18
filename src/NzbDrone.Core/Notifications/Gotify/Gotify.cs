@@ -83,13 +83,13 @@ namespace NzbDrone.Core.Notifications.Gotify
                 const string title = "Test Notification";
 
                 var sb = new StringBuilder();
-                sb.AppendLine("This is a test message from Lidarr");
+                sb.AppendLine("This is a test message from MusicTubearr");
 
                 if (Settings.IncludeArtistPoster)
                 {
                     isMarkdown = true;
 
-                    sb.AppendLine("\r![](https://raw.githubusercontent.com/Lidarr/Lidarr/develop/Logo/128.png)");
+                    sb.AppendLine("\r![](https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/128.png)");
                 }
 
                 var payload = new GotifyMessage

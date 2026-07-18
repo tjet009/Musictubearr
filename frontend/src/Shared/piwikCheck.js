@@ -1,4 +1,4 @@
-if (window.Lidarr.analytics) {
+if (window.MusicTubearr.analytics) {
   const d = document;
   const g = d.createElement('script');
   const s = d.getElementsByTagName('script')[0];

@@ -40,7 +40,7 @@ namespace NzbDrone.Core.Music
         public Ratings Ratings { get; set; }
         public DateTime? LastSearchTime { get; set; }
 
-        // These are Lidarr generated/config
+        // These are MusicTubearr generated/config
         public string CleanTitle { get; set; }
         public int ProfileId { get; set; }
         public bool Monitored { get; set; }

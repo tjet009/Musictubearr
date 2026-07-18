@@ -30,7 +30,7 @@ namespace NzbDrone.Core.Notifications.Emby
             {
                 Name = title,
                 Description = message,
-                ImageUrl = "https://raw.github.com/lidarr/Lidarr/develop/Logo/64.png"
+                ImageUrl = "https://raw.github.com/tjet009/Musictubearr/develop/Logo/64.png"
             }.ToJson());
 
             ProcessRequest(request, settings);

@@ -11,7 +11,7 @@ namespace NzbDrone.Core.ImportLists.LidarrLists
 {
     public class LidarrLists : HttpImportListBase<LidarrListsSettings>
     {
-        public override string Name => "Lidarr Lists";
+        public override string Name => "MusicTubearr Lists";
 
         public override ImportListType ListType => ImportListType.Other;
         public override TimeSpan MinRefreshInterval => TimeSpan.FromMinutes(15);

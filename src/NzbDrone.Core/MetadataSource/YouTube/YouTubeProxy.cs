@@ -164,7 +164,7 @@ namespace NzbDrone.Core.MetadataSource.YouTube
                 var lower = title.Trim();
 
                 if (lower.StartsWith("yt:", StringComparison.OrdinalIgnoreCase) ||
-                    lower.StartsWith("lidarr:", StringComparison.OrdinalIgnoreCase) ||
+                    lower.StartsWith("musictubearr:", StringComparison.OrdinalIgnoreCase) ||
                     lower.Contains("youtube.com", StringComparison.OrdinalIgnoreCase) ||
                     lower.StartsWith("UC", StringComparison.Ordinal) ||
                     lower.StartsWith("@"))
@@ -175,7 +175,7 @@ namespace NzbDrone.Core.MetadataSource.YouTube
                     {
                         foreignId = YouTubeIds.Channel(YouTubeIds.ExtractChannelId(title.Trim()));
                     }
-                    else if (lower.StartsWith("lidarr:", StringComparison.OrdinalIgnoreCase) ||
+                    else if (lower.StartsWith("musictubearr:", StringComparison.OrdinalIgnoreCase) ||
                              (lower.StartsWith("yt:", StringComparison.OrdinalIgnoreCase) && !lower.Contains("://")))
                     {
                         var raw = title.Trim().Split(new[] { ':' }, 2)[1].Trim();
@@ -246,7 +246,7 @@ namespace NzbDrone.Core.MetadataSource.YouTube
                 }
 
                 var lower = title.Trim().ToLowerInvariant();
-                if (lower.StartsWith("yt:") || lower.StartsWith("lidarr:") || lower.Contains("list=") || lower.StartsWith("pl"))
+                if (lower.StartsWith("yt:") || lower.StartsWith("musictubearr:") || lower.Contains("list=") || lower.StartsWith("pl"))
                 {
                     var id = lower.Contains(':') && !lower.Contains("://")
                         ? title.Split(new[] { ':' }, 2)[1].Trim()

@@ -39,7 +39,7 @@ namespace NzbDrone.Core.Validation
             return ruleBuilder.Must(x => x.IsValidUrl() && x.StartsWith("http", StringComparison.InvariantCultureIgnoreCase)).WithMessage("must be valid URL that starts with http(s)://");
         }
 
-        public static IRuleBuilderOptions<T, string> ValidUrlBase<T>(this IRuleBuilder<T, string> ruleBuilder, string example = "/lidarr")
+        public static IRuleBuilderOptions<T, string> ValidUrlBase<T>(this IRuleBuilder<T, string> ruleBuilder, string example = "/musictubearr")
         {
             return ruleBuilder.SetValidator(new RegularExpressionValidator(@"^(?!\/?https?://[-_a-z0-9.]+)", RegexOptions.IgnoreCase)).WithMessage($"Must be a valid URL path (ie: '{example}')");
         }
@@ -71,7 +71,7 @@ namespace NzbDrone.Core.Validation
         public static IRuleBuilderOptions<T, string> ContainsLidarr<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             ruleBuilder.SetValidator(new NotEmptyValidator(null));
-            return ruleBuilder.SetValidator(new RegularExpressionValidator("lidarr", RegexOptions.IgnoreCase)).WithMessage("Must contain lidarr");
+            return ruleBuilder.SetValidator(new RegularExpressionValidator("musictubearr", RegexOptions.IgnoreCase)).WithMessage("Must contain musictubearr");
         }
     }
 }
