@@ -39,7 +39,7 @@ namespace NzbDrone.Core.Download.Clients.YtDlp
         [FieldDefinition(3, Label = "Cookies File", Type = FieldType.Path, HelpText = "Optional Netscape cookies.txt path (falls back to MusicTubearr YouTube settings)")]
         public string CookiesPath { get; set; }
 
-        [FieldDefinition(4, Label = "Audio Format", HelpText = "Target audio format for ffmpeg (mp3, m4a, flac, opus, wav). Leave empty to use global YouTube setting.")]
+        [FieldDefinition(4, Label = "Audio Format", HelpText = "Target audio format for ffmpeg (mp3, aac, alac, m4a, flac, opus, wav). Use aac or alac for iTunes. Leave empty to use global YouTube setting.")]
         public string AudioFormat { get; set; }
 
         [FieldDefinition(5, Label = "Audio Quality", HelpText = "yt-dlp --audio-quality (0 = best)", Advanced = true)]

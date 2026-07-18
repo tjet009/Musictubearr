@@ -21,6 +21,8 @@ const writeAudioTagOptions = [
 
 const youtubeAudioFormatOptions = [
   { key: 'mp3', value: 'MP3' },
+  { key: 'aac', value: 'AAC (iTunes)' },
+  { key: 'alac', value: 'ALAC (iTunes Lossless)' },
   { key: 'm4a', value: 'M4A / AAC' },
   { key: 'flac', value: 'FLAC' },
   { key: 'opus', value: 'Opus' },
@@ -158,7 +160,7 @@ function MetadataProvider(props) {
                 <FormInputGroup
                   type={inputTypes.SELECT}
                   name="youtubeAudioFormat"
-                  helpText="Default format for yt-dlp/ffmpeg conversion"
+                  helpText="Default format for yt-dlp/ffmpeg conversion. Use AAC or ALAC for iTunes/Apple Music."
                   values={youtubeAudioFormatOptions}
                   onChange={onInputChange}
                   {...settings.youtubeAudioFormat}

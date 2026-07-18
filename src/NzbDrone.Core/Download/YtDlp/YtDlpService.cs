@@ -42,17 +42,25 @@ namespace NzbDrone.Core.Download.YtDlp
 
         public string ResolveFfmpegPath(string overridePath = null)
         {
-            if (overridePath.IsNotNullOrWhiteSpace())
+            var path = overridePath.IsNotNullOrWhiteSpace()
+                ? overridePath.Trim().Trim('"')
+                : _configService.FfmpegPath?.Trim().Trim('"');
+
+            if (path.IsNullOrWhiteSpace())
             {
-                return overridePath;
+                return null;
             }
 
-            if (_configService.FfmpegPath.IsNotNullOrWhiteSpace())
+            // Bare names like "ffmpeg" must not be passed as --ffmpeg-location
+            // (yt-dlp expects a real path; Lidarr path validation also rejects them).
+            if (!Path.IsPathRooted(path) &&
+                path.IndexOf(Path.DirectorySeparatorChar) < 0 &&
+                path.IndexOf(Path.AltDirectorySeparatorChar) < 0)
             {
-                return _configService.FfmpegPath;
+                return null;
             }
 
-            return "ffmpeg";
+            return path;
         }
 
         public string ResolveCookiesPath(string overridePath = null)
@@ -220,16 +228,24 @@ namespace NzbDrone.Core.Download.YtDlp
         {
             Directory.CreateDirectory(outputDirectory);
 
+            var format = NormalizeAudioFormat(audioFormat);
+
             var args = new List<string>
             {
                 "--no-warnings",
                 "-x",
-                "--audio-format", audioFormat.IsNullOrWhiteSpace() ? "mp3" : audioFormat,
+                "--audio-format", format,
                 "--audio-quality", audioQuality.IsNullOrWhiteSpace() ? "0" : audioQuality,
                 "-o", Path.Combine(outputDirectory, outputTemplate),
-                "--ffmpeg-location", ResolveFfmpegPath(ffmpegPath),
                 "--newline"
             };
+
+            var resolvedFfmpeg = ResolveFfmpegPath(ffmpegPath);
+            if (resolvedFfmpeg.IsNotNullOrWhiteSpace())
+            {
+                args.Add("--ffmpeg-location");
+                args.Add(resolvedFfmpeg);
+            }
 
             AddCookies(args, cookiesPath);
 
@@ -266,6 +282,40 @@ namespace NzbDrone.Core.Download.YtDlp
             {
                 args.Add("--cookies");
                 args.Add(resolved);
+            }
+        }
+
+        /// <summary>
+        /// Maps UI format choices to yt-dlp --audio-format values.
+        /// AAC/ALAC are iTunes-friendly (m4a container).
+        /// </summary>
+        public static string NormalizeAudioFormat(string audioFormat)
+        {
+            if (audioFormat.IsNullOrWhiteSpace())
+            {
+                return "mp3";
+            }
+
+            switch (audioFormat.Trim().ToLowerInvariant())
+            {
+                case "aac":
+                case "m4a":
+                case "itunes":
+                case "itunes aac":
+                    // yt-dlp "m4a" produces AAC in .m4a (iTunes-friendly)
+                    return "m4a";
+                case "alac":
+                case "alac (itunes)":
+                case "itunes lossless":
+                    return "alac";
+                case "mp3":
+                case "flac":
+                case "opus":
+                case "wav":
+                case "vorbis":
+                    return audioFormat.Trim().ToLowerInvariant();
+                default:
+                    return audioFormat.Trim().ToLowerInvariant();
             }
         }
 

@@ -50,10 +50,10 @@ namespace NzbDrone.Core.Download.YtDlp
 
             return new YtDlpToolsStatus
             {
-                YtDlpAvailable = ytPath.IsNotNullOrWhiteSpace() && _diskProvider.FileExists(ytPath),
+                YtDlpAvailable = ytPath.IsNotNullOrWhiteSpace() && IsUsableFilePath(ytPath),
                 YtDlpPath = ytPath,
                 YtDlpVersion = GetVersion(ytPath, "--version"),
-                FfmpegAvailable = ffPath.IsNotNullOrWhiteSpace() && (_diskProvider.FileExists(ffPath) || CommandExists(ffPath)),
+                FfmpegAvailable = ffPath.IsNotNullOrWhiteSpace() && IsUsableToolPath(ffPath, allowDirectory: true),
                 FfmpegPath = ffPath
             };
         }
@@ -130,7 +130,7 @@ namespace NzbDrone.Core.Download.YtDlp
         public YtDlpInstallResult EnsureFfmpeg(bool force = false)
         {
             var existing = ResolveExistingFfmpeg();
-            if (!force && existing.IsNotNullOrWhiteSpace())
+            if (!force && existing.IsNotNullOrWhiteSpace() && !IsBareCommandName(existing))
             {
                 _configService.FfmpegPath = existing;
                 return new YtDlpInstallResult
@@ -239,34 +239,37 @@ namespace NzbDrone.Core.Download.YtDlp
 
         private string ResolveExistingYtDlp()
         {
-            var configured = _configService.YtDlpPath;
-            if (configured.IsNotNullOrWhiteSpace() && _diskProvider.FileExists(configured))
+            var configured = NormalizeConfiguredPath(_configService.YtDlpPath);
+            if (configured.IsNotNullOrWhiteSpace() && IsUsableFilePath(configured))
             {
                 return configured;
             }
 
             var bundled = Path.Combine(GetToolsDirectory(), OsInfo.IsWindows ? "yt-dlp.exe" : "yt-dlp");
-            if (_diskProvider.FileExists(bundled))
+            if (IsUsableFilePath(bundled))
             {
                 return bundled;
             }
 
-            return FindOnPath(OsInfo.IsWindows ? "yt-dlp.exe" : "yt-dlp") ?? configured;
+            return FindOnPath(OsInfo.IsWindows ? "yt-dlp.exe" : "yt-dlp");
         }
 
         private string ResolveExistingFfmpeg()
         {
-            var configured = _configService.FfmpegPath;
-            if (configured.IsNotNullOrWhiteSpace())
+            var configured = NormalizeConfiguredPath(_configService.FfmpegPath);
+            if (configured.IsNotNullOrWhiteSpace() && IsUsableToolPath(configured, allowDirectory: true))
             {
-                if (_diskProvider.FileExists(configured) || _diskProvider.FolderExists(configured))
+                // Prefer absolute PATH resolution over a bare command name like "ffmpeg".
+                if (IsBareCommandName(configured))
                 {
-                    return configured;
+                    return FindOnPath(configured) ?? configured;
                 }
+
+                return configured;
             }
 
             var toolsFfmpeg = Path.Combine(GetToolsDirectory(), "ffmpeg");
-            if (_diskProvider.FolderExists(toolsFfmpeg))
+            if (Directory.Exists(toolsFfmpeg))
             {
                 var exe = Directory.EnumerateFiles(toolsFfmpeg, OsInfo.IsWindows ? "ffmpeg.exe" : "ffmpeg", SearchOption.AllDirectories).FirstOrDefault();
                 if (exe.IsNotNullOrWhiteSpace())
@@ -275,7 +278,89 @@ namespace NzbDrone.Core.Download.YtDlp
                 }
             }
 
-            return FindOnPath("ffmpeg") ?? configured;
+            return FindOnPath("ffmpeg");
+        }
+
+        private static string NormalizeConfiguredPath(string path)
+        {
+            if (path.IsNullOrWhiteSpace())
+            {
+                return null;
+            }
+
+            var trimmed = path.Trim().Trim('"');
+            if (IsBareCommandName(trimmed))
+            {
+                return FindOnPath(trimmed) ?? trimmed;
+            }
+
+            return trimmed;
+        }
+
+        private static bool IsBareCommandName(string path)
+        {
+            if (path.IsNullOrWhiteSpace())
+            {
+                return false;
+            }
+
+            return !Path.IsPathRooted(path) &&
+                   path.IndexOf(Path.DirectorySeparatorChar) < 0 &&
+                   path.IndexOf(Path.AltDirectorySeparatorChar) < 0;
+        }
+
+        private bool IsUsableFilePath(string path)
+        {
+            if (path.IsNullOrWhiteSpace())
+            {
+                return false;
+            }
+
+            if (IsBareCommandName(path))
+            {
+                return FindOnPath(path) != null;
+            }
+
+            try
+            {
+                return _diskProvider.FileExists(path) || File.Exists(path);
+            }
+            catch (ArgumentException)
+            {
+                return File.Exists(path);
+            }
+        }
+
+        private bool IsUsableToolPath(string path, bool allowDirectory)
+        {
+            if (path.IsNullOrWhiteSpace())
+            {
+                return false;
+            }
+
+            if (IsBareCommandName(path))
+            {
+                return FindOnPath(path) != null;
+            }
+
+            try
+            {
+                if (_diskProvider.FileExists(path) || File.Exists(path))
+                {
+                    return true;
+                }
+
+                if (allowDirectory && (_diskProvider.FolderExists(path) || Directory.Exists(path)))
+                {
+                    return true;
+                }
+            }
+            catch (ArgumentException)
+            {
+                return File.Exists(path) || (allowDirectory && Directory.Exists(path));
+            }
+
+            return false;
         }
 
         private static string GetYtDlpDownloadUrl()
@@ -337,16 +422,20 @@ namespace NzbDrone.Core.Download.YtDlp
 
         private string GetVersion(string executable, string arg)
         {
-            if (executable.IsNullOrWhiteSpace() || (!_diskProvider.FileExists(executable) && FindOnPath(Path.GetFileName(executable)) == null))
+            if (executable.IsNullOrWhiteSpace() || !IsUsableFilePath(executable))
             {
                 return null;
             }
+
+            var fileName = IsBareCommandName(executable)
+                ? FindOnPath(executable) ?? executable
+                : executable;
 
             try
             {
                 var psi = new ProcessStartInfo
                 {
-                    FileName = executable,
+                    FileName = fileName,
                     Arguments = arg,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,

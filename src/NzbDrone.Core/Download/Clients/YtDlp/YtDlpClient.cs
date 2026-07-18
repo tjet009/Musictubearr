@@ -84,6 +84,8 @@ namespace NzbDrone.Core.Download.Clients.YtDlp
                     format = "mp3";
                 }
 
+                format = YtDlpService.NormalizeAudioFormat(format);
+
                 var quality = Settings.AudioQuality.IsNullOrWhiteSpace()
                     ? _configService.YoutubeAudioQuality
                     : Settings.AudioQuality;
@@ -92,7 +94,7 @@ namespace NzbDrone.Core.Download.Clients.YtDlp
                     job.Url,
                     job.OutputPath,
                     Settings.OutputTemplate.IsNullOrWhiteSpace() ? "%(title)s.%(ext)s" : Settings.OutputTemplate,
-                    format.ToLowerInvariant(),
+                    format,
                     quality.IsNullOrWhiteSpace() ? "0" : quality,
                     Settings.CookiesPath,
                     Settings.YtDlpPath,

@@ -229,12 +229,21 @@ namespace NzbDrone.Core.Indexers.YouTube
             var title = entry.Title.IsNullOrWhiteSpace() ? videoId : entry.Title;
             var channel = artist.IsNotNullOrWhiteSpace() ? artist : entry.ResolvedChannelName;
             var format = _configService.YoutubeAudioFormat.IsNullOrWhiteSpace()
-                ? "MP3"
-                : _configService.YoutubeAudioFormat.ToUpperInvariant();
+                ? "mp3"
+                : _configService.YoutubeAudioFormat.Trim().ToLowerInvariant();
 
             // Prefer "Artist - Album MP3" so MusicTubearr quality/album parsers succeed.
             // Use bare codec token (not brackets-only) for QualityParser word-boundary matches.
-            var qualityToken = format.Equals("MP3", StringComparison.OrdinalIgnoreCase) ? "MP3 320" : format;
+            var qualityToken = format switch
+            {
+                "mp3" => "MP3 320",
+                "m4a" or "aac" or "itunes" => "AAC 320",
+                "alac" => "ALAC",
+                "flac" => "FLAC",
+                "opus" => "Opus",
+                "wav" => "WAV",
+                _ => format.ToUpperInvariant()
+            };
             string releaseTitle;
             if (channel.IsNotNullOrWhiteSpace() && album.IsNotNullOrWhiteSpace())
             {
