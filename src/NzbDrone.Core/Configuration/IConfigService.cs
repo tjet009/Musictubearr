@@ -81,6 +81,13 @@ namespace NzbDrone.Core.Configuration
         bool ScrubAudioTags { get; set; }
         bool EmbedCoverArt { get; set; }
 
+        // YouTube / yt-dlp
+        string YoutubeCookiesPath { get; set; }
+        string YtDlpPath { get; set; }
+        string FfmpegPath { get; set; }
+        string YoutubeAudioFormat { get; set; }
+        string YoutubeAudioQuality { get; set; }
+
         // Forms Auth
         string RijndaelPassphrase { get; }
         string HmacPassphrase { get; }

@@ -39,7 +39,7 @@ namespace NzbDrone.Host
         {
             try
             {
-                Logger.Info("Starting Lidarr - {0} - Version {1}",
+                Logger.Info("Starting MusicTubearr - {0} - Version {1}",
                             Environment.ProcessPath,
                             Assembly.GetExecutingAssembly().GetName().Version);
 

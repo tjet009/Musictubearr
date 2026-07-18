@@ -17,6 +17,14 @@ const writeAudioTagOptions = [
   { key: 'no', value: 'Never' }
 ];
 
+const youtubeAudioFormatOptions = [
+  { key: 'mp3', value: 'MP3' },
+  { key: 'm4a', value: 'M4A / AAC' },
+  { key: 'flac', value: 'FLAC' },
+  { key: 'opus', value: 'Opus' },
+  { key: 'wav', value: 'WAV' }
+];
+
 function MetadataProvider(props) {
   const {
     isFetching,
@@ -44,6 +52,79 @@ function MetadataProvider(props) {
       {
         hasSettings && !isFetching && !error &&
           <Form>
+            <FieldSet legend="YouTube / yt-dlp">
+              <FormGroup>
+                <FormLabel>
+                  Cookies File
+                </FormLabel>
+
+                <FormInputGroup
+                  type={inputTypes.PATH}
+                  name="youtubeCookiesPath"
+                  helpText="Netscape cookies.txt for YouTube auth (export from a private browser session, like Stacher)"
+                  onChange={onInputChange}
+                  {...settings.youtubeCookiesPath}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <FormLabel>
+                  yt-dlp Path
+                </FormLabel>
+
+                <FormInputGroup
+                  type={inputTypes.TEXT}
+                  name="ytDlpPath"
+                  helpText="Path to the yt-dlp executable (default: yt-dlp on PATH)"
+                  onChange={onInputChange}
+                  {...settings.ytDlpPath}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <FormLabel>
+                  FFmpeg Path
+                </FormLabel>
+
+                <FormInputGroup
+                  type={inputTypes.TEXT}
+                  name="ffmpegPath"
+                  helpText="Path to ffmpeg binary or directory (default: ffmpeg on PATH)"
+                  onChange={onInputChange}
+                  {...settings.ffmpegPath}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <FormLabel>
+                  Audio Format
+                </FormLabel>
+
+                <FormInputGroup
+                  type={inputTypes.SELECT}
+                  name="youtubeAudioFormat"
+                  helpText="Default format for yt-dlp/ffmpeg conversion"
+                  values={youtubeAudioFormatOptions}
+                  onChange={onInputChange}
+                  {...settings.youtubeAudioFormat}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <FormLabel>
+                  Audio Quality
+                </FormLabel>
+
+                <FormInputGroup
+                  type={inputTypes.TEXT}
+                  name="youtubeAudioQuality"
+                  helpText="yt-dlp --audio-quality value (0 = best)"
+                  onChange={onInputChange}
+                  {...settings.youtubeAudioQuality}
+                />
+              </FormGroup>
+            </FieldSet>
+
             <FieldSet legend={translate('WriteMetadataToAudioFiles')}>
               <FormGroup>
                 <FormLabel>

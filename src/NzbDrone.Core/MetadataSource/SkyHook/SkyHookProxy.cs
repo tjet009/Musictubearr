@@ -15,7 +15,9 @@ using NzbDrone.Core.Profiles.Metadata;
 
 namespace NzbDrone.Core.MetadataSource.SkyHook
 {
-    public class SkyHookProxy : IProvideArtistInfo, ISearchForNewArtist, IProvideAlbumInfo, ISearchForNewAlbum, ISearchForNewEntity
+    // Legacy LidarrAPI/SkyHook client kept for reference/tests.
+    // MusicTubearr uses YouTubeProxy as the sole metadata provider.
+    public class SkyHookProxy
     {
         private readonly IHttpClient _httpClient;
         private readonly Logger _logger;

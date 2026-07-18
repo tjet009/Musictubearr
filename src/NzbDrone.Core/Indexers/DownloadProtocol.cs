@@ -11,4 +11,8 @@
     public class TorrentDownloadProtocol : IDownloadProtocol
     {
     }
+
+    public class YouTubeDownloadProtocol : IDownloadProtocol
+    {
+    }
 }

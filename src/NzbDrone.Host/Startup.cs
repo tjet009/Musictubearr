@@ -106,8 +106,8 @@ namespace NzbDrone.Host
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "1.0.0",
-                    Title = "Lidarr",
-                    Description = "Lidarr API docs",
+                    Title = "MusicTubearr",
+                    Description = "MusicTubearr API docs",
                     License = new OpenApiLicense
                     {
                         Name = "GPL-3.0",

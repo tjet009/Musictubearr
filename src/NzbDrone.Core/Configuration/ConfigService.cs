@@ -291,6 +291,41 @@ namespace NzbDrone.Core.Configuration
             set { SetValue("MetadataSource", value); }
         }
 
+        public string YoutubeCookiesPath
+        {
+            get { return GetValue("YoutubeCookiesPath", ""); }
+
+            set { SetValue("YoutubeCookiesPath", value); }
+        }
+
+        public string YtDlpPath
+        {
+            get { return GetValue("YtDlpPath", "yt-dlp"); }
+
+            set { SetValue("YtDlpPath", value); }
+        }
+
+        public string FfmpegPath
+        {
+            get { return GetValue("FfmpegPath", "ffmpeg"); }
+
+            set { SetValue("FfmpegPath", value); }
+        }
+
+        public string YoutubeAudioFormat
+        {
+            get { return GetValue("YoutubeAudioFormat", "mp3"); }
+
+            set { SetValue("YoutubeAudioFormat", value); }
+        }
+
+        public string YoutubeAudioQuality
+        {
+            get { return GetValue("YoutubeAudioQuality", "0"); }
+
+            set { SetValue("YoutubeAudioQuality", value); }
+        }
+
         public WriteAudioTagsType WriteAudioTags
         {
             get { return GetValueEnum("WriteAudioTags", WriteAudioTagsType.No); }

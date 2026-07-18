@@ -17,7 +17,7 @@ using NzbDrone.Core.MediaFiles.TrackImport.Aggregation.Aggregators;
 using NzbDrone.Core.MediaFiles.TrackImport.Identification;
 using NzbDrone.Core.Messaging.Commands;
 using NzbDrone.Core.MetadataSource;
-using NzbDrone.Core.MetadataSource.SkyHook;
+using NzbDrone.Core.MetadataSource.YouTube;
 using NzbDrone.Core.Music;
 using NzbDrone.Core.Music.Commands;
 using NzbDrone.Core.Parser;
@@ -63,8 +63,8 @@ namespace NzbDrone.Core.Test.MediaFiles.TrackImport.Identification
             Mocker.SetConstant<IMediaFileService>(Mocker.Resolve<MediaFileService>());
 
             Mocker.SetConstant<IConfigService>(Mocker.Resolve<IConfigService>());
-            Mocker.SetConstant<IProvideArtistInfo>(Mocker.Resolve<SkyHookProxy>());
-            Mocker.SetConstant<IProvideAlbumInfo>(Mocker.Resolve<SkyHookProxy>());
+            Mocker.SetConstant<IProvideArtistInfo>(Mocker.Resolve<YouTubeProxy>());
+            Mocker.SetConstant<IProvideAlbumInfo>(Mocker.Resolve<YouTubeProxy>());
 
             _addArtistService = Mocker.Resolve<AddArtistService>();
 
@@ -170,8 +170,8 @@ namespace NzbDrone.Core.Test.MediaFiles.TrackImport.Identification
             }
         }
 
-        // these are slow to run so only do so manually
-        [Explicit]
+        // Legacy MusicBrainz/SkyHook identification cases — not applicable to YouTube-first MusicTubearr
+        [Ignore("MusicTubearr uses YouTube metadata instead of MusicBrainz/SkyHook")]
         [TestCaseSource(typeof(IdTestCaseFactory), "TestCases")]
         public void should_match_tracks(string file)
         {
