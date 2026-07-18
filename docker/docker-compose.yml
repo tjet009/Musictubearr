@@ -5,7 +5,8 @@
 #
 # Then open http://localhost:8585
 #   - Add Root Folder: /music  (maps to C:\docker\media\youtube-music below)
-#   - Settings → Metadata → Upload cookies.txt (and/or Download yt-dlp — already in the image)
+#   - Settings → Metadata → Upload/Paste cookies, or drop cookies.txt into ./cookies/
+#     (mounted at /cookies — auto-imported on startup)
 #
 # yt-dlp + ffmpeg are baked into the image. No .NET/yarn install needed on the host.
 

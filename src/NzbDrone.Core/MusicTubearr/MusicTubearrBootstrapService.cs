@@ -21,6 +21,7 @@ namespace NzbDrone.Core.MusicTubearr
         private readonly IDownloadClientFactory _downloadClientFactory;
         private readonly IDelayProfileService _delayProfileService;
         private readonly IYtDlpInstaller _ytDlpInstaller;
+        private readonly IYouTubeCookiesService _cookiesService;
         private readonly IAppFolderInfo _appFolderInfo;
         private readonly IDiskProvider _diskProvider;
         private readonly Logger _logger;
@@ -29,6 +30,7 @@ namespace NzbDrone.Core.MusicTubearr
                                             IDownloadClientFactory downloadClientFactory,
                                             IDelayProfileService delayProfileService,
                                             IYtDlpInstaller ytDlpInstaller,
+                                            IYouTubeCookiesService cookiesService,
                                             IAppFolderInfo appFolderInfo,
                                             IDiskProvider diskProvider,
                                             Logger logger)
@@ -37,6 +39,7 @@ namespace NzbDrone.Core.MusicTubearr
             _downloadClientFactory = downloadClientFactory;
             _delayProfileService = delayProfileService;
             _ytDlpInstaller = ytDlpInstaller;
+            _cookiesService = cookiesService;
             _appFolderInfo = appFolderInfo;
             _diskProvider = diskProvider;
             _logger = logger;
@@ -45,9 +48,26 @@ namespace NzbDrone.Core.MusicTubearr
         public void Handle(ApplicationStartedEvent message)
         {
             EnsureTools();
+            EnsureCookies();
             var client = EnsureYtDlpClient();
             EnsureYouTubeIndexer(client?.Id ?? 0);
             EnsureYouTubeProtocolAllowed();
+        }
+
+        private void EnsureCookies()
+        {
+            try
+            {
+                var imported = _cookiesService.ImportFromKnownLocations();
+                if (imported.Success)
+                {
+                    _logger.Info("YouTube cookies: {0}", imported.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Warn(ex, "Unable to auto-import YouTube cookies");
+            }
         }
 
         private void EnsureTools()

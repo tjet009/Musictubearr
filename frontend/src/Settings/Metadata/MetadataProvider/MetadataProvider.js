@@ -8,6 +8,7 @@ import FormInputButton from 'Components/Form/FormInputButton';
 import FormInputGroup from 'Components/Form/FormInputGroup';
 import FormLabel from 'Components/Form/FormLabel';
 import Icon from 'Components/Icon';
+import Link from 'Components/Link/Link';
 import LoadingIndicator from 'Components/Loading/LoadingIndicator';
 import { icons, inputTypes, kinds } from 'Helpers/Props';
 import translate from 'Utilities/String/translate';
@@ -29,6 +30,22 @@ const youtubeAudioFormatOptions = [
   { key: 'wav', value: 'WAV' }
 ];
 
+function cookiesAlertKind(status) {
+  if (!status) {
+    return kinds.INFO;
+  }
+
+  if (status.fileExists && status.hasLoginCookies) {
+    return kinds.SUCCESS;
+  }
+
+  if (status.fileExists) {
+    return kinds.WARNING;
+  }
+
+  return kinds.INFO;
+}
+
 function MetadataProvider(props) {
   const {
     isFetching,
@@ -38,11 +55,22 @@ function MetadataProvider(props) {
     isDownloadingYtDlp,
     isDownloadingFfmpeg,
     isUploadingCookies,
+    isSavingCookiesPaste,
+    isTestingCookies,
+    isClearingCookies,
+    isImportingCookies,
+    cookiesPaste,
+    cookiesStatus,
     toolsMessage,
     onInputChange,
     onDownloadYtDlpPress,
     onDownloadFfmpegPress,
-    onUploadCookiesPress
+    onUploadCookiesPress,
+    onCookiesPasteChange,
+    onSaveCookiesPastePress,
+    onTestCookiesPress,
+    onClearCookiesPress,
+    onImportCookiesPress
   } = props;
 
   return (
@@ -71,6 +99,60 @@ function MetadataProvider(props) {
                   </Alert>
               }
 
+              <Alert kind={cookiesAlertKind(cookiesStatus)}>
+                {
+                  cookiesStatus?.message ||
+                    'YouTube usually requires cookies. Use one of the options below.'
+                }
+              </Alert>
+
+              <Alert kind={kinds.INFO}>
+                <div>
+                  <strong>How to get cookies (pick one)</strong>
+                </div>
+                <ol style={{ margin: '8px 0 0', paddingLeft: '20px' }}>
+                  <li>
+                    Open a private/incognito window and sign in to YouTube.
+                  </li>
+                  <li>
+                    Export with an extension:
+                    {' '}
+                    <Link
+                      to="https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc"
+                      target="_blank"
+                    >
+                      Get cookies.txt LOCALLY (Chrome)
+                    </Link>
+                    {', '}
+                    <Link
+                      to="https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/"
+                      target="_blank"
+                    >
+                      cookies.txt (Firefox)
+                    </Link>
+                    {', or '}
+                    <Link
+                      to="https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm"
+                      target="_blank"
+                    >
+                      Cookie-Editor
+                    </Link>
+                    {' '}
+                    (export Netscape or copy the Cookie header).
+                  </li>
+                  <li>
+                    Upload the file, paste below, or for Docker drop the file at
+                    {' '}
+                    <code>docker/cookies/cookies.txt</code>
+                    {' '}
+                    and click Import.
+                  </li>
+                  <li>
+                    Close the private window. Re-export when downloads start failing with “Sign in” / bot checks.
+                  </li>
+                </ol>
+              </Alert>
+
               <FormGroup>
                 <FormLabel>
                   Cookies File
@@ -79,7 +161,7 @@ function MetadataProvider(props) {
                 <FormInputGroup
                   type={inputTypes.PATH}
                   name="youtubeCookiesPath"
-                  helpText="Netscape cookies.txt for YouTube auth. Click Upload to choose a file."
+                  helpText="Saved Netscape cookies.txt path. Prefer Upload / Paste / Import instead of typing a path."
                   buttons={[
                     <FormInputButton
                       key="upload"
@@ -91,10 +173,70 @@ function MetadataProvider(props) {
                         isSpinning={isUploadingCookies}
                       />
                       {' '}Upload
+                    </FormInputButton>,
+                    <FormInputButton
+                      key="import"
+                      kind={kinds.DEFAULT}
+                      onPress={onImportCookiesPress}
+                    >
+                      <Icon
+                        name={icons.REFRESH}
+                        isSpinning={isImportingCookies}
+                      />
+                      {' '}Import
+                    </FormInputButton>,
+                    <FormInputButton
+                      key="test"
+                      kind={kinds.DEFAULT}
+                      onPress={onTestCookiesPress}
+                    >
+                      <Icon
+                        name={icons.CHECK}
+                        isSpinning={isTestingCookies}
+                      />
+                      {' '}Test
+                    </FormInputButton>,
+                    <FormInputButton
+                      key="clear"
+                      kind={kinds.DANGER}
+                      onPress={onClearCookiesPress}
+                    >
+                      <Icon
+                        name={icons.REMOVE}
+                        isSpinning={isClearingCookies}
+                      />
+                      {' '}Clear
                     </FormInputButton>
                   ]}
                   onChange={onInputChange}
                   {...settings.youtubeCookiesPath}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <FormLabel>
+                  Paste Cookies
+                </FormLabel>
+
+                <FormInputGroup
+                  type={inputTypes.TEXT_AREA}
+                  name="cookiesPaste"
+                  helpText="Paste Netscape cookies.txt contents, or a Cookie header (name=value; name2=value2). MusicTubearr converts headers automatically."
+                  buttons={[
+                    <FormInputButton
+                      key="save-paste"
+                      kind={kinds.PRIMARY}
+                      onPress={onSaveCookiesPastePress}
+                    >
+                      <Icon
+                        name={icons.SAVE}
+                        isSpinning={isSavingCookiesPaste}
+                      />
+                      {' '}Save Paste
+                    </FormInputButton>
+                  ]}
+                  onChange={onCookiesPasteChange}
+                  value={cookiesPaste}
                 />
               </FormGroup>
 
@@ -247,17 +389,34 @@ MetadataProvider.propTypes = {
   isDownloadingYtDlp: PropTypes.bool.isRequired,
   isDownloadingFfmpeg: PropTypes.bool.isRequired,
   isUploadingCookies: PropTypes.bool.isRequired,
+  isSavingCookiesPaste: PropTypes.bool.isRequired,
+  isTestingCookies: PropTypes.bool.isRequired,
+  isClearingCookies: PropTypes.bool.isRequired,
+  isImportingCookies: PropTypes.bool.isRequired,
+  cookiesPaste: PropTypes.string.isRequired,
+  cookiesStatus: PropTypes.object,
   toolsMessage: PropTypes.string,
   onInputChange: PropTypes.func.isRequired,
   onDownloadYtDlpPress: PropTypes.func.isRequired,
   onDownloadFfmpegPress: PropTypes.func.isRequired,
-  onUploadCookiesPress: PropTypes.func.isRequired
+  onUploadCookiesPress: PropTypes.func.isRequired,
+  onCookiesPasteChange: PropTypes.func.isRequired,
+  onSaveCookiesPastePress: PropTypes.func.isRequired,
+  onTestCookiesPress: PropTypes.func.isRequired,
+  onClearCookiesPress: PropTypes.func.isRequired,
+  onImportCookiesPress: PropTypes.func.isRequired
 };
 
 MetadataProvider.defaultProps = {
   isDownloadingYtDlp: false,
   isDownloadingFfmpeg: false,
   isUploadingCookies: false,
+  isSavingCookiesPaste: false,
+  isTestingCookies: false,
+  isClearingCookies: false,
+  isImportingCookies: false,
+  cookiesPaste: '',
+  cookiesStatus: null,
   toolsMessage: null
 };
 

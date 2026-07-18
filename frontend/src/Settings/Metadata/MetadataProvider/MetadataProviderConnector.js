@@ -42,6 +42,12 @@ class MetadataProviderConnector extends Component {
       isDownloadingYtDlp: false,
       isDownloadingFfmpeg: false,
       isUploadingCookies: false,
+      isSavingCookiesPaste: false,
+      isTestingCookies: false,
+      isClearingCookies: false,
+      isImportingCookies: false,
+      cookiesPaste: '',
+      cookiesStatus: null,
       toolsMessage: null
     };
 
@@ -64,6 +70,8 @@ class MetadataProviderConnector extends Component {
     this._fileInput.style.display = 'none';
     this._fileInput.addEventListener('change', this.onCookiesFileSelected);
     document.body.appendChild(this._fileInput);
+
+    this.fetchCookiesStatus();
   }
 
   componentDidUpdate(prevProps) {
@@ -95,10 +103,45 @@ class MetadataProviderConnector extends Component {
   }
 
   //
+  // Control
+
+  applyCookiesResult = (data, fallbackMessage) => {
+    const path = data.path || data.youtubeCookiesPath;
+    if (path || data.youtubeCookiesPath === '') {
+      this.props.dispatchSetMetadataProviderValue({
+        name: 'youtubeCookiesPath',
+        value: path || ''
+      });
+      this.props.dispatchSaveMetadataProvider();
+    }
+
+    this.setState({
+      toolsMessage: data.message || fallbackMessage,
+      cookiesStatus: data.status || this.state.cookiesStatus,
+      cookiesPaste: data.isValid ? '' : this.state.cookiesPaste
+    });
+  };
+
+  fetchCookiesStatus = () => {
+    const { request } = createAjaxRequest({
+      url: '/config/youtube/cookies/status',
+      dataType: 'json'
+    });
+
+    request.done((data) => {
+      this.setState({ cookiesStatus: data });
+    });
+  };
+
+  //
   // Listeners
 
   onInputChange = ({ name, value }) => {
     this.props.dispatchSetMetadataProviderValue({ name, value });
+  };
+
+  onCookiesPasteChange = ({ value }) => {
+    this.setState({ cookiesPaste: value });
   };
 
   onDownloadYtDlpPress = () => {
@@ -191,22 +234,138 @@ class MetadataProviderConnector extends Component {
     });
 
     request.done((data) => {
-      const path = data.path || data.youtubeCookiesPath;
-      if (path) {
-        this.props.dispatchSetMetadataProviderValue({ name: 'youtubeCookiesPath', value: path });
-        this.props.dispatchSaveMetadataProvider();
+      this.setState({ isUploadingCookies: false });
+      this.applyCookiesResult(data, 'Cookies uploaded');
+    });
+
+    request.fail((xhr) => {
+      let message = xhr.responseText || xhr.statusText;
+      try {
+        const parsed = JSON.parse(xhr.responseText);
+        message = parsed.message || message;
+      } catch (e) {
+        // keep raw
       }
 
       this.setState({
         isUploadingCookies: false,
-        toolsMessage: path ? `Cookies saved to ${path}` : 'Cookies uploaded'
+        toolsMessage: `Cookie upload failed: ${message}`
+      });
+    });
+  };
+
+  onSaveCookiesPastePress = () => {
+    const content = (this.state.cookiesPaste || '').trim();
+    if (!content) {
+      this.setState({ toolsMessage: 'Paste Netscape cookies.txt or a Cookie header first.' });
+      return;
+    }
+
+    this.setState({ isSavingCookiesPaste: true, toolsMessage: 'Saving pasted cookies...' });
+
+    const { request } = createAjaxRequest({
+      url: '/config/youtube/cookies/paste',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ content }),
+      dataType: 'json'
+    });
+
+    request.done((data) => {
+      this.setState({ isSavingCookiesPaste: false });
+      this.applyCookiesResult(data, 'Cookies saved from paste');
+    });
+
+    request.fail((xhr) => {
+      let message = xhr.responseText || xhr.statusText;
+      try {
+        const parsed = JSON.parse(xhr.responseText);
+        message = parsed.message || message;
+      } catch (e) {
+        // keep raw
+      }
+
+      this.setState({
+        isSavingCookiesPaste: false,
+        toolsMessage: `Cookie paste failed: ${message}`
+      });
+    });
+  };
+
+  onImportCookiesPress = () => {
+    this.setState({ isImportingCookies: true, toolsMessage: 'Looking for cookies in /cookies ...' });
+
+    const { request } = createAjaxRequest({
+      url: '/config/youtube/cookies/import',
+      method: 'POST',
+      dataType: 'json'
+    });
+
+    request.done((data) => {
+      this.setState({ isImportingCookies: false });
+      this.applyCookiesResult(data, 'Cookies imported');
+    });
+
+    request.fail((xhr) => {
+      let message = xhr.responseText || xhr.statusText;
+      try {
+        const parsed = JSON.parse(xhr.responseText);
+        message = parsed.message || message;
+      } catch (e) {
+        // keep raw
+      }
+
+      this.setState({
+        isImportingCookies: false,
+        toolsMessage: `Cookie import failed: ${message}`
+      });
+      this.fetchCookiesStatus();
+    });
+  };
+
+  onTestCookiesPress = () => {
+    this.setState({ isTestingCookies: true, toolsMessage: 'Testing YouTube cookies with yt-dlp...' });
+
+    const { request } = createAjaxRequest({
+      url: '/config/youtube/test',
+      method: 'POST',
+      dataType: 'json'
+    });
+
+    request.done((data) => {
+      this.setState({
+        isTestingCookies: false,
+        toolsMessage: data.message || (data.isValid ? 'Cookies OK' : 'Cookie test failed'),
+        cookiesStatus: data.cookies || this.state.cookiesStatus
       });
     });
 
     request.fail((xhr) => {
       this.setState({
-        isUploadingCookies: false,
-        toolsMessage: `Cookie upload failed: ${xhr.responseText || xhr.statusText}`
+        isTestingCookies: false,
+        toolsMessage: `Cookie test failed: ${xhr.responseText || xhr.statusText}`
+      });
+    });
+  };
+
+  onClearCookiesPress = () => {
+    this.setState({ isClearingCookies: true, toolsMessage: 'Clearing cookies...' });
+
+    const { request } = createAjaxRequest({
+      url: '/config/youtube/cookies',
+      method: 'DELETE',
+      dataType: 'json'
+    });
+
+    request.done((data) => {
+      this.setState({ isClearingCookies: false });
+      this.applyCookiesResult({ ...data, isValid: true }, 'Cookies cleared');
+    });
+
+    request.fail((xhr) => {
+      this.setState({
+        isClearingCookies: false,
+        toolsMessage: `Clear cookies failed: ${xhr.responseText || xhr.statusText}`
       });
     });
   };
@@ -223,6 +382,11 @@ class MetadataProviderConnector extends Component {
         onDownloadYtDlpPress={this.onDownloadYtDlpPress}
         onDownloadFfmpegPress={this.onDownloadFfmpegPress}
         onUploadCookiesPress={this.onUploadCookiesPress}
+        onCookiesPasteChange={this.onCookiesPasteChange}
+        onSaveCookiesPastePress={this.onSaveCookiesPastePress}
+        onTestCookiesPress={this.onTestCookiesPress}
+        onClearCookiesPress={this.onClearCookiesPress}
+        onImportCookiesPress={this.onImportCookiesPress}
       />
     );
   }

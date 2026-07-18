@@ -20,16 +20,24 @@ docker compose -f docker/docker-compose.yml up -d --build
 Open **http://localhost:8585**
 
 1. Add Root Folder → `/music` (maps to your host library folder)
-2. Settings → Metadata → **Upload** your YouTube `cookies.txt`
+2. Settings → Metadata → add YouTube cookies (see below)
 3. (Optional) Click **Download** next to yt-dlp/ffmpeg — already included in Docker, but available for native installs
 4. Add New → search a YouTube artist → Interactive Search → Grab
 
-### Cookie export (needed for most YouTube downloads)
+### YouTube cookies (needed for most downloads)
 
-1. Private/incognito window → log into YouTube  
-2. Export `youtube.com` cookies as Netscape `cookies.txt`  
+YouTube often blocks anonymous yt-dlp. MusicTubearr accepts cookies three ways:
+
+1. **Upload** a Netscape `cookies.txt` in Settings → Metadata  
+2. **Paste** either Netscape file contents or a browser `Cookie:` header (auto-converted)  
+3. **Docker drop-in:** put the file at `docker/cookies/cookies.txt` and click **Import** (auto-detected on startup too)
+
+Recommended export flow:
+
+1. Private/incognito window → sign in to YouTube  
+2. Export with [Get cookies.txt LOCALLY](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc) (Chrome), [cookies.txt](https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/) (Firefox), or [Cookie-Editor](https://chromewebstore.google.com/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm)  
 3. Close the private window  
-4. Upload in Settings → Metadata (or put the file in `docker/cookies/cookies.txt`)
+4. Use **Upload**, **Paste**, or the Docker path above, then click **Test**
 
 ## Native install (optional)
 
