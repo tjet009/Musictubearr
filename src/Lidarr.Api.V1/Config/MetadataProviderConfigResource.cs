@@ -16,6 +16,8 @@ namespace Lidarr.Api.V1.Config
         public string FfmpegPath { get; set; }
         public string YoutubeAudioFormat { get; set; }
         public string YoutubeAudioQuality { get; set; }
+        public string YoutubeSponsorBlockMode { get; set; }
+        public string YoutubeSponsorBlockCategories { get; set; }
     }
 
     public static class MetadataProviderConfigResourceMapper
@@ -33,6 +35,8 @@ namespace Lidarr.Api.V1.Config
                 FfmpegPath = model.FfmpegPath,
                 YoutubeAudioFormat = model.YoutubeAudioFormat,
                 YoutubeAudioQuality = model.YoutubeAudioQuality,
+                YoutubeSponsorBlockMode = model.YoutubeSponsorBlockMode,
+                YoutubeSponsorBlockCategories = model.YoutubeSponsorBlockCategories,
             };
         }
     }

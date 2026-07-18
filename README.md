@@ -49,6 +49,16 @@ If you prefer not to use Docker:
 
 On first launch MusicTubearr also tries to auto-download yt-dlp into its AppData `tools` folder.
 
+### SponsorBlock (trim intros / outros)
+
+In **Settings → Metadata → SponsorBlock**, MusicTubearr can tell yt-dlp to remove SponsorBlock segments while converting audio:
+
+- **Music videos (default):** `intro`, `outro`, `sponsor`, `selfpromo`, `music_offtopic`
+- **Aggressive:** also cuts previews / filler / interaction prompts
+- **Custom:** your own category list
+
+Only videos that have SponsorBlock data are affected; others download unchanged.
+
 ## Architecture
 
 | Lidarr concept | MusicTubearr |

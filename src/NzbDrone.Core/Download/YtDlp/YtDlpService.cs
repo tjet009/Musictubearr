@@ -248,6 +248,7 @@ namespace NzbDrone.Core.Download.YtDlp
             }
 
             AddCookies(args, cookiesPath);
+            AddSponsorBlock(args, extraArgs);
 
             if (extraArgs.IsNotNullOrWhiteSpace())
             {
@@ -257,6 +258,30 @@ namespace NzbDrone.Core.Download.YtDlp
             args.Add(url);
 
             await RunYtDlpAsync(args, ytDlpPath, cancellationToken);
+        }
+
+        private void AddSponsorBlock(List<string> args, string extraArgs)
+        {
+            // Allow full manual control via Extra Arguments on the download client.
+            if (extraArgs.IsNotNullOrWhiteSpace() &&
+                extraArgs.Contains("sponsorblock", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var categories = SponsorBlockCategories.Resolve(
+                _configService.YoutubeSponsorBlockMode,
+                _configService.YoutubeSponsorBlockCategories);
+
+            if (categories.IsNullOrWhiteSpace())
+            {
+                return;
+            }
+
+            args.Add("--sponsorblock-remove");
+            args.Add(categories);
+            // Cleaner cuts when ffmpeg removes segments from the audio stream.
+            args.Add("--force-keyframes-at-cuts");
         }
 
         public bool TestExecutable(string ytDlpPath = null, string cookiesPath = null)

@@ -48,7 +48,7 @@ namespace NzbDrone.Core.Download.Clients.YtDlp
         [FieldDefinition(6, Label = "Output Template", HelpText = "yt-dlp output filename template", Advanced = true)]
         public string OutputTemplate { get; set; }
 
-        [FieldDefinition(7, Label = "Extra Arguments", HelpText = "Additional yt-dlp arguments", Advanced = true)]
+        [FieldDefinition(7, Label = "Extra Arguments", HelpText = "Additional yt-dlp arguments. If this includes sponsorblock options, they override Settings → Metadata → SponsorBlock.", Advanced = true)]
         public string ExtraArguments { get; set; }
 
         public NzbDroneValidationResult Validate()

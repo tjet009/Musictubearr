@@ -326,6 +326,21 @@ namespace NzbDrone.Core.Configuration
             set { SetValue("YoutubeAudioQuality", value); }
         }
 
+        public string YoutubeSponsorBlockMode
+        {
+            // off | music | aggressive | custom — music trims intro/outro/sponsors for music videos
+            get { return GetValue("YoutubeSponsorBlockMode", "music"); }
+
+            set { SetValue("YoutubeSponsorBlockMode", value); }
+        }
+
+        public string YoutubeSponsorBlockCategories
+        {
+            get { return GetValue("YoutubeSponsorBlockCategories", "intro,outro,sponsor,selfpromo,music_offtopic"); }
+
+            set { SetValue("YoutubeSponsorBlockCategories", value); }
+        }
+
         public WriteAudioTagsType WriteAudioTags
         {
             get { return GetValueEnum("WriteAudioTags", WriteAudioTagsType.No); }

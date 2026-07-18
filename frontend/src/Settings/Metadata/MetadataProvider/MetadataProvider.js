@@ -30,6 +30,13 @@ const youtubeAudioFormatOptions = [
   { key: 'wav', value: 'WAV' }
 ];
 
+const sponsorBlockModeOptions = [
+  { key: 'off', value: 'Off' },
+  { key: 'music', value: 'Music videos (recommended)' },
+  { key: 'aggressive', value: 'Aggressive (more cuts)' },
+  { key: 'custom', value: 'Custom categories' }
+];
+
 function cookiesAlertKind(status) {
   if (!status) {
     return kinds.INFO;
@@ -322,6 +329,38 @@ function MetadataProvider(props) {
                   {...settings.youtubeAudioQuality}
                 />
               </FormGroup>
+
+              <FormGroup>
+                <FormLabel>
+                  SponsorBlock
+                </FormLabel>
+
+                <FormInputGroup
+                  type={inputTypes.SELECT}
+                  name="youtubeSponsorBlockMode"
+                  helpText="Uses community SponsorBlock data via yt-dlp to cut intros, outros, sponsors, and non-music sections. Only works when segments exist for that video."
+                  values={sponsorBlockModeOptions}
+                  onChange={onInputChange}
+                  {...settings.youtubeSponsorBlockMode}
+                />
+              </FormGroup>
+
+              {
+                settings.youtubeSponsorBlockMode?.value === 'custom' &&
+                  <FormGroup>
+                    <FormLabel>
+                      SponsorBlock Categories
+                    </FormLabel>
+
+                    <FormInputGroup
+                      type={inputTypes.TEXT}
+                      name="youtubeSponsorBlockCategories"
+                      helpText="Comma-separated yt-dlp categories, e.g. intro,outro,sponsor,selfpromo,music_offtopic"
+                      onChange={onInputChange}
+                      {...settings.youtubeSponsorBlockCategories}
+                    />
+                  </FormGroup>
+              }
             </FieldSet>
 
             <FieldSet legend={translate('WriteMetadataToAudioFiles')}>

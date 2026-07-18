@@ -87,6 +87,8 @@ namespace NzbDrone.Core.Configuration
         string FfmpegPath { get; set; }
         string YoutubeAudioFormat { get; set; }
         string YoutubeAudioQuality { get; set; }
+        string YoutubeSponsorBlockMode { get; set; }
+        string YoutubeSponsorBlockCategories { get; set; }
 
         // Forms Auth
         string RijndaelPassphrase { get; }
