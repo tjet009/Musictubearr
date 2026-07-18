@@ -17,7 +17,7 @@ git checkout cursor/youtube-first-musictubearr-bb21
 docker compose -f docker/docker-compose.yml up -d --build
 ```
 
-Open **http://localhost:8686**
+Open **http://localhost:8585**
 
 1. Add Root Folder → `/music` (maps to your host library folder)
 2. Settings → Metadata → **Upload** your YouTube `cookies.txt`

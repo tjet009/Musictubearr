@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # MusicTubearr — all-in-one image (app + UI + yt-dlp + ffmpeg)
 # Build:  docker compose -f docker/docker-compose.yml up -d --build
-# Open:   http://localhost:8686
+# Open:   http://localhost:8585
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates gnupg \
@@ -42,6 +42,6 @@ RUN chmod +x /entrypoint.sh \
     && mkdir -p /config /music /downloads /cookies
 
 ENV XDG_CONFIG_HOME=/config
-EXPOSE 8686
+EXPOSE 8585
 VOLUME ["/config", "/music", "/downloads", "/cookies"]
 ENTRYPOINT ["/entrypoint.sh"]

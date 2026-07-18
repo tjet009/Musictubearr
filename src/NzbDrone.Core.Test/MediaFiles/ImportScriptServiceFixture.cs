@@ -103,7 +103,7 @@ namespace NzbDrone.Core.Test.MediaFiles
 
             Mocker.GetMock<IConfigService>()
                 .Setup(s => s.ApplicationUrl)
-                .Returns("http://localhost:8686");
+                .Returns("http://localhost:8585");
 
             Mocker.GetMock<IConfigFileProvider>()
                 .Setup(s => s.InstanceName)
@@ -196,7 +196,7 @@ namespace NzbDrone.Core.Test.MediaFiles
             capturedEnv["MusicTubearr_SourcePath"].Should().Be("/source/path");
             capturedEnv["MusicTubearr_DestinationPath"].Should().Be("/dest/path");
             capturedEnv["MusicTubearr_InstanceName"].Should().Be("MusicTubearr");
-            capturedEnv["MusicTubearr_ApplicationUrl"].Should().Be("http://localhost:8686");
+            capturedEnv["MusicTubearr_ApplicationUrl"].Should().Be("http://localhost:8585");
             capturedEnv["MusicTubearr_TransferMode"].Should().Be("Copy");
 
             // Artist info

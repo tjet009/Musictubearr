@@ -197,8 +197,8 @@ namespace NzbDrone.Host
             var config = GetConfiguration(context);
 
             var bindAddress = GetConfigValue(config, $"Server:{nameof(ServerOptions.BindAddress)}", nameof(ConfigFileProvider.BindAddress), "*");
-            var port = GetConfigValue(config, $"Server:{nameof(ServerOptions.Port)}", nameof(ConfigFileProvider.Port), 8686);
-            var sslPort = GetConfigValue(config, $"Server:{nameof(ServerOptions.SslPort)}", nameof(ConfigFileProvider.SslPort), 6868);
+            var port = GetConfigValue(config, $"Server:{nameof(ServerOptions.Port)}", nameof(ConfigFileProvider.Port), 8585);
+            var sslPort = GetConfigValue(config, $"Server:{nameof(ServerOptions.SslPort)}", nameof(ConfigFileProvider.SslPort), 8586);
             var enableSsl = GetConfigValue(config, $"Server:{nameof(ServerOptions.EnableSsl)}", nameof(ConfigFileProvider.EnableSsl), false);
             var sslCertPath = GetConfigValue<string>(config, $"Server:{nameof(ServerOptions.SslCertPath)}", nameof(ConfigFileProvider.SslCertPath), null);
             var sslCertPassword = GetConfigValue<string>(config, $"Server:{nameof(ServerOptions.SslCertPassword)}", nameof(ConfigFileProvider.SslCertPassword), null);

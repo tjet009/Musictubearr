@@ -3,7 +3,7 @@
 # Windows (PowerShell), from the repo root:
 #   docker compose -f docker/docker-compose.yml up -d --build
 #
-# Then open http://localhost:8686
+# Then open http://localhost:8585
 #   - Add Root Folder: /music  (maps to C:\docker\media\youtube-music below)
 #   - Settings → Metadata → Upload cookies.txt (and/or Download yt-dlp — already in the image)
 #
@@ -27,5 +27,5 @@ services:
       # Change this host path to your library
       - C:/docker/media/youtube-music:/music
     ports:
-      - "8686:8686"
+      - "8585:8585"
     restart: unless-stopped
