@@ -136,6 +136,10 @@ namespace NzbDrone.Core.MetadataSource.YouTube
                 var uploads = _ytDlp.GetChannelUploads(channelId, 200);
                 var channelMeta = MapArtistMetadata(uploads, channelId);
                 var album = MapUploadsAlbum(uploads, channelMeta, channelId);
+                if (album != null)
+                {
+                    AttachArtist(album, channelMeta);
+                }
                 return Tuple.Create(YouTubeIds.Channel(channelId), album, new List<ArtistMetadata> { channelMeta });
             }
 
@@ -149,6 +153,10 @@ namespace NzbDrone.Core.MetadataSource.YouTube
             var artistId = playlist.ResolvedChannelId ?? playlist.UploaderId;
             var artistMetadata = MapArtistMetadata(playlist, artistId);
             var mapped = MapPlaylistAlbum(playlist, artistMetadata);
+            if (mapped != null)
+            {
+                AttachArtist(mapped, artistMetadata);
+            }
             return Tuple.Create(YouTubeIds.Channel(artistId), mapped, new List<ArtistMetadata> { artistMetadata });
         }
 
@@ -275,7 +283,7 @@ namespace NzbDrone.Core.MetadataSource.YouTube
                     var album = MapSingleVideoAlbum(video, metadata);
                     if (album != null)
                     {
-                        album.ArtistMetadata = metadata;
+                        AttachArtist(album, metadata);
                         albums.Add(album);
                     }
                 }
@@ -329,6 +337,17 @@ namespace NzbDrone.Core.MetadataSource.YouTube
             return album.SecondaryTypes.Any(x => secondaryTypes.Contains(x.Name));
         }
 
+        private static void AttachArtist(Album album, ArtistMetadata metadata)
+        {
+            album.ArtistMetadata = metadata;
+            album.Artist = new Artist
+            {
+                Metadata = metadata,
+                CleanName = Parser.Parser.CleanArtistName(metadata.Name),
+                SortName = Parser.Parser.NormalizeTitle(metadata.Name)
+            };
+        }
+
         private static ArtistMetadata MapArtistMetadata(YtDlpEntry entry, string channelId)
         {
             var id = channelId.IsNullOrWhiteSpace() ? entry?.ResolvedChannelId : channelId;
@@ -342,6 +361,7 @@ namespace NzbDrone.Core.MetadataSource.YouTube
                 Type = "YouTube Channel",
                 Status = ArtistStatusType.Continuing,
                 Genres = new List<string> { "YouTube" },
+                Ratings = new Ratings(),
                 Images = new List<MediaCover.MediaCover>(),
                 Links = new List<Links>
                 {

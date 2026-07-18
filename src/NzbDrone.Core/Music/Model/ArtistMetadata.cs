@@ -14,6 +14,7 @@ namespace NzbDrone.Core.Music
             Links = new List<Links>();
             OldForeignArtistIds = new List<string>();
             Aliases = new List<string>();
+            Ratings = new Ratings();
         }
 
         public string ForeignArtistId { get; set; }

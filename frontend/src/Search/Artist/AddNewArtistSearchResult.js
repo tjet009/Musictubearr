@@ -147,7 +147,11 @@ class AddNewArtistSearchResult extends Component {
 
                 <Link
                   className={styles.mbLink}
-                  to={`https://musicbrainz.org/artist/${foreignArtistId}`}
+                  to={
+                    String(foreignArtistId).startsWith('yt:')
+                      ? `https://www.youtube.com/channel/${String(foreignArtistId).replace(/^yt:channel:/, '')}`
+                      : `https://musicbrainz.org/artist/${foreignArtistId}`
+                  }
                   onPress={this.onMBLinkPress}
                 >
                   <Icon
@@ -162,7 +166,7 @@ class AddNewArtistSearchResult extends Component {
             <div>
               <Label size={sizes.LARGE}>
                 <HeartRating
-                  rating={ratings.value}
+                  rating={ratings?.value ?? 0}
                   iconSize={13}
                 />
               </Label>

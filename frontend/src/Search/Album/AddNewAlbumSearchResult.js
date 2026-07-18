@@ -138,7 +138,11 @@ class AddNewAlbumSearchResult extends Component {
 
                 <Link
                   className={styles.mbLink}
-                  to={`https://musicbrainz.org/release-group/${foreignAlbumId}`}
+                  to={
+                    String(foreignAlbumId).startsWith('yt:')
+                      ? `https://www.youtube.com/playlist?list=${String(foreignAlbumId).replace(/^yt:(playlist|uploads|release):/, '')}`
+                      : `https://musicbrainz.org/release-group/${foreignAlbumId}`
+                  }
                   onPress={this.onTVDBLinkPress}
                 >
                   <Icon
@@ -153,7 +157,7 @@ class AddNewAlbumSearchResult extends Component {
             <div>
               <Label size={sizes.LARGE}>
                 <HeartRating
-                  rating={ratings.value}
+                  rating={ratings?.value ?? 0}
                   iconSize={13}
                 />
               </Label>
@@ -166,7 +170,7 @@ class AddNewAlbumSearchResult extends Component {
               }
 
               <Label size={sizes.LARGE}>
-                {releases.length} release{releases.length > 0 ? 's' : null}
+                {(releases?.length ?? 0)} release{(releases?.length ?? 0) !== 1 ? 's' : null}
               </Label>
 
               {
