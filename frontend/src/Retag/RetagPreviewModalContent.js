@@ -117,7 +117,7 @@ class RetagPreviewModalContent extends Component {
               <div>
                 <Alert>
                   <div>
-                    MusicBrainz identifiers will also be added to the files; these are not shown below.
+                    YouTube identifiers will also be added to the files; these are not shown below.
                   </div>
                 </Alert>
 

@@ -13,7 +13,7 @@ import { icons, inputTypes, kinds } from 'Helpers/Props';
 import translate from 'Utilities/String/translate';
 
 const writeAudioTagOptions = [
-  { key: 'sync', value: 'All files; keep in sync with MusicBrainz' },
+  { key: 'sync', value: 'All files; keep in sync with MusicTubearr metadata' },
   { key: 'allFiles', value: 'All files; initial import only' },
   { key: 'newFiles', value: 'For new downloads only' },
   { key: 'no', value: 'Never' }

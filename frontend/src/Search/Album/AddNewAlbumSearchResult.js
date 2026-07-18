@@ -8,6 +8,7 @@ import Icon from 'Components/Icon';
 import Label from 'Components/Label';
 import Link from 'Components/Link/Link';
 import { icons, sizes } from 'Helpers/Props';
+import { getYouTubeAlbumUrl } from 'Helpers/youTubeLinks';
 import dimensions from 'Styles/Variables/dimensions';
 import fonts from 'Styles/Variables/fonts';
 import translate from 'Utilities/String/translate';
@@ -77,20 +78,24 @@ class AddNewAlbumSearchResult extends Component {
       albumType,
       secondaryTypes,
       overview,
-      ratings,
+      ratings = { value: 0, votes: 0 },
       images,
-      releases,
+      releases = [],
       artist,
       isExistingAlbum,
       isExistingArtist,
       isSmallScreen
     } = this.props;
 
+    const ratingValue = ratings && typeof ratings.value === 'number' ? ratings.value : 0;
+    const releaseCount = Array.isArray(releases) ? releases.length : 0;
+
     const {
       isNewAddAlbumModalOpen
     } = this.state;
 
     const linkProps = isExistingAlbum ? { to: `/album/${foreignAlbumId}` } : { onPress: this.onPress };
+    const youtubeUrl = getYouTubeAlbumUrl(foreignAlbumId);
 
     const height = calculateHeight(230, isSmallScreen);
 
@@ -136,28 +141,28 @@ class AddNewAlbumSearchResult extends Component {
                     null
                 }
 
-                <Link
-                  className={styles.mbLink}
-                  to={
-                    String(foreignAlbumId).startsWith('yt:')
-                      ? `https://www.youtube.com/playlist?list=${String(foreignAlbumId).replace(/^yt:(playlist|uploads|release):/, '')}`
-                      : `https://musicbrainz.org/release-group/${foreignAlbumId}`
-                  }
-                  onPress={this.onTVDBLinkPress}
-                >
-                  <Icon
-                    className={styles.mbLinkIcon}
-                    name={icons.EXTERNAL_LINK}
-                    size={28}
-                  />
-                </Link>
+                {
+                  youtubeUrl ?
+                    <Link
+                      className={styles.mbLink}
+                      to={youtubeUrl}
+                      onPress={this.onTVDBLinkPress}
+                    >
+                      <Icon
+                        className={styles.mbLinkIcon}
+                        name={icons.EXTERNAL_LINK}
+                        size={28}
+                      />
+                    </Link> :
+                    null
+                }
               </div>
             </div>
 
             <div>
               <Label size={sizes.LARGE}>
                 <HeartRating
-                  rating={ratings?.value ?? 0}
+                  rating={ratingValue}
                   iconSize={13}
                 />
               </Label>
@@ -170,7 +175,7 @@ class AddNewAlbumSearchResult extends Component {
               }
 
               <Label size={sizes.LARGE}>
-                {(releases?.length ?? 0)} release{(releases?.length ?? 0) !== 1 ? 's' : null}
+                {releaseCount} release{releaseCount !== 1 ? 's' : null}
               </Label>
 
               {

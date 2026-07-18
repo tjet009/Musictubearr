@@ -7,6 +7,7 @@ import Icon from 'Components/Icon';
 import Label from 'Components/Label';
 import Link from 'Components/Link/Link';
 import { icons, kinds, sizes } from 'Helpers/Props';
+import { getYouTubeArtistUrl } from 'Helpers/youTubeLinks';
 import dimensions from 'Styles/Variables/dimensions';
 import fonts from 'Styles/Variables/fonts';
 import translate from 'Utilities/String/translate';
@@ -76,12 +77,14 @@ class AddNewArtistSearchResult extends Component {
       artistType,
       status,
       overview,
-      ratings,
+      ratings = { value: 0, votes: 0 },
       folder,
       images,
       isExistingArtist,
       isSmallScreen
     } = this.props;
+
+    const ratingValue = ratings && typeof ratings.value === 'number' ? ratings.value : 0;
 
     const {
       isNewAddArtistModalOpen
@@ -90,6 +93,7 @@ class AddNewArtistSearchResult extends Component {
     const linkProps = isExistingArtist ? { to: `/artist/${foreignArtistId}` } : { onPress: this.onPress };
 
     const endedString = artistType === 'Person' ? translate('Deceased') : translate('Inactive');
+    const youtubeUrl = getYouTubeArtistUrl(foreignArtistId);
 
     const height = calculateHeight(230, isSmallScreen);
 
@@ -145,28 +149,28 @@ class AddNewArtistSearchResult extends Component {
                     null
                 }
 
-                <Link
-                  className={styles.mbLink}
-                  to={
-                    String(foreignArtistId).startsWith('yt:')
-                      ? `https://www.youtube.com/channel/${String(foreignArtistId).replace(/^yt:channel:/, '')}`
-                      : `https://musicbrainz.org/artist/${foreignArtistId}`
-                  }
-                  onPress={this.onMBLinkPress}
-                >
-                  <Icon
-                    className={styles.mbLinkIcon}
-                    name={icons.EXTERNAL_LINK}
-                    size={28}
-                  />
-                </Link>
+                {
+                  youtubeUrl ?
+                    <Link
+                      className={styles.mbLink}
+                      to={youtubeUrl}
+                      onPress={this.onMBLinkPress}
+                    >
+                      <Icon
+                        className={styles.mbLinkIcon}
+                        name={icons.EXTERNAL_LINK}
+                        size={28}
+                      />
+                    </Link> :
+                    null
+                }
               </div>
             </div>
 
             <div>
               <Label size={sizes.LARGE}>
                 <HeartRating
-                  rating={ratings?.value ?? 0}
+                  rating={ratingValue}
                   iconSize={13}
                 />
               </Label>
