@@ -81,7 +81,7 @@ const artistTokens = [
   { token: '{Artist NameFirstCharacter}', example: 'A' },
   { token: '{Artist Disambiguation}', example: 'Disambiguation' },
   { token: '{Artist Genre}', example: 'Pop' },
-  { token: '{Artist MbId}', example: 'db92a151-1ac2-438b-bc43-b82e149ddd50' }
+  { token: '{Artist YouTube Id}', example: 'yt:channel:UCxxxxxxxxxxxxxxxxxxxxxx' }
 ];
 
 const albumTokens = [
@@ -92,7 +92,7 @@ const albumTokens = [
   { token: '{Album Type}', example: 'Album Type' },
   { token: '{Album Disambiguation}', example: 'Disambiguation' },
   { token: '{Album Genre}', example: 'Rock' },
-  { token: '{Album MbId}', example: '082c6aff-a7cc-36e0-a960-35a578ecd937' }
+  { token: '{Album YouTube Id}', example: 'yt:playlist:PLxxxxxxxxxxxxxxxxxxxxxx' }
 ];
 
 const mediumTokens = [
@@ -124,7 +124,7 @@ const trackArtistTokens = [
   { token: '{Track ArtistCleanName}', example: 'Artist Name' },
   { token: '{Track ArtistNameThe}', example: 'Artist Name, The' },
   { token: '{Track ArtistCleanNameThe}', example: 'Artist Name, The' },
-  { token: '{Track ArtistMbId}', example: 'db92a151-1ac2-438b-bc43-b82e149ddd50' }
+  { token: '{Track Artist YouTube Id}', example: 'yt:channel:UCxxxxxxxxxxxxxxxxxxxxxx' }
 ];
 
 const qualityTokens = [

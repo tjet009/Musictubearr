@@ -19,7 +19,7 @@ namespace NzbDrone.Core.ImportLists.MusicBrainzSeries
 
         public string BaseUrl { get; set; }
 
-        [FieldDefinition(0, Label = "Series Id", HelpText = "The GUID at the end of the MusicBrainz URL (e.g. 4b5f2897-9b05-4799-b895-6620e27143e7)")]
+        [FieldDefinition(0, Label = "Series Id", HelpText = "Unsupported legacy field. MusicTubearr uses YouTube channels/playlists instead of MusicBrainz series.")]
         public string SeriesId { get; set; }
 
         public NzbDroneValidationResult Validate()

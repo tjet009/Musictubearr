@@ -95,7 +95,7 @@ namespace NzbDrone.Core.Music
                     _eventAggregator.PublishEvent(new ArtistUpdatedEvent(local));
                 }
 
-                _logger.Error($"Artist '{local.Name}' (mbid {local.Metadata.Value.ForeignArtistId}) was not found, it may have been removed from MusicBrainz.");
+                _logger.Error($"Artist '{local.Name}' ({local.Metadata.Value.ForeignArtistId}) was not found on YouTube.");
             }
 
             return result;

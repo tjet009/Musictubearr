@@ -22,6 +22,25 @@ export function getYouTubeArtistUrl(foreignArtistId) {
   return null;
 }
 
+export function getYouTubeVideoUrl(foreignVideoId) {
+  if (!foreignVideoId) {
+    return null;
+  }
+
+  const id = String(foreignVideoId);
+
+  if (id.startsWith('yt:video:')) {
+    return `https://www.youtube.com/watch?v=${id.slice('yt:video:'.length)}`;
+  }
+
+  // Bare YouTube video ids are 11 chars; avoid linking unrelated values.
+  if (/^[\w-]{11}$/.test(id)) {
+    return `https://www.youtube.com/watch?v=${id}`;
+  }
+
+  return null;
+}
+
 export function getYouTubeAlbumUrl(foreignAlbumId) {
   if (!foreignAlbumId) {
     return null;

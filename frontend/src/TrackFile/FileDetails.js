@@ -6,9 +6,30 @@ import DescriptionListItem from 'Components/DescriptionList/DescriptionListItem'
 import DescriptionListItemDescription from 'Components/DescriptionList/DescriptionListItemDescription';
 import DescriptionListItemTitle from 'Components/DescriptionList/DescriptionListItemTitle';
 import Link from 'Components/Link/Link';
+import { getYouTubeAlbumUrl, getYouTubeArtistUrl, getYouTubeVideoUrl } from 'Helpers/youTubeLinks';
 import formatTimeSpan from 'Utilities/Date/formatTimeSpan';
 import translate from 'Utilities/String/translate';
 import styles from './FileDetails.css';
+
+function renderIdField(titleKey, id, getUrl) {
+  const url = getUrl(id);
+  const item = (
+    <DescriptionListItem
+      title={translate(titleKey)}
+      data={id}
+    />
+  );
+
+  if (url) {
+    return (
+      <Link to={url}>
+        {item}
+      </Link>
+    );
+  }
+
+  return item;
+}
 
 function renderRejections(rejections) {
   return (
@@ -135,58 +156,23 @@ function FileDetails(props) {
           }
           {
             audioTags.artistMBId !== undefined &&
-              <Link
-                to={`https://musicbrainz.org/artist/${audioTags.artistMBId}`}
-              >
-                <DescriptionListItem
-                  title={translate('MusicBrainzArtistID')}
-                  data={audioTags.artistMBId}
-                />
-              </Link>
+              renderIdField('MusicBrainzArtistID', audioTags.artistMBId, getYouTubeArtistUrl)
           }
           {
             audioTags.albumMBId !== undefined &&
-              <Link
-                to={`https://musicbrainz.org/release-group/${audioTags.albumMBId}`}
-              >
-                <DescriptionListItem
-                  title={translate('MusicBrainzAlbumID')}
-                  data={audioTags.albumMBId}
-                />
-              </Link>
+              renderIdField('MusicBrainzAlbumID', audioTags.albumMBId, getYouTubeAlbumUrl)
           }
           {
             audioTags.releaseMBId !== undefined &&
-              <Link
-                to={`https://musicbrainz.org/release/${audioTags.releaseMBId}`}
-              >
-                <DescriptionListItem
-                  title={translate('MusicBrainzReleaseID')}
-                  data={audioTags.releaseMBId}
-                />
-              </Link>
+              renderIdField('MusicBrainzReleaseID', audioTags.releaseMBId, getYouTubeAlbumUrl)
           }
           {
             audioTags.recordingMBId !== undefined &&
-              <Link
-                to={`https://musicbrainz.org/recording/${audioTags.recordingMBId}`}
-              >
-                <DescriptionListItem
-                  title={translate('MusicBrainzRecordingID')}
-                  data={audioTags.recordingMBId}
-                />
-              </Link>
+              renderIdField('MusicBrainzRecordingID', audioTags.recordingMBId, getYouTubeVideoUrl)
           }
           {
             audioTags.trackMBId !== undefined &&
-              <Link
-                to={`https://musicbrainz.org/track/${audioTags.trackMBId}`}
-              >
-                <DescriptionListItem
-                  title={translate('MusicBrainzTrackID')}
-                  data={audioTags.trackMBId}
-                />
-              </Link>
+              renderIdField('MusicBrainzTrackID', audioTags.trackMBId, getYouTubeVideoUrl)
           }
           {
             !!rejections && rejections.length > 0 &&

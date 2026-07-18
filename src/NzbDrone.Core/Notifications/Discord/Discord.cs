@@ -4,6 +4,7 @@ using System.Linq;
 using FluentValidation.Results;
 using NzbDrone.Common.Extensions;
 using NzbDrone.Core.Configuration;
+using NzbDrone.Core.Download.YtDlp;
 using NzbDrone.Core.MediaCover;
 using NzbDrone.Core.MediaFiles;
 using NzbDrone.Core.Music;
@@ -39,7 +40,7 @@ namespace NzbDrone.Core.Notifications.Discord
                     Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
                     IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                 },
-                Url = $"https://musicbrainz.org/artist/{artist.ForeignArtistId}",
+                Url = GetYouTubeArtistUrl(artist.ForeignArtistId),
                 Description = "Album Grabbed",
                 Title = GetTitle(artist, albums),
                 Color = (int)DiscordColors.Standard,
@@ -144,7 +145,7 @@ namespace NzbDrone.Core.Notifications.Discord
                     Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
                     IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                 },
-                Url = $"https://musicbrainz.org/artist/{artist.ForeignArtistId}",
+                Url = GetYouTubeArtistUrl(artist.ForeignArtistId),
                 Description = isUpgrade ? "Album Upgraded" : "Album Imported",
                 Title = GetTitle(artist, new List<Album> { album }),
                 Color = isUpgrade ? (int)DiscordColors.Upgrade : (int)DiscordColors.Success,
@@ -501,11 +502,26 @@ namespace NzbDrone.Core.Notifications.Discord
             return string.Format("{0} {1}", (Math.Sign(byteCount) * num).ToString(), suf[place]);
         }
 
+        private string GetYouTubeArtistUrl(string foreignArtistId)
+        {
+            if (!YouTubeIds.IsYouTubeId(foreignArtistId))
+            {
+                return null;
+            }
+
+            return YouTubeIds.ToChannelUrl(foreignArtistId);
+        }
+
         private string GetLinksString(Artist artist)
         {
             var links = new List<string>();
 
-            links.Add($"[MusicBrainz](https://musicbrainz.org/artist/{artist.ForeignArtistId})");
+            var youtubeUrl = GetYouTubeArtistUrl(artist.ForeignArtistId);
+
+            if (youtubeUrl.IsNotNullOrWhiteSpace())
+            {
+                links.Add($"[YouTube]({youtubeUrl})");
+            }
 
             return string.Join(" / ", links);
         }

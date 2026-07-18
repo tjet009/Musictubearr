@@ -38,7 +38,7 @@ function ArtistSearchResult(props) {
         {
           match.key === 'foreignArtistId' && foreignArtistId ?
             <div className={styles.alternateTitle}>
-              MbId: {foreignArtistId}
+              YouTube Id: {foreignArtistId}
             </div> :
             null
         }
