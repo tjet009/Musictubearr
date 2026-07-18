@@ -54,7 +54,7 @@ function AppRoutes(props) {
       />
 
       {
-        window.Lidarr.urlBase &&
+        window.MusicTubearr.urlBase &&
           <Route
             exact={true}
             path="/"

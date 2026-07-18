@@ -22,17 +22,17 @@ namespace NzbDrone.Core.Notifications
         protected const string TRACK_RETAGGED_TITLE = "Track File Tags Updated";
         protected const string APPLICATION_UPDATE_TITLE = "Application Updated";
 
-        protected const string ALBUM_GRABBED_TITLE_BRANDED = "Lidarr - " + ALBUM_GRABBED_TITLE;
-        protected const string ALBUM_DOWNLOADED_TITLE_BRANDED = "Lidarr - " + ALBUM_DOWNLOADED_TITLE;
-        protected const string ARTIST_ADDED_TITLE_BRANDED = "Lidarr - " + ARTIST_ADDED_TITLE;
-        protected const string ARTIST_DELETED_TITLE_BRANDED = "Lidarr - " + ARTIST_DELETED_TITLE;
-        protected const string ALBUM_DELETED_TITLE_BRANDED = "Lidarr - " + ALBUM_DELETED_TITLE;
-        protected const string HEALTH_ISSUE_TITLE_BRANDED = "Lidarr - " + HEALTH_ISSUE_TITLE;
-        protected const string HEALTH_RESTORED_TITLE_BRANDED = "Lidarr - " + HEALTH_RESTORED_TITLE;
-        protected const string DOWNLOAD_FAILURE_TITLE_BRANDED = "Lidarr - " + DOWNLOAD_FAILURE_TITLE;
-        protected const string IMPORT_FAILURE_TITLE_BRANDED = "Lidarr - " + IMPORT_FAILURE_TITLE;
-        protected const string TRACK_RETAGGED_TITLE_BRANDED = "Lidarr - " + TRACK_RETAGGED_TITLE;
-        protected const string APPLICATION_UPDATE_TITLE_BRANDED = "Lidarr - " + APPLICATION_UPDATE_TITLE;
+        protected const string ALBUM_GRABBED_TITLE_BRANDED = "MusicTubearr - " + ALBUM_GRABBED_TITLE;
+        protected const string ALBUM_DOWNLOADED_TITLE_BRANDED = "MusicTubearr - " + ALBUM_DOWNLOADED_TITLE;
+        protected const string ARTIST_ADDED_TITLE_BRANDED = "MusicTubearr - " + ARTIST_ADDED_TITLE;
+        protected const string ARTIST_DELETED_TITLE_BRANDED = "MusicTubearr - " + ARTIST_DELETED_TITLE;
+        protected const string ALBUM_DELETED_TITLE_BRANDED = "MusicTubearr - " + ALBUM_DELETED_TITLE;
+        protected const string HEALTH_ISSUE_TITLE_BRANDED = "MusicTubearr - " + HEALTH_ISSUE_TITLE;
+        protected const string HEALTH_RESTORED_TITLE_BRANDED = "MusicTubearr - " + HEALTH_RESTORED_TITLE;
+        protected const string DOWNLOAD_FAILURE_TITLE_BRANDED = "MusicTubearr - " + DOWNLOAD_FAILURE_TITLE;
+        protected const string IMPORT_FAILURE_TITLE_BRANDED = "MusicTubearr - " + IMPORT_FAILURE_TITLE;
+        protected const string TRACK_RETAGGED_TITLE_BRANDED = "MusicTubearr - " + TRACK_RETAGGED_TITLE;
+        protected const string APPLICATION_UPDATE_TITLE_BRANDED = "MusicTubearr - " + APPLICATION_UPDATE_TITLE;
 
         public abstract string Name { get; }
 

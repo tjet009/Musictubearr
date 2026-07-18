@@ -117,10 +117,27 @@ namespace NzbDrone.Core.DecisionEngine
                         }
                         else if (remoteAlbum.Albums.Empty())
                         {
-                            decision = new DownloadDecision(remoteAlbum, new Rejection("Unable to parse albums from release name"));
-                            if (searchCriteria != null)
+                            if (searchCriteria != null && searchCriteria.Albums.Any())
                             {
+                                // YouTube (and similar) release titles often don't parse as Artist-Album;
+                                // when searching a known album, bind the criteria albums and continue.
                                 remoteAlbum.Albums = searchCriteria.Albums;
+                                if (remoteAlbum.Artist == null)
+                                {
+                                    remoteAlbum.Artist = searchCriteria.Artist;
+                                }
+
+                                _aggregationService.Augment(remoteAlbum);
+
+                                remoteAlbum.CustomFormats = _formatCalculator.ParseCustomFormat(remoteAlbum, remoteAlbum.Release.Size);
+                                remoteAlbum.CustomFormatScore = remoteAlbum?.Artist?.QualityProfile?.Value.CalculateCustomFormatScore(remoteAlbum.CustomFormats) ?? 0;
+
+                                remoteAlbum.DownloadAllowed = remoteAlbum.Albums.Any();
+                                decision = GetDecisionForReport(remoteAlbum, searchCriteria);
+                            }
+                            else
+                            {
+                                decision = new DownloadDecision(remoteAlbum, new Rejection("Unable to parse albums from release name"));
                             }
                         }
                         else

@@ -188,7 +188,7 @@ class GeneralSettings extends Component {
           kind={kinds.DANGER}
           title={translate('RestartLidarr')}
           message={
-            `Lidarr requires a restart to apply changes, do you want to restart now? ${isWindowsService ? 'Depending which user is running the Lidarr service you may need to restart Lidarr as admin once before the service will start automatically.' : ''}`
+            `MusicTubearr requires a restart to apply changes, do you want to restart now? ${isWindowsService ? 'Depending which user is running the MusicTubearr service you may need to restart MusicTubearr as admin once before the service will start automatically.' : ''}`
           }
           cancelLabel={translate('IllRestartLater')}
           confirmLabel={translate('RestartNow')}

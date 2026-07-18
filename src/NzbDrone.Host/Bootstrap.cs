@@ -39,7 +39,7 @@ namespace NzbDrone.Host
         {
             try
             {
-                Logger.Info("Starting Lidarr - {0} - Version {1}",
+                Logger.Info("Starting MusicTubearr - {0} - Version {1}",
                             Environment.ProcessPath,
                             Assembly.GetExecutingAssembly().GetName().Version);
 
@@ -188,12 +188,7 @@ namespace NzbDrone.Host
                 })
                 .ConfigureServices(services =>
                 {
-                    services.Configure<PostgresOptions>(config.GetSection("Lidarr:Postgres"));
-                    services.Configure<AppOptions>(config.GetSection("Lidarr:App"));
-                    services.Configure<AuthOptions>(config.GetSection("Lidarr:Auth"));
-                    services.Configure<ServerOptions>(config.GetSection("Lidarr:Server"));
-                    services.Configure<LogOptions>(config.GetSection("Lidarr:Log"));
-                    services.Configure<UpdateOptions>(config.GetSection("Lidarr:Update"));
+                    ConfigureAppOptions(services, config);
                 }).Build();
         }
 
@@ -201,13 +196,13 @@ namespace NzbDrone.Host
         {
             var config = GetConfiguration(context);
 
-            var bindAddress = config.GetValue<string>($"Lidarr:Server:{nameof(ServerOptions.BindAddress)}") ?? config.GetValue(nameof(ConfigFileProvider.BindAddress), "*");
-            var port = config.GetValue<int?>($"Lidarr:Server:{nameof(ServerOptions.Port)}") ?? config.GetValue(nameof(ConfigFileProvider.Port), 8686);
-            var sslPort = config.GetValue<int?>($"Lidarr:Server:{nameof(ServerOptions.SslPort)}") ?? config.GetValue(nameof(ConfigFileProvider.SslPort), 6868);
-            var enableSsl = config.GetValue<bool?>($"Lidarr:Server:{nameof(ServerOptions.EnableSsl)}") ?? config.GetValue(nameof(ConfigFileProvider.EnableSsl), false);
-            var sslCertPath = config.GetValue<string>($"Lidarr:Server:{nameof(ServerOptions.SslCertPath)}") ?? config.GetValue<string>(nameof(ConfigFileProvider.SslCertPath));
-            var sslCertPassword = config.GetValue<string>($"Lidarr:Server:{nameof(ServerOptions.SslCertPassword)}") ?? config.GetValue<string>(nameof(ConfigFileProvider.SslCertPassword));
-            var logDbEnabled = config.GetValue<bool?>($"Lidarr:Log:{nameof(LogOptions.DbEnabled)}") ?? config.GetValue(nameof(ConfigFileProvider.LogDbEnabled), true);
+            var bindAddress = GetConfigValue(config, $"Server:{nameof(ServerOptions.BindAddress)}", nameof(ConfigFileProvider.BindAddress), "*");
+            var port = GetConfigValue(config, $"Server:{nameof(ServerOptions.Port)}", nameof(ConfigFileProvider.Port), 8585);
+            var sslPort = GetConfigValue(config, $"Server:{nameof(ServerOptions.SslPort)}", nameof(ConfigFileProvider.SslPort), 8586);
+            var enableSsl = GetConfigValue(config, $"Server:{nameof(ServerOptions.EnableSsl)}", nameof(ConfigFileProvider.EnableSsl), false);
+            var sslCertPath = GetConfigValue<string>(config, $"Server:{nameof(ServerOptions.SslCertPath)}", nameof(ConfigFileProvider.SslCertPath), null);
+            var sslCertPassword = GetConfigValue<string>(config, $"Server:{nameof(ServerOptions.SslCertPassword)}", nameof(ConfigFileProvider.SslCertPassword), null);
+            var logDbEnabled = GetConfigValue(config, $"Log:{nameof(LogOptions.DbEnabled)}", nameof(ConfigFileProvider.LogDbEnabled), true);
 
             var urls = new List<string> { BuildUrl("http", bindAddress, port) };
 
@@ -249,12 +244,7 @@ namespace NzbDrone.Host
                 })
                 .ConfigureServices(services =>
                 {
-                    services.Configure<PostgresOptions>(config.GetSection("Lidarr:Postgres"));
-                    services.Configure<AppOptions>(config.GetSection("Lidarr:App"));
-                    services.Configure<AuthOptions>(config.GetSection("Lidarr:Auth"));
-                    services.Configure<ServerOptions>(config.GetSection("Lidarr:Server"));
-                    services.Configure<LogOptions>(config.GetSection("Lidarr:Log"));
-                    services.Configure<UpdateOptions>(config.GetSection("Lidarr:Update"));
+                    ConfigureAppOptions(services, config);
                 })
                 .ConfigureWebHost(builder =>
                 {
@@ -320,6 +310,58 @@ namespace NzbDrone.Host
             return ApplicationModes.Interactive;
         }
 
+        private static void ConfigureAppOptions(IServiceCollection services, IConfiguration config)
+        {
+            // MusicTubearr env prefix preferred; Lidarr: kept as compatibility fallback.
+            services.Configure<PostgresOptions>(options =>
+            {
+                config.GetSection("Lidarr:Postgres").Bind(options);
+                config.GetSection("MusicTubearr:Postgres").Bind(options);
+            });
+            services.Configure<AppOptions>(options =>
+            {
+                config.GetSection("Lidarr:App").Bind(options);
+                config.GetSection("MusicTubearr:App").Bind(options);
+            });
+            services.Configure<AuthOptions>(options =>
+            {
+                config.GetSection("Lidarr:Auth").Bind(options);
+                config.GetSection("MusicTubearr:Auth").Bind(options);
+            });
+            services.Configure<ServerOptions>(options =>
+            {
+                config.GetSection("Lidarr:Server").Bind(options);
+                config.GetSection("MusicTubearr:Server").Bind(options);
+            });
+            services.Configure<LogOptions>(options =>
+            {
+                config.GetSection("Lidarr:Log").Bind(options);
+                config.GetSection("MusicTubearr:Log").Bind(options);
+            });
+            services.Configure<UpdateOptions>(options =>
+            {
+                config.GetSection("Lidarr:Update").Bind(options);
+                config.GetSection("MusicTubearr:Update").Bind(options);
+            });
+        }
+
+        private static T GetConfigValue<T>(IConfiguration config, string relativeKey, string xmlKey, T defaultValue)
+        {
+            var primary = config.GetSection($"MusicTubearr:{relativeKey}");
+            if (primary.Exists() && primary.Value != null)
+            {
+                return config.GetValue<T>($"MusicTubearr:{relativeKey}");
+            }
+
+            var legacy = config.GetSection($"Lidarr:{relativeKey}");
+            if (legacy.Exists() && legacy.Value != null)
+            {
+                return config.GetValue<T>($"Lidarr:{relativeKey}");
+            }
+
+            return config.GetValue(xmlKey, defaultValue);
+        }
+
         private static IConfiguration GetConfiguration(StartupContext context)
         {
             var appFolder = new AppFolderInfo(context);
@@ -337,7 +379,7 @@ namespace NzbDrone.Host
             {
                 Logger.Error(ex, ex.Message);
 
-                throw new InvalidConfigFileException($"{configPath} is corrupt or invalid. Please delete the config file and Lidarr will recreate it.", ex);
+                throw new InvalidConfigFileException($"{configPath} is corrupt or invalid. Please delete the config file and MusicTubearr will recreate it.", ex);
             }
         }
 

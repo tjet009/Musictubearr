@@ -82,7 +82,7 @@ namespace NzbDrone.Core.Download
 
                 if (grabbedItems.Empty())
                 {
-                    trackedDownload.Warn("Download wasn't grabbed by Lidarr, skipping");
+                    trackedDownload.Warn("Download wasn't grabbed by MusicTubearr, skipping");
                     return;
                 }
 

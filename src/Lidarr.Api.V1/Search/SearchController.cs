@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using NzbDrone.Core.MediaCover;
 using NzbDrone.Core.MetadataSource;
 using NzbDrone.Core.Organizer;
+using NzbDrone.Core.Parser;
 
 namespace Lidarr.Api.V1.Search
 {
@@ -55,6 +56,18 @@ namespace Lidarr.Api.V1.Search
                 }
                 else if (result is NzbDrone.Core.Music.Album album)
                 {
+                    // Ensure artist metadata is attached for search cards / add-album modal.
+                    if ((album.Artist?.Value == null || album.Artist.Value.Metadata?.Value == null) &&
+                        album.ArtistMetadata?.Value != null)
+                    {
+                        album.Artist = new NzbDrone.Core.Music.Artist
+                        {
+                            Metadata = album.ArtistMetadata.Value,
+                            CleanName = Parser.CleanArtistName(album.ArtistMetadata.Value.Name),
+                            SortName = Parser.NormalizeTitle(album.ArtistMetadata.Value.Name)
+                        };
+                    }
+
                     resource.Album = album.ToResource();
                     resource.ForeignId = album.ForeignAlbumId;
 
@@ -65,7 +78,10 @@ namespace Lidarr.Api.V1.Search
                         resource.Album.RemoteCover = cover.Url;
                     }
 
-                    resource.Album.Artist.Folder = _fileNameBuilder.GetArtistFolder(album.Artist);
+                    if (resource.Album.Artist != null && album.Artist?.Value != null)
+                    {
+                        resource.Album.Artist.Folder = _fileNameBuilder.GetArtistFolder(album.Artist.Value);
+                    }
                 }
                 else
                 {

@@ -103,11 +103,11 @@ namespace NzbDrone.Core.Test.MediaFiles
 
             Mocker.GetMock<IConfigService>()
                 .Setup(s => s.ApplicationUrl)
-                .Returns("http://localhost:8686");
+                .Returns("http://localhost:8585");
 
             Mocker.GetMock<IConfigFileProvider>()
                 .Setup(s => s.InstanceName)
-                .Returns("Lidarr");
+                .Returns("MusicTubearr");
 
             Mocker.GetMock<ITagRepository>()
                 .Setup(s => s.Get(1))
@@ -193,49 +193,49 @@ namespace NzbDrone.Core.Test.MediaFiles
             capturedEnv.Should().NotBeNull();
 
             // Basic paths and instance info
-            capturedEnv["Lidarr_SourcePath"].Should().Be("/source/path");
-            capturedEnv["Lidarr_DestinationPath"].Should().Be("/dest/path");
-            capturedEnv["Lidarr_InstanceName"].Should().Be("Lidarr");
-            capturedEnv["Lidarr_ApplicationUrl"].Should().Be("http://localhost:8686");
-            capturedEnv["Lidarr_TransferMode"].Should().Be("Copy");
+            capturedEnv["MusicTubearr_SourcePath"].Should().Be("/source/path");
+            capturedEnv["MusicTubearr_DestinationPath"].Should().Be("/dest/path");
+            capturedEnv["MusicTubearr_InstanceName"].Should().Be("MusicTubearr");
+            capturedEnv["MusicTubearr_ApplicationUrl"].Should().Be("http://localhost:8585");
+            capturedEnv["MusicTubearr_TransferMode"].Should().Be("Copy");
 
             // Artist info
-            capturedEnv["Lidarr_Artist_Id"].Should().Be("1");
-            capturedEnv["Lidarr_Artist_Name"].Should().Be("Test Artist");
-            capturedEnv["Lidarr_Artist_Path"].Should().Be("/music/Test Artist");
-            capturedEnv["Lidarr_Artist_MBId"].Should().Be("test-artist-mbid");
-            capturedEnv["Lidarr_Artist_Tags"].Should().Be("TestTag");
+            capturedEnv["MusicTubearr_Artist_Id"].Should().Be("1");
+            capturedEnv["MusicTubearr_Artist_Name"].Should().Be("Test Artist");
+            capturedEnv["MusicTubearr_Artist_Path"].Should().Be("/music/Test Artist");
+            capturedEnv["MusicTubearr_Artist_MBId"].Should().Be("test-artist-mbid");
+            capturedEnv["MusicTubearr_Artist_Tags"].Should().Be("TestTag");
 
             // Album info
-            capturedEnv["Lidarr_Album_Id"].Should().Be("1");
-            capturedEnv["Lidarr_Album_Title"].Should().Be("Test Album");
-            capturedEnv["Lidarr_Album_MBId"].Should().Be("test-album-mbid");
-            capturedEnv["Lidarr_Album_ReleaseDate"].Should().Be("2023-01-01");
-            capturedEnv["Lidarr_Album_Genres"].Should().Be("Rock|Alternative");
+            capturedEnv["MusicTubearr_Album_Id"].Should().Be("1");
+            capturedEnv["MusicTubearr_Album_Title"].Should().Be("Test Album");
+            capturedEnv["MusicTubearr_Album_MBId"].Should().Be("test-album-mbid");
+            capturedEnv["MusicTubearr_Album_ReleaseDate"].Should().Be("2023-01-01");
+            capturedEnv["MusicTubearr_Album_Genres"].Should().Be("Rock|Alternative");
 
             // Track info
-            capturedEnv["Lidarr_TrackFile_TrackCount"].Should().Be("2");
-            capturedEnv["Lidarr_TrackFile_TrackIds"].Should().Be("1,2");
-            capturedEnv["Lidarr_TrackFile_TrackNumbers"].Should().Be("1,2");
-            capturedEnv["Lidarr_TrackFile_TrackTitles"].Should().Be("Test Track 1|Test Track 2");
-            capturedEnv["Lidarr_TrackFile_Quality"].Should().Be("FLAC");
-            capturedEnv["Lidarr_TrackFile_ReleaseGroup"].Should().Be("TestGroup");
-            capturedEnv["Lidarr_TrackFile_SceneName"].Should().Be("Test.Scene.Name");
+            capturedEnv["MusicTubearr_TrackFile_TrackCount"].Should().Be("2");
+            capturedEnv["MusicTubearr_TrackFile_TrackIds"].Should().Be("1,2");
+            capturedEnv["MusicTubearr_TrackFile_TrackNumbers"].Should().Be("1,2");
+            capturedEnv["MusicTubearr_TrackFile_TrackTitles"].Should().Be("Test Track 1|Test Track 2");
+            capturedEnv["MusicTubearr_TrackFile_Quality"].Should().Be("FLAC");
+            capturedEnv["MusicTubearr_TrackFile_ReleaseGroup"].Should().Be("TestGroup");
+            capturedEnv["MusicTubearr_TrackFile_SceneName"].Should().Be("Test.Scene.Name");
 
             // Media info
-            capturedEnv["Lidarr_TrackFile_MediaInfo_AudioChannels"].Should().Be("2");
-            capturedEnv["Lidarr_TrackFile_MediaInfo_AudioCodec"].Should().Be("FLAC");
-            capturedEnv["Lidarr_TrackFile_MediaInfo_AudioBitRate"].Should().Be("1000");
-            capturedEnv["Lidarr_TrackFile_MediaInfo_AudioSampleRate"].Should().Be("44100");
-            capturedEnv["Lidarr_TrackFile_MediaInfo_BitsPerSample"].Should().Be("16");
+            capturedEnv["MusicTubearr_TrackFile_MediaInfo_AudioChannels"].Should().Be("2");
+            capturedEnv["MusicTubearr_TrackFile_MediaInfo_AudioCodec"].Should().Be("FLAC");
+            capturedEnv["MusicTubearr_TrackFile_MediaInfo_AudioBitRate"].Should().Be("1000");
+            capturedEnv["MusicTubearr_TrackFile_MediaInfo_AudioSampleRate"].Should().Be("44100");
+            capturedEnv["MusicTubearr_TrackFile_MediaInfo_BitsPerSample"].Should().Be("16");
 
             // Custom formats
-            capturedEnv["Lidarr_TrackFile_CustomFormat"].Should().Be("Lossless|Scene");
+            capturedEnv["MusicTubearr_TrackFile_CustomFormat"].Should().Be("Lossless|Scene");
 
             // Download client info (should be empty when not provided)
-            capturedEnv["Lidarr_Download_Client"].Should().Be("");
-            capturedEnv["Lidarr_Download_Client_Type"].Should().Be("");
-            capturedEnv["Lidarr_Download_Id"].Should().Be("");
+            capturedEnv["MusicTubearr_Download_Client"].Should().Be("");
+            capturedEnv["MusicTubearr_Download_Client_Type"].Should().Be("");
+            capturedEnv["MusicTubearr_Download_Id"].Should().Be("");
         }
 
         [Test]
@@ -268,9 +268,9 @@ namespace NzbDrone.Core.Test.MediaFiles
             Subject.TryImport("/source/path", "/dest/path", _localTrack, _trackFile, TransferMode.Move, downloadClientItem);
 
             // Then
-            capturedEnv["Lidarr_Download_Client"].Should().Be("qBittorrent");
-            capturedEnv["Lidarr_Download_Client_Type"].Should().Be("Torrent");
-            capturedEnv["Lidarr_Download_Id"].Should().Be("test-download-id");
+            capturedEnv["MusicTubearr_Download_Client"].Should().Be("qBittorrent");
+            capturedEnv["MusicTubearr_Download_Client_Type"].Should().Be("Torrent");
+            capturedEnv["MusicTubearr_Download_Id"].Should().Be("test-download-id");
         }
 
         [Test]
@@ -391,8 +391,8 @@ namespace NzbDrone.Core.Test.MediaFiles
 
             // Then
             capturedEnv.Should().NotBeNull();
-            capturedEnv.ContainsKey("Lidarr_TrackFile_MediaInfo_AudioChannels").Should().BeFalse();
-            capturedEnv.ContainsKey("Lidarr_TrackFile_MediaInfo_AudioCodec").Should().BeFalse();
+            capturedEnv.ContainsKey("MusicTubearr_TrackFile_MediaInfo_AudioChannels").Should().BeFalse();
+            capturedEnv.ContainsKey("MusicTubearr_TrackFile_MediaInfo_AudioCodec").Should().BeFalse();
         }
 
         [Test]
@@ -418,7 +418,7 @@ namespace NzbDrone.Core.Test.MediaFiles
 
             // Then
             result.Should().Be(ScriptImportDecision.DeferMove);
-            capturedEnv.ContainsKey("Lidarr_TrackFile_MediaInfo_AudioChannels").Should().BeFalse();
+            capturedEnv.ContainsKey("MusicTubearr_TrackFile_MediaInfo_AudioChannels").Should().BeFalse();
         }
     }
 }

@@ -54,7 +54,7 @@ namespace NzbDrone.Common.Instrumentation
 
             // Webhooks
             // Notifiarr
-            new (@"api/v[0-9]/notification/lidarr/(?<secret>[\w-]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase),
+            new (@"api/v[0-9]/notification/musictubearr/(?<secret>[\w-]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase),
 
             // Indexer Responses
             new (@"avistaz\.[a-z]{2,3}\\\/rss\\\/download\\\/(?<secret>[^&=]+?)\\\/(?<secret>[^&=]+?)\.torrent", RegexOptions.Compiled | RegexOptions.IgnoreCase),

@@ -246,7 +246,7 @@ namespace NzbDrone.Core.Plugins
         [GeneratedRegex(@"github\.com/(?<owner>[^/]+)/(?<n>[^/]+)/", RegexOptions.Compiled)]
         private static partial Regex RepoUrlExtractorRegex();
 
-        [GeneratedRegex(@"Minimum\s+Lidarr\s+Version:?\s*(?:\*\*)?[\s]*(?<version>\d+\.\d+\.\d+\.\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled)]
+        [GeneratedRegex(@"Minimum\s+(?:Lidarr|MusicTubearr)\s+Version:?\s*(?:\*\*)?[\s]*(?<version>\d+\.\d+\.\d+\.\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled)]
         private partial Regex MinimumVersionRegex();
 
         [GeneratedRegex(@"^(?<version>\d+\.\d+\.\d+(?:\.\d+)?)(?:-(?<prerelease>.+))?$", RegexOptions.Compiled)]

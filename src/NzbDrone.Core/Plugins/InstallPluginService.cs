@@ -75,7 +75,7 @@ namespace NzbDrone.Core.Plugins
 
             _logger.ProgressInfo($"Extracting plugin [{packageTitle}]");
             _archiveService.Extract(packageDestination, Path.Combine(PluginFolder(), package.Owner, package.Name));
-            _logger.ProgressInfo($"Plugin [{package.Owner}/{package.Name}] v{package.Version} installed. Please restart Lidarr.");
+            _logger.ProgressInfo($"Plugin [{package.Owner}/{package.Name}] v{package.Version} installed. Please restart MusicTubearr.");
         }
 
         private void UninstallPlugin(string owner, string name, PluginVersion version)
@@ -87,11 +87,11 @@ namespace NzbDrone.Core.Plugins
 
             if (version != null)
             {
-                _logger.ProgressInfo($"Plugin [{owner}/{name}] v{version} uninstalled. Please restart Lidarr.");
+                _logger.ProgressInfo($"Plugin [{owner}/{name}] v{version} uninstalled. Please restart MusicTubearr.");
             }
             else
             {
-                _logger.ProgressInfo($"Plugin [{owner}/{name}] uninstalled. Please restart Lidarr.");
+                _logger.ProgressInfo($"Plugin [{owner}/{name}] uninstalled. Please restart MusicTubearr.");
             }
         }
 

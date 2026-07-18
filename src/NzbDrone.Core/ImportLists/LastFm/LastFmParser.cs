@@ -35,7 +35,7 @@ namespace NzbDrone.Core.ImportLists.LastFm
                 {
                     // Last.fm does provide an album MusicBrainzId, but it's
                     // for a specific release rather than a group like
-                    // Lidarr wants. Matching on the name works well enough.
+                    // MusicTubearr wants. Matching on the name works well enough.
                     items.AddIfNotNull(new ImportListItemInfo
                     {
                         Artist = item.Artist.Name,

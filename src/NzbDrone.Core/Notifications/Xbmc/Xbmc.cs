@@ -24,14 +24,14 @@ namespace NzbDrone.Core.Notifications.Xbmc
 
         public override void OnGrab(GrabMessage grabMessage)
         {
-            const string header = "Lidarr - Grabbed";
+            const string header = "MusicTubearr - Grabbed";
 
             Notify(Settings, header, grabMessage.Message);
         }
 
         public override void OnReleaseImport(AlbumDownloadMessage message)
         {
-            const string header = "Lidarr - Downloaded";
+            const string header = "MusicTubearr - Downloaded";
 
             Notify(Settings, header, message.Message);
             UpdateAndClean(message.Artist, message.OldFiles.Any());
@@ -44,7 +44,7 @@ namespace NzbDrone.Core.Notifications.Xbmc
 
         public override void OnArtistAdd(ArtistAddMessage message)
         {
-            const string header = "Lidarr - Artist Added";
+            const string header = "MusicTubearr - Artist Added";
 
             Notify(Settings, header, message.Message);
             UpdateAndClean(message.Artist, true);
@@ -54,7 +54,7 @@ namespace NzbDrone.Core.Notifications.Xbmc
         {
             if (deleteMessage.DeletedFiles)
             {
-                const string header = "Lidarr - Artist Deleted";
+                const string header = "MusicTubearr - Artist Deleted";
 
                 Notify(Settings, header, deleteMessage.Message);
                 UpdateAndClean(deleteMessage.Artist, true);

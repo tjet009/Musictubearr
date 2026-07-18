@@ -94,7 +94,7 @@ namespace NzbDrone.Core.Backup
             _logger.ProgressDebug("Creating backup zip");
 
             // Delete journal file created during database backup
-            _diskProvider.DeleteFile(Path.Combine(_backupTempFolder, "lidarr.db-journal"));
+            _diskProvider.DeleteFile(Path.Combine(_backupTempFolder, "musictubearr.db-journal"));
 
             _archiveService.CreateZip(backupPath, _diskProvider.GetFiles(_backupTempFolder, false));
 
@@ -145,7 +145,7 @@ namespace NzbDrone.Core.Backup
                         restoredFile = true;
                     }
 
-                    if (fileName.Equals("lidarr.db", StringComparison.InvariantCultureIgnoreCase))
+                    if (fileName.Equals("musictubearr.db", StringComparison.InvariantCultureIgnoreCase))
                     {
                         _diskProvider.MoveFile(file, _appFolderInfo.GetDatabaseRestore(), true);
                         restoredFile = true;

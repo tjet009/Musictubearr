@@ -38,8 +38,8 @@ namespace Lidarr.Api.V1
                 Tags = definition.Tags,
                 Fields = SchemaBuilder.ToSchema(definition.Settings),
 
-                // lidarr/supported is an disambagation page. the # should be a header on the page with appropriate details/link
-                InfoLink = string.Format("https://wiki.servarr.com/lidarr/supported#{0}",
+                // musictubearr/supported is an disambagation page. the # should be a header on the page with appropriate details/link
+                InfoLink = string.Format("https://github.com/tjet009/Musictubearr/supported#{0}",
                     definition.Implementation.ToLower())
             };
         }

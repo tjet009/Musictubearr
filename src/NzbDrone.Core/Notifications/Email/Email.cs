@@ -178,7 +178,7 @@ namespace NzbDrone.Core.Notifications.Email
 
             try
             {
-                SendEmail(settings, "Lidarr - Test Notification", body);
+                SendEmail(settings, "MusicTubearr - Test Notification", body);
             }
             catch (Exception ex)
             {

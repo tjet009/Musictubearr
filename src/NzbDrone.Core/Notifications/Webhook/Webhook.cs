@@ -20,7 +20,7 @@ namespace NzbDrone.Core.Notifications.Webhook
             _proxy = proxy;
         }
 
-        public override string Link => "https://wiki.servarr.com/lidarr/settings#connections";
+        public override string Link => "https://github.com/tjet009/Musictubearr/settings#connections";
 
         public override void OnGrab(GrabMessage message)
         {

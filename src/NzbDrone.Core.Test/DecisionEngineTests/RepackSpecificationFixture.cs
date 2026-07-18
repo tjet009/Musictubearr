@@ -29,7 +29,7 @@ namespace NzbDrone.Core.Test.DecisionEngineTests
             _parsedAlbumInfo = Builder<ParsedAlbumInfo>.CreateNew()
                                                            .With(p => p.Quality = new QualityModel(Quality.FLAC,
                                                                new Revision(2, 0, false)))
-                                                           .With(p => p.ReleaseGroup = "Lidarr")
+                                                           .With(p => p.ReleaseGroup = "MusicTubearr")
                                                            .Build();
 
             _albums = Builder<Album>.CreateListOfSize(1)
@@ -87,7 +87,7 @@ namespace NzbDrone.Core.Test.DecisionEngineTests
 
             _trackFiles.Select(c =>
             {
-                c.ReleaseGroup = "Lidarr";
+                c.ReleaseGroup = "MusicTubearr";
                 return c;
             }).ToList();
             _trackFiles.Select(c =>
@@ -114,7 +114,7 @@ namespace NzbDrone.Core.Test.DecisionEngineTests
 
             _trackFiles.Select(c =>
             {
-                c.ReleaseGroup = "Lidarr";
+                c.ReleaseGroup = "MusicTubearr";
                 return c;
             }).ToList();
             _trackFiles.Select(c =>
@@ -141,7 +141,7 @@ namespace NzbDrone.Core.Test.DecisionEngineTests
 
             _trackFiles.Select(c =>
             {
-                c.ReleaseGroup = "Lidarr";
+                c.ReleaseGroup = "MusicTubearr";
                 return c;
             }).ToList();
             _trackFiles.Select(c =>
@@ -225,7 +225,7 @@ namespace NzbDrone.Core.Test.DecisionEngineTests
 
             _trackFiles.Select(c =>
             {
-                c.ReleaseGroup = "Lidarr";
+                c.ReleaseGroup = "MusicTubearr";
                 return c;
             }).ToList();
 
@@ -284,7 +284,7 @@ namespace NzbDrone.Core.Test.DecisionEngineTests
 
             _trackFiles.Select(c =>
             {
-                c.ReleaseGroup = "Lidarr";
+                c.ReleaseGroup = "MusicTubearr";
                 return c;
             }).ToList();
             _trackFiles.Select(c =>
@@ -312,7 +312,7 @@ namespace NzbDrone.Core.Test.DecisionEngineTests
 
             _trackFiles.Select(c =>
             {
-                c.ReleaseGroup = "Lidarr";
+                c.ReleaseGroup = "MusicTubearr";
                 return c;
             }).ToList();
             _trackFiles.Select(c =>

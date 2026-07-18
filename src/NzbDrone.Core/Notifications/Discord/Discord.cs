@@ -4,6 +4,7 @@ using System.Linq;
 using FluentValidation.Results;
 using NzbDrone.Common.Extensions;
 using NzbDrone.Core.Configuration;
+using NzbDrone.Core.Download.YtDlp;
 using NzbDrone.Core.MediaCover;
 using NzbDrone.Core.MediaFiles;
 using NzbDrone.Core.Music;
@@ -37,9 +38,9 @@ namespace NzbDrone.Core.Notifications.Discord
                 Author = new DiscordAuthor
                 {
                     Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
-                    IconUrl = "https://raw.githubusercontent.com/lidarr/Lidarr/develop/Logo/256.png"
+                    IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                 },
-                Url = $"https://musicbrainz.org/artist/{artist.ForeignArtistId}",
+                Url = GetYouTubeArtistUrl(artist.ForeignArtistId),
                 Description = "Album Grabbed",
                 Title = GetTitle(artist, albums),
                 Color = (int)DiscordColors.Standard,
@@ -142,9 +143,9 @@ namespace NzbDrone.Core.Notifications.Discord
                 Author = new DiscordAuthor
                 {
                     Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
-                    IconUrl = "https://raw.githubusercontent.com/lidarr/Lidarr/develop/Logo/256.png"
+                    IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                 },
-                Url = $"https://musicbrainz.org/artist/{artist.ForeignArtistId}",
+                Url = GetYouTubeArtistUrl(artist.ForeignArtistId),
                 Description = isUpgrade ? "Album Upgraded" : "Album Imported",
                 Title = GetTitle(artist, new List<Album> { album }),
                 Color = isUpgrade ? (int)DiscordColors.Upgrade : (int)DiscordColors.Success,
@@ -300,7 +301,7 @@ namespace NzbDrone.Core.Notifications.Discord
                                       Author = new DiscordAuthor
                                       {
                                           Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
-                                          IconUrl = "https://raw.githubusercontent.com/lidarr/Lidarr/develop/Logo/256.png"
+                                          IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                                       },
                                       Title = healthCheck.Source.Name,
                                       Description = healthCheck.Message,
@@ -323,7 +324,7 @@ namespace NzbDrone.Core.Notifications.Discord
                     Author = new DiscordAuthor
                     {
                         Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
-                        IconUrl = "https://raw.githubusercontent.com/Lidarr/Lidarr/develop/Logo/256.png"
+                        IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                     },
                     Title = "Health Issue Resolved: " + previousCheck.Source.Name,
                     Description = $"The following issue is now resolved: {previousCheck.Message}",
@@ -346,7 +347,7 @@ namespace NzbDrone.Core.Notifications.Discord
                                       Author = new DiscordAuthor
                                       {
                                           Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
-                                          IconUrl = "https://raw.githubusercontent.com/lidarr/Lidarr/develop/Logo/256.png"
+                                          IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                                       },
                                       Title = TRACK_RETAGGED_TITLE,
                                       Text = message.Message
@@ -367,7 +368,7 @@ namespace NzbDrone.Core.Notifications.Discord
                     Author = new DiscordAuthor
                     {
                         Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
-                        IconUrl = "https://raw.githubusercontent.com/lidarr/Lidarr/develop/Logo/256.png"
+                        IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                     },
                     Description = message.Message,
                     Title = message.SourceTitle,
@@ -389,7 +390,7 @@ namespace NzbDrone.Core.Notifications.Discord
                     Author = new DiscordAuthor
                     {
                         Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
-                        IconUrl = "https://raw.githubusercontent.com/lidarr/Lidarr/develop/Logo/256.png"
+                        IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                     },
                     Description = message.Message,
                     Title = message.Album?.Title ?? message.Message,
@@ -411,7 +412,7 @@ namespace NzbDrone.Core.Notifications.Discord
                                       Author = new DiscordAuthor
                                       {
                                           Name = Settings.Author.IsNullOrWhiteSpace() ? _configFileProvider.InstanceName : Settings.Author,
-                                          IconUrl = "https://raw.githubusercontent.com/lidarr/Lidarr/develop/Logo/256.png"
+                                          IconUrl = "https://raw.githubusercontent.com/tjet009/Musictubearr/develop/Logo/256.png"
                                       },
                                       Title = APPLICATION_UPDATE_TITLE,
                                       Timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
@@ -450,7 +451,7 @@ namespace NzbDrone.Core.Notifications.Discord
         {
             try
             {
-                var message = $"Test message from Lidarr posted at {DateTime.Now}";
+                var message = $"Test message from MusicTubearr posted at {DateTime.Now}";
                 var payload = CreatePayload(message);
 
                 _proxy.SendPayload(payload, Settings);
@@ -501,11 +502,26 @@ namespace NzbDrone.Core.Notifications.Discord
             return string.Format("{0} {1}", (Math.Sign(byteCount) * num).ToString(), suf[place]);
         }
 
+        private string GetYouTubeArtistUrl(string foreignArtistId)
+        {
+            if (!YouTubeIds.IsYouTubeId(foreignArtistId))
+            {
+                return null;
+            }
+
+            return YouTubeIds.ToChannelUrl(foreignArtistId);
+        }
+
         private string GetLinksString(Artist artist)
         {
             var links = new List<string>();
 
-            links.Add($"[MusicBrainz](https://musicbrainz.org/artist/{artist.ForeignArtistId})");
+            var youtubeUrl = GetYouTubeArtistUrl(artist.ForeignArtistId);
+
+            if (youtubeUrl.IsNotNullOrWhiteSpace())
+            {
+                links.Add($"[YouTube]({youtubeUrl})");
+            }
 
             return string.Join(" / ", links);
         }

@@ -44,7 +44,7 @@ namespace NzbDrone.Core.Notifications.CustomScript
 
         public override string Name => "Custom Script";
 
-        public override string Link => "https://wiki.servarr.com/lidarr/custom-scripts";
+        public override string Link => "https://github.com/tjet009/Musictubearr/custom-scripts";
 
         public override ProviderMessage Message => new ProviderMessage("Testing will execute the script with the EventType set to Test, ensure your script handles this correctly", ProviderMessageType.Warning);
 
@@ -55,32 +55,32 @@ namespace NzbDrone.Core.Notifications.CustomScript
             var releaseGroup = remoteAlbum.ParsedAlbumInfo.ReleaseGroup;
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "Grab");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Artist_Id", artist.Id.ToString());
-            environmentVariables.Add("Lidarr_Artist_Name", artist.Metadata.Value.Name);
-            environmentVariables.Add("Lidarr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
-            environmentVariables.Add("Lidarr_Artist_Type", artist.Metadata.Value.Type);
-            environmentVariables.Add("Lidarr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
-            environmentVariables.Add("Lidarr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
-            environmentVariables.Add("Lidarr_Release_AlbumCount", remoteAlbum.Albums.Count.ToString());
-            environmentVariables.Add("Lidarr_Release_AlbumReleaseDates", string.Join(",", remoteAlbum.Albums.Select(e => e.ReleaseDate)));
-            environmentVariables.Add("Lidarr_Release_AlbumTitles", string.Join("|", remoteAlbum.Albums.Select(e => e.Title)));
-            environmentVariables.Add("Lidarr_Release_AlbumOverviews", string.Join("|", remoteAlbum.Albums.Select(e => e.Overview)));
-            environmentVariables.Add("Lidarr_Release_AlbumMBIds", string.Join("|", remoteAlbum.Albums.Select(e => e.ForeignAlbumId)));
-            environmentVariables.Add("Lidarr_Release_Title", remoteAlbum.Release.Title);
-            environmentVariables.Add("Lidarr_Release_Indexer", remoteAlbum.Release.Indexer ?? string.Empty);
-            environmentVariables.Add("Lidarr_Release_Size", remoteAlbum.Release.Size.ToString());
-            environmentVariables.Add("Lidarr_Release_Quality", remoteAlbum.ParsedAlbumInfo.Quality.Quality.Name);
-            environmentVariables.Add("Lidarr_Release_QualityVersion", remoteAlbum.ParsedAlbumInfo.Quality.Revision.Version.ToString());
-            environmentVariables.Add("Lidarr_Release_ReleaseGroup", releaseGroup ?? string.Empty);
-            environmentVariables.Add("Lidarr_Release_IndexerFlags", remoteAlbum.Release.IndexerFlags.ToString());
-            environmentVariables.Add("Lidarr_Download_Client", message.DownloadClientName ?? string.Empty);
-            environmentVariables.Add("Lidarr_Download_Client_Type", message.DownloadClientType ?? string.Empty);
-            environmentVariables.Add("Lidarr_Download_Id", message.DownloadId ?? string.Empty);
-            environmentVariables.Add("Lidarr_Release_CustomFormat", string.Join("|", remoteAlbum.CustomFormats));
-            environmentVariables.Add("Lidarr_Release_CustomFormatScore", remoteAlbum.CustomFormatScore.ToString());
+            environmentVariables.Add("MusicTubearr_EventType", "Grab");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Artist_Id", artist.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_Name", artist.Metadata.Value.Name);
+            environmentVariables.Add("MusicTubearr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
+            environmentVariables.Add("MusicTubearr_Artist_Type", artist.Metadata.Value.Type);
+            environmentVariables.Add("MusicTubearr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
+            environmentVariables.Add("MusicTubearr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
+            environmentVariables.Add("MusicTubearr_Release_AlbumCount", remoteAlbum.Albums.Count.ToString());
+            environmentVariables.Add("MusicTubearr_Release_AlbumReleaseDates", string.Join(",", remoteAlbum.Albums.Select(e => e.ReleaseDate)));
+            environmentVariables.Add("MusicTubearr_Release_AlbumTitles", string.Join("|", remoteAlbum.Albums.Select(e => e.Title)));
+            environmentVariables.Add("MusicTubearr_Release_AlbumOverviews", string.Join("|", remoteAlbum.Albums.Select(e => e.Overview)));
+            environmentVariables.Add("MusicTubearr_Release_AlbumMBIds", string.Join("|", remoteAlbum.Albums.Select(e => e.ForeignAlbumId)));
+            environmentVariables.Add("MusicTubearr_Release_Title", remoteAlbum.Release.Title);
+            environmentVariables.Add("MusicTubearr_Release_Indexer", remoteAlbum.Release.Indexer ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_Release_Size", remoteAlbum.Release.Size.ToString());
+            environmentVariables.Add("MusicTubearr_Release_Quality", remoteAlbum.ParsedAlbumInfo.Quality.Quality.Name);
+            environmentVariables.Add("MusicTubearr_Release_QualityVersion", remoteAlbum.ParsedAlbumInfo.Quality.Revision.Version.ToString());
+            environmentVariables.Add("MusicTubearr_Release_ReleaseGroup", releaseGroup ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_Release_IndexerFlags", remoteAlbum.Release.IndexerFlags.ToString());
+            environmentVariables.Add("MusicTubearr_Download_Client", message.DownloadClientName ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_Download_Client_Type", message.DownloadClientType ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_Download_Id", message.DownloadId ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_Release_CustomFormat", string.Join("|", remoteAlbum.CustomFormats));
+            environmentVariables.Add("MusicTubearr_Release_CustomFormatScore", remoteAlbum.CustomFormatScore.ToString());
 
             ExecuteScript(environmentVariables);
         }
@@ -92,35 +92,35 @@ namespace NzbDrone.Core.Notifications.CustomScript
             var release = message.Release;
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "AlbumDownload");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Artist_Id", artist.Id.ToString());
-            environmentVariables.Add("Lidarr_Artist_Name", artist.Metadata.Value.Name);
-            environmentVariables.Add("Lidarr_Artist_Path", artist.Path);
-            environmentVariables.Add("Lidarr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
-            environmentVariables.Add("Lidarr_Artist_Type", artist.Metadata.Value.Type);
-            environmentVariables.Add("Lidarr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
-            environmentVariables.Add("Lidarr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
-            environmentVariables.Add("Lidarr_Album_Id", album.Id.ToString());
-            environmentVariables.Add("Lidarr_Album_Title", album.Title);
-            environmentVariables.Add("Lidarr_Album_Overview", album.Overview);
-            environmentVariables.Add("Lidarr_Album_MBId", album.ForeignAlbumId);
-            environmentVariables.Add("Lidarr_AlbumRelease_MBId", release.ForeignReleaseId);
-            environmentVariables.Add("Lidarr_Album_ReleaseDate", album.ReleaseDate.ToString());
-            environmentVariables.Add("Lidarr_Download_Client", message.DownloadClientInfo?.Name ?? string.Empty);
-            environmentVariables.Add("Lidarr_Download_Client_Type", message.DownloadClientInfo?.Type ?? string.Empty);
-            environmentVariables.Add("Lidarr_Download_Id", message.DownloadId ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_EventType", "AlbumDownload");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Artist_Id", artist.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_Name", artist.Metadata.Value.Name);
+            environmentVariables.Add("MusicTubearr_Artist_Path", artist.Path);
+            environmentVariables.Add("MusicTubearr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
+            environmentVariables.Add("MusicTubearr_Artist_Type", artist.Metadata.Value.Type);
+            environmentVariables.Add("MusicTubearr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
+            environmentVariables.Add("MusicTubearr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
+            environmentVariables.Add("MusicTubearr_Album_Id", album.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Album_Title", album.Title);
+            environmentVariables.Add("MusicTubearr_Album_Overview", album.Overview);
+            environmentVariables.Add("MusicTubearr_Album_MBId", album.ForeignAlbumId);
+            environmentVariables.Add("MusicTubearr_AlbumRelease_MBId", release.ForeignReleaseId);
+            environmentVariables.Add("MusicTubearr_Album_ReleaseDate", album.ReleaseDate.ToString());
+            environmentVariables.Add("MusicTubearr_Download_Client", message.DownloadClientInfo?.Name ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_Download_Client_Type", message.DownloadClientInfo?.Type ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_Download_Id", message.DownloadId ?? string.Empty);
 
             if (message.TrackFiles.Any())
             {
-                environmentVariables.Add("Lidarr_AddedTrackPaths", string.Join("|", message.TrackFiles.Select(e => e.Path)));
+                environmentVariables.Add("MusicTubearr_AddedTrackPaths", string.Join("|", message.TrackFiles.Select(e => e.Path)));
             }
 
             if (message.OldFiles.Any())
             {
-                environmentVariables.Add("Lidarr_DeletedPaths", string.Join("|", message.OldFiles.Select(e => e.Path)));
-                environmentVariables.Add("Lidarr_DeletedDateAdded", string.Join("|", message.OldFiles.Select(e => e.DateAdded)));
+                environmentVariables.Add("MusicTubearr_DeletedPaths", string.Join("|", message.OldFiles.Select(e => e.Path)));
+                environmentVariables.Add("MusicTubearr_DeletedDateAdded", string.Join("|", message.OldFiles.Select(e => e.DateAdded)));
             }
 
             ExecuteScript(environmentVariables);
@@ -130,19 +130,19 @@ namespace NzbDrone.Core.Notifications.CustomScript
         {
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "Rename");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Artist_Id", artist.Id.ToString());
-            environmentVariables.Add("Lidarr_Artist_Name", artist.Metadata.Value.Name);
-            environmentVariables.Add("Lidarr_Artist_Path", artist.Path);
-            environmentVariables.Add("Lidarr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
-            environmentVariables.Add("Lidarr_Artist_Type", artist.Metadata.Value.Type);
-            environmentVariables.Add("Lidarr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
-            environmentVariables.Add("Lidarr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
-            environmentVariables.Add("Lidarr_TrackFile_Ids", string.Join(",", renamedFiles.Select(e => e.TrackFile.Id)));
-            environmentVariables.Add("Lidarr_TrackFile_Paths", string.Join("|", renamedFiles.Select(e => e.TrackFile.Path)));
-            environmentVariables.Add("Lidarr_TrackFile_PreviousPaths", string.Join("|", renamedFiles.Select(e => e.PreviousPath)));
+            environmentVariables.Add("MusicTubearr_EventType", "Rename");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Artist_Id", artist.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_Name", artist.Metadata.Value.Name);
+            environmentVariables.Add("MusicTubearr_Artist_Path", artist.Path);
+            environmentVariables.Add("MusicTubearr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
+            environmentVariables.Add("MusicTubearr_Artist_Type", artist.Metadata.Value.Type);
+            environmentVariables.Add("MusicTubearr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
+            environmentVariables.Add("MusicTubearr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
+            environmentVariables.Add("MusicTubearr_TrackFile_Ids", string.Join(",", renamedFiles.Select(e => e.TrackFile.Id)));
+            environmentVariables.Add("MusicTubearr_TrackFile_Paths", string.Join("|", renamedFiles.Select(e => e.TrackFile.Path)));
+            environmentVariables.Add("MusicTubearr_TrackFile_PreviousPaths", string.Join("|", renamedFiles.Select(e => e.PreviousPath)));
 
             ExecuteScript(environmentVariables);
         }
@@ -155,34 +155,34 @@ namespace NzbDrone.Core.Notifications.CustomScript
             var trackFile = message.TrackFile;
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "TrackRetag");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Artist_Id", artist.Id.ToString());
-            environmentVariables.Add("Lidarr_Artist_Name", artist.Metadata.Value.Name);
-            environmentVariables.Add("Lidarr_Artist_Path", artist.Path);
-            environmentVariables.Add("Lidarr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
-            environmentVariables.Add("Lidarr_Artist_Type", artist.Metadata.Value.Type);
-            environmentVariables.Add("Lidarr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
-            environmentVariables.Add("Lidarr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
-            environmentVariables.Add("Lidarr_Album_Id", album.Id.ToString());
-            environmentVariables.Add("Lidarr_Album_Title", album.Title);
-            environmentVariables.Add("Lidarr_Album_Overview", album.Overview);
-            environmentVariables.Add("Lidarr_Album_MBId", album.ForeignAlbumId);
-            environmentVariables.Add("Lidarr_AlbumRelease_MBId", release.ForeignReleaseId);
-            environmentVariables.Add("Lidarr_Album_ReleaseDate", album.ReleaseDate.ToString());
-            environmentVariables.Add("Lidarr_TrackFile_Id", trackFile.Id.ToString());
-            environmentVariables.Add("Lidarr_TrackFile_TrackCount", trackFile.Tracks.Value.Count.ToString());
-            environmentVariables.Add("Lidarr_TrackFile_Path", trackFile.Path);
-            environmentVariables.Add("Lidarr_TrackFile_TrackIds", string.Join(",", trackFile.Tracks.Value.Select(e => e.Id)));
-            environmentVariables.Add("Lidarr_TrackFile_TrackNumbers", string.Join(",", trackFile.Tracks.Value.Select(e => e.TrackNumber)));
-            environmentVariables.Add("Lidarr_TrackFile_TrackTitles", string.Join("|", trackFile.Tracks.Value.Select(e => e.Title)));
-            environmentVariables.Add("Lidarr_TrackFile_Quality", trackFile.Quality.Quality.Name);
-            environmentVariables.Add("Lidarr_TrackFile_QualityVersion", trackFile.Quality.Revision.Version.ToString());
-            environmentVariables.Add("Lidarr_TrackFile_ReleaseGroup", trackFile.ReleaseGroup ?? string.Empty);
-            environmentVariables.Add("Lidarr_TrackFile_SceneName", trackFile.SceneName ?? string.Empty);
-            environmentVariables.Add("Lidarr_Tags_Diff", message.Diff.ToJson());
-            environmentVariables.Add("Lidarr_Tags_Scrubbed", message.Scrubbed.ToString());
+            environmentVariables.Add("MusicTubearr_EventType", "TrackRetag");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Artist_Id", artist.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_Name", artist.Metadata.Value.Name);
+            environmentVariables.Add("MusicTubearr_Artist_Path", artist.Path);
+            environmentVariables.Add("MusicTubearr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
+            environmentVariables.Add("MusicTubearr_Artist_Type", artist.Metadata.Value.Type);
+            environmentVariables.Add("MusicTubearr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
+            environmentVariables.Add("MusicTubearr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
+            environmentVariables.Add("MusicTubearr_Album_Id", album.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Album_Title", album.Title);
+            environmentVariables.Add("MusicTubearr_Album_Overview", album.Overview);
+            environmentVariables.Add("MusicTubearr_Album_MBId", album.ForeignAlbumId);
+            environmentVariables.Add("MusicTubearr_AlbumRelease_MBId", release.ForeignReleaseId);
+            environmentVariables.Add("MusicTubearr_Album_ReleaseDate", album.ReleaseDate.ToString());
+            environmentVariables.Add("MusicTubearr_TrackFile_Id", trackFile.Id.ToString());
+            environmentVariables.Add("MusicTubearr_TrackFile_TrackCount", trackFile.Tracks.Value.Count.ToString());
+            environmentVariables.Add("MusicTubearr_TrackFile_Path", trackFile.Path);
+            environmentVariables.Add("MusicTubearr_TrackFile_TrackIds", string.Join(",", trackFile.Tracks.Value.Select(e => e.Id)));
+            environmentVariables.Add("MusicTubearr_TrackFile_TrackNumbers", string.Join(",", trackFile.Tracks.Value.Select(e => e.TrackNumber)));
+            environmentVariables.Add("MusicTubearr_TrackFile_TrackTitles", string.Join("|", trackFile.Tracks.Value.Select(e => e.Title)));
+            environmentVariables.Add("MusicTubearr_TrackFile_Quality", trackFile.Quality.Quality.Name);
+            environmentVariables.Add("MusicTubearr_TrackFile_QualityVersion", trackFile.Quality.Revision.Version.ToString());
+            environmentVariables.Add("MusicTubearr_TrackFile_ReleaseGroup", trackFile.ReleaseGroup ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_TrackFile_SceneName", trackFile.SceneName ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_Tags_Diff", message.Diff.ToJson());
+            environmentVariables.Add("MusicTubearr_Tags_Scrubbed", message.Scrubbed.ToString());
 
             ExecuteScript(environmentVariables);
         }
@@ -192,16 +192,16 @@ namespace NzbDrone.Core.Notifications.CustomScript
             var artist = message.Artist;
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "ArtistAdd");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Artist_Id", artist.Id.ToString());
-            environmentVariables.Add("Lidarr_Artist_Title", artist.Metadata.Value.Name);
-            environmentVariables.Add("Lidarr_Artist_Path", artist.Path);
-            environmentVariables.Add("Lidarr_Artist_MBId", artist.Metadata.Value.ForeignArtistId.ToString());
-            environmentVariables.Add("Lidarr_Artist_Type", artist.Metadata.Value.Type);
-            environmentVariables.Add("Lidarr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
-            environmentVariables.Add("Lidarr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
+            environmentVariables.Add("MusicTubearr_EventType", "ArtistAdd");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Artist_Id", artist.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_Title", artist.Metadata.Value.Name);
+            environmentVariables.Add("MusicTubearr_Artist_Path", artist.Path);
+            environmentVariables.Add("MusicTubearr_Artist_MBId", artist.Metadata.Value.ForeignArtistId.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_Type", artist.Metadata.Value.Type);
+            environmentVariables.Add("MusicTubearr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
+            environmentVariables.Add("MusicTubearr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
 
             ExecuteScript(environmentVariables);
         }
@@ -211,17 +211,17 @@ namespace NzbDrone.Core.Notifications.CustomScript
             var artist = deleteMessage.Artist;
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "ArtistDeleted");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Artist_Id", artist.Id.ToString());
-            environmentVariables.Add("Lidarr_Artist_Title", artist.Metadata.Value.Name);
-            environmentVariables.Add("Lidarr_Artist_Path", artist.Path);
-            environmentVariables.Add("Lidarr_Artist_MBId", artist.Metadata.Value.ForeignArtistId.ToString());
-            environmentVariables.Add("Lidarr_Artist_Type", artist.Metadata.Value.Type);
-            environmentVariables.Add("Lidarr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
-            environmentVariables.Add("Lidarr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
-            environmentVariables.Add("Lidarr_Artist_DeletedFiles", deleteMessage.DeletedFiles.ToString());
+            environmentVariables.Add("MusicTubearr_EventType", "ArtistDeleted");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Artist_Id", artist.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_Title", artist.Metadata.Value.Name);
+            environmentVariables.Add("MusicTubearr_Artist_Path", artist.Path);
+            environmentVariables.Add("MusicTubearr_Artist_MBId", artist.Metadata.Value.ForeignArtistId.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_Type", artist.Metadata.Value.Type);
+            environmentVariables.Add("MusicTubearr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
+            environmentVariables.Add("MusicTubearr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
+            environmentVariables.Add("MusicTubearr_Artist_DeletedFiles", deleteMessage.DeletedFiles.ToString());
 
             ExecuteScript(environmentVariables);
         }
@@ -232,22 +232,22 @@ namespace NzbDrone.Core.Notifications.CustomScript
             var album = deleteMessage.Album;
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "AlbumDeleted");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Artist_Id", artist.Id.ToString());
-            environmentVariables.Add("Lidarr_Artist_Name", artist.Metadata.Value.Name);
-            environmentVariables.Add("Lidarr_Artist_Path", artist.Path);
-            environmentVariables.Add("Lidarr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
-            environmentVariables.Add("Lidarr_Artist_Type", artist.Metadata.Value.Type);
-            environmentVariables.Add("Lidarr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
-            environmentVariables.Add("Lidarr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
-            environmentVariables.Add("Lidarr_Album_Id", album.Id.ToString());
-            environmentVariables.Add("Lidarr_Album_Title", album.Title);
-            environmentVariables.Add("Lidarr_Album_Overview", album.Overview);
-            environmentVariables.Add("Lidarr_Album_MBId", album.ForeignAlbumId);
-            environmentVariables.Add("Lidarr_Album_ReleaseDate", album.ReleaseDate.ToString());
-            environmentVariables.Add("Lidarr_Artist_DeletedFiles", deleteMessage.DeletedFiles.ToString());
+            environmentVariables.Add("MusicTubearr_EventType", "AlbumDeleted");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Artist_Id", artist.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_Name", artist.Metadata.Value.Name);
+            environmentVariables.Add("MusicTubearr_Artist_Path", artist.Path);
+            environmentVariables.Add("MusicTubearr_Artist_MBId", artist.Metadata.Value.ForeignArtistId);
+            environmentVariables.Add("MusicTubearr_Artist_Type", artist.Metadata.Value.Type);
+            environmentVariables.Add("MusicTubearr_Artist_Genres", string.Join("|", artist.Metadata.Value.Genres));
+            environmentVariables.Add("MusicTubearr_Artist_Tags", string.Join("|", GetTagLabels(artist)));
+            environmentVariables.Add("MusicTubearr_Album_Id", album.Id.ToString());
+            environmentVariables.Add("MusicTubearr_Album_Title", album.Title);
+            environmentVariables.Add("MusicTubearr_Album_Overview", album.Overview);
+            environmentVariables.Add("MusicTubearr_Album_MBId", album.ForeignAlbumId);
+            environmentVariables.Add("MusicTubearr_Album_ReleaseDate", album.ReleaseDate.ToString());
+            environmentVariables.Add("MusicTubearr_Artist_DeletedFiles", deleteMessage.DeletedFiles.ToString());
 
             ExecuteScript(environmentVariables);
         }
@@ -256,13 +256,13 @@ namespace NzbDrone.Core.Notifications.CustomScript
         {
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "HealthIssue");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Health_Issue_Level", Enum.GetName(typeof(HealthCheckResult), healthCheck.Type));
-            environmentVariables.Add("Lidarr_Health_Issue_Message", healthCheck.Message);
-            environmentVariables.Add("Lidarr_Health_Issue_Type", healthCheck.Source.Name);
-            environmentVariables.Add("Lidarr_Health_Issue_Wiki", healthCheck.WikiUrl.ToString() ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_EventType", "HealthIssue");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Health_Issue_Level", Enum.GetName(typeof(HealthCheckResult), healthCheck.Type));
+            environmentVariables.Add("MusicTubearr_Health_Issue_Message", healthCheck.Message);
+            environmentVariables.Add("MusicTubearr_Health_Issue_Type", healthCheck.Source.Name);
+            environmentVariables.Add("MusicTubearr_Health_Issue_Wiki", healthCheck.WikiUrl.ToString() ?? string.Empty);
 
             ExecuteScript(environmentVariables);
         }
@@ -271,13 +271,13 @@ namespace NzbDrone.Core.Notifications.CustomScript
         {
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "HealthRestored");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Health_Restored_Level", Enum.GetName(typeof(HealthCheckResult), previousCheck.Type));
-            environmentVariables.Add("Lidarr_Health_Restored_Message", previousCheck.Message);
-            environmentVariables.Add("Lidarr_Health_Restored_Type", previousCheck.Source.Name);
-            environmentVariables.Add("Lidarr_Health_Restored_Wiki", previousCheck.WikiUrl.ToString() ?? string.Empty);
+            environmentVariables.Add("MusicTubearr_EventType", "HealthRestored");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Health_Restored_Level", Enum.GetName(typeof(HealthCheckResult), previousCheck.Type));
+            environmentVariables.Add("MusicTubearr_Health_Restored_Message", previousCheck.Message);
+            environmentVariables.Add("MusicTubearr_Health_Restored_Type", previousCheck.Source.Name);
+            environmentVariables.Add("MusicTubearr_Health_Restored_Wiki", previousCheck.WikiUrl.ToString() ?? string.Empty);
 
             ExecuteScript(environmentVariables);
         }
@@ -286,12 +286,12 @@ namespace NzbDrone.Core.Notifications.CustomScript
         {
             var environmentVariables = new StringDictionary();
 
-            environmentVariables.Add("Lidarr_EventType", "ApplicationUpdate");
-            environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-            environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
-            environmentVariables.Add("Lidarr_Update_Message", updateMessage.Message);
-            environmentVariables.Add("Lidarr_Update_NewVersion", updateMessage.NewVersion.ToString());
-            environmentVariables.Add("Lidarr_Update_PreviousVersion", updateMessage.PreviousVersion.ToString());
+            environmentVariables.Add("MusicTubearr_EventType", "ApplicationUpdate");
+            environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+            environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
+            environmentVariables.Add("MusicTubearr_Update_Message", updateMessage.Message);
+            environmentVariables.Add("MusicTubearr_Update_NewVersion", updateMessage.NewVersion.ToString());
+            environmentVariables.Add("MusicTubearr_Update_PreviousVersion", updateMessage.PreviousVersion.ToString());
 
             ExecuteScript(environmentVariables);
         }
@@ -310,9 +310,9 @@ namespace NzbDrone.Core.Notifications.CustomScript
                 try
                 {
                     var environmentVariables = new StringDictionary();
-                    environmentVariables.Add("Lidarr_EventType", "Test");
-                    environmentVariables.Add("Lidarr_InstanceName", _configFileProvider.InstanceName);
-                    environmentVariables.Add("Lidarr_ApplicationUrl", _configService.ApplicationUrl);
+                    environmentVariables.Add("MusicTubearr_EventType", "Test");
+                    environmentVariables.Add("MusicTubearr_InstanceName", _configFileProvider.InstanceName);
+                    environmentVariables.Add("MusicTubearr_ApplicationUrl", _configService.ApplicationUrl);
 
                     var processOutput = ExecuteScript(environmentVariables);
 

@@ -15,7 +15,9 @@ using NzbDrone.Core.Profiles.Metadata;
 
 namespace NzbDrone.Core.MetadataSource.SkyHook
 {
-    public class SkyHookProxy : IProvideArtistInfo, ISearchForNewArtist, IProvideAlbumInfo, ISearchForNewAlbum, ISearchForNewEntity
+    // Legacy LidarrAPI/SkyHook client kept for reference/tests.
+    // MusicTubearr uses YouTubeProxy as the sole metadata provider.
+    public class SkyHookProxy
     {
         private readonly IHttpClient _httpClient;
         private readonly Logger _logger;
@@ -67,7 +69,7 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
 
         public Artist GetArtistInfo(string foreignArtistId, int metadataProfileId)
         {
-            _logger.Debug("Getting Artist with LidarrAPI.MetadataID of {0}", foreignArtistId);
+            _logger.Debug("Getting Artist with MetadataID of {0}", foreignArtistId);
 
             var httpRequest = _requestBuilder.GetRequestBuilder().Create()
                                              .SetSegment("route", "artist/" + foreignArtistId)
@@ -90,7 +92,7 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
                 }
                 else if (httpResponse.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    throw new SkyHookException("Unable to communicate with LidarrAPI. Service temporarily unavailable (503).");
+                    throw new SkyHookException("Unable to communicate with the metadata API. Service temporarily unavailable (503).");
                 }
                 else
                 {
@@ -149,7 +151,7 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
 
         public Tuple<string, Album, List<ArtistMetadata>> GetAlbumInfo(string foreignAlbumId)
         {
-            _logger.Debug("Getting Album with LidarrAPI.MetadataID of {0}", foreignAlbumId);
+            _logger.Debug("Getting Album with MetadataID of {0}", foreignAlbumId);
 
             var httpRequest = _requestBuilder.GetRequestBuilder().Create()
                 .SetSegment("route", "album/" + foreignAlbumId)
@@ -172,7 +174,7 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
                 }
                 else if (httpResponse.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    throw new SkyHookException("Unable to communicate with LidarrAPI. Service temporarily unavailable (503).");
+                    throw new SkyHookException("Unable to communicate with the metadata API. Service temporarily unavailable (503).");
                 }
                 else
                 {
@@ -236,17 +238,17 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
             catch (HttpException ex)
             {
                 _logger.Warn(ex);
-                throw new SkyHookException("Search for '{0}' failed. Unable to communicate with LidarrAPI. {1}", ex, title, ex.Message);
+                throw new SkyHookException("Search for '{0}' failed. Unable to communicate with the metadata API. {1}", ex, title, ex.Message);
             }
             catch (WebException ex)
             {
                 _logger.Warn(ex);
-                throw new SkyHookException("Search for '{0}' failed. Unable to communicate with LidarrAPI. {1}", ex, title, ex.Message);
+                throw new SkyHookException("Search for '{0}' failed. Unable to communicate with the metadata API. {1}", ex, title, ex.Message);
             }
             catch (Exception ex) when (ex is not SkyHookException)
             {
                 _logger.Warn(ex);
-                throw new SkyHookException("Search for '{0}' failed. Invalid response received from LidarrAPI. {1}", ex, title, ex.Message);
+                throw new SkyHookException("Search for '{0}' failed. Invalid response received from MusicTubearrAPI. {1}", ex, title, ex.Message);
             }
         }
 
@@ -310,10 +312,10 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
             {
                 if (ex.Response != null && ex.Response.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    throw new SkyHookException("Search for '{0}' failed. LidarrAPI Temporarily Unavailable (503)", title);
+                    throw new SkyHookException("Search for '{0}' failed. Metadata API Temporarily Unavailable (503)", title);
                 }
 
-                throw new SkyHookException("Search for '{0}' failed. Unable to communicate with LidarrAPI. {1}", ex, title, ex.Message);
+                throw new SkyHookException("Search for '{0}' failed. Unable to communicate with the metadata API. {1}", ex, title, ex.Message);
             }
             catch (SkyHookException)
             {
@@ -322,7 +324,7 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
             catch (Exception ex)
             {
                 _logger.Warn(ex, ex.Message);
-                throw new SkyHookException("Search for '{0}' failed. Invalid response received from LidarrAPI.", title);
+                throw new SkyHookException("Search for '{0}' failed. Invalid response received from MusicTubearrAPI.", title);
             }
         }
 
@@ -348,15 +350,15 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
             {
                 if (ex.Response != null && ex.Response.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    throw new SkyHookException("Search by fingerprint failed. LidarrAPI Temporarily Unavailable (503)");
+                    throw new SkyHookException("Search by fingerprint failed. Metadata API Temporarily Unavailable (503)");
                 }
 
-                throw new SkyHookException("Search by fingerprint failed. Unable to communicate with LidarrAPI. {0}", ex, ex.Message);
+                throw new SkyHookException("Search by fingerprint failed. Unable to communicate with the metadata API. {0}", ex, ex.Message);
             }
             catch (Exception ex) when (ex is not SkyHookException)
             {
                 _logger.Warn(ex, ex.Message);
-                throw new SkyHookException("Search by fingerprint failed. Invalid response received from LidarrAPI.");
+                throw new SkyHookException("Search by fingerprint failed. Invalid response received from MusicTubearrAPI.");
             }
         }
 
@@ -414,10 +416,10 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
             {
                 if (ex.Response != null && ex.Response.StatusCode == HttpStatusCode.ServiceUnavailable)
                 {
-                    throw new SkyHookException("Search for '{0}' failed. LidarrAPI Temporarily Unavailable (503)", title);
+                    throw new SkyHookException("Search for '{0}' failed. Metadata API Temporarily Unavailable (503)", title);
                 }
 
-                throw new SkyHookException("Search for '{0}' failed. Unable to communicate with LidarrAPI. {1}", ex, title, ex.Message);
+                throw new SkyHookException("Search for '{0}' failed. Unable to communicate with the metadata API. {1}", ex, title, ex.Message);
             }
             catch (SkyHookException)
             {
@@ -426,13 +428,13 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
             catch (Exception ex)
             {
                 _logger.Warn(ex, ex.Message);
-                throw new SkyHookException("Search for '{0}' failed. Invalid response received from LidarrAPI.", title);
+                throw new SkyHookException("Search for '{0}' failed. Invalid response received from MusicTubearrAPI.", title);
             }
         }
 
         private static bool IsMbidQuery(string query)
         {
-            return query.StartsWith("lidarr:") || query.StartsWith("lidarrid:") || query.StartsWith("mbid:");
+            return query.StartsWith("musictubearr:") || query.StartsWith("lidarrid:") || query.StartsWith("mbid:");
         }
 
         private Artist MapSearchResult(ArtistResource resource)

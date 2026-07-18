@@ -1,0 +1,32 @@
+# MusicTubearr — one-command setup
+#
+# Windows (PowerShell), from the repo root:
+#   docker compose -f docker/docker-compose.yml up -d --build
+#
+# Then open http://localhost:8585
+#   - Add Root Folder: /music  (maps to C:\docker\media\youtube-music below)
+#   - Settings → Metadata → Upload/Paste cookies, or drop cookies.txt into ./cookies/
+#     (mounted at /cookies — auto-imported on startup)
+#
+# yt-dlp + ffmpeg are baked into the image. No .NET/yarn install needed on the host.
+
+services:
+  musictubearr:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: musictubearr:local
+    container_name: musictubearr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    volumes:
+      - ./config:/config
+      - ./cookies:/cookies
+      - ./downloads:/downloads
+      # Change this host path to your library
+      - C:/docker/media/youtube-music:/music
+    ports:
+      - "8585:8585"
+    restart: unless-stopped

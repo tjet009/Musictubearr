@@ -36,7 +36,7 @@ namespace NzbDrone.Core.Test.UpdateTests
                 _updatePackage = new UpdatePackage
                 {
                     FileName = "Lidarr.develop.0.6.2.883.tar.gz",
-                    Url = "https://github.com/lidarr/Lidarr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.linux.tar.gz",
+                    Url = "https://github.com/tjet009/Musictubearr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.linux.tar.gz",
                     Version = new Version("0.6.2.883")
                 };
             }
@@ -45,7 +45,7 @@ namespace NzbDrone.Core.Test.UpdateTests
                 _updatePackage = new UpdatePackage
                 {
                     FileName = "Lidarr.develop.0.6.2.883.zip",
-                    Url = "https://github.com/lidarr/Lidarr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.windows.zip",
+                    Url = "https://github.com/tjet009/Musictubearr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.windows.zip",
                     Version = new Version("0.6.2.883")
                 };
             }

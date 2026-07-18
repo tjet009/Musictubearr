@@ -315,6 +315,7 @@ namespace NzbDrone.Core.Organizer
             tokenHandlers["{Artist Genre}"] = m => artist.Metadata.Value.Genres?.FirstOrDefault() ?? string.Empty;
             tokenHandlers["{Artist NameFirstCharacter}"] = m => TitleFirstCharacter(TitleThe(artist.Name));
             tokenHandlers["{Artist MbId}"] = m => artist.ForeignArtistId ?? string.Empty;
+            tokenHandlers["{Artist YouTube Id}"] = m => artist.ForeignArtistId ?? string.Empty;
 
             if (artist.Metadata.Value.Disambiguation != null)
             {
@@ -331,6 +332,7 @@ namespace NzbDrone.Core.Organizer
             tokenHandlers["{Album Type}"] = m => album.AlbumType;
             tokenHandlers["{Album Genre}"] = m => album.Genres.FirstOrDefault() ?? string.Empty;
             tokenHandlers["{Album MbId}"] = m => album.ForeignAlbumId ?? string.Empty;
+            tokenHandlers["{Album YouTube Id}"] = m => album.ForeignAlbumId ?? string.Empty;
 
             if (album.Disambiguation != null)
             {
@@ -361,6 +363,7 @@ namespace NzbDrone.Core.Organizer
                 tokenHandlers["{Track ArtistNameThe}"] = m => Truncate(TitleThe(firstArtist.Name), m.CustomFormat);
                 tokenHandlers["{Track ArtistCleanNameThe}"] = m => Truncate(CleanTitleThe(firstArtist.Name), m.CustomFormat);
                 tokenHandlers["{Track ArtistMbId}"] = m => firstArtist.ForeignArtistId ?? string.Empty;
+                tokenHandlers["{Track Artist YouTube Id}"] = m => firstArtist.ForeignArtistId ?? string.Empty;
             }
         }
 
@@ -380,7 +383,7 @@ namespace NzbDrone.Core.Organizer
         {
             tokenHandlers["{Original Title}"] = m => GetOriginalTitle(trackFile);
             tokenHandlers["{Original Filename}"] = m => GetOriginalFileName(trackFile);
-            tokenHandlers["{Release Group}"] = m => trackFile.ReleaseGroup.IsNullOrWhiteSpace() ? m.DefaultValue("Lidarr") : Truncate(trackFile.ReleaseGroup, m.CustomFormat);
+            tokenHandlers["{Release Group}"] = m => trackFile.ReleaseGroup.IsNullOrWhiteSpace() ? m.DefaultValue("MusicTubearr") : Truncate(trackFile.ReleaseGroup, m.CustomFormat);
         }
 
         private void AddQualityTokens(Dictionary<string, Func<TokenMatch, string>> tokenHandlers, Artist artist, TrackFile trackFile)

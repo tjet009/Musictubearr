@@ -100,7 +100,7 @@ const config = {
   slicer,
   serialize,
   merge,
-  key: 'lidarr'
+  key: 'musictubearr'
 };
 
 export default function createPersistState() {

@@ -768,7 +768,7 @@ namespace NzbDrone.Core.Test.OrganizerTests.FileNameBuilderTests
             _namingConfig.StandardTrackFormat = "{Release Group}";
 
             Subject.BuildTrackFileName(new List<Track> { _track1 }, _artist, _album, _trackFile)
-                   .Should().Be("Lidarr");
+                   .Should().Be("MusicTubearr");
         }
 
         [TestCase("{Track Title}{-Release Group}", "City Sushi")]

@@ -291,6 +291,70 @@ namespace NzbDrone.Core.Configuration
             set { SetValue("MetadataSource", value); }
         }
 
+        public string YoutubeCookiesPath
+        {
+            get { return GetValue("YoutubeCookiesPath", ""); }
+
+            set { SetValue("YoutubeCookiesPath", value); }
+        }
+
+        public string YtDlpPath
+        {
+            get { return GetValue("YtDlpPath", "yt-dlp"); }
+
+            set { SetValue("YtDlpPath", value); }
+        }
+
+        public string FfmpegPath
+        {
+            get { return GetValue("FfmpegPath", "ffmpeg"); }
+
+            set { SetValue("FfmpegPath", value); }
+        }
+
+        public string YoutubeAudioFormat
+        {
+            get { return GetValue("YoutubeAudioFormat", "mp3"); }
+
+            set { SetValue("YoutubeAudioFormat", value); }
+        }
+
+        public string YoutubeAudioQuality
+        {
+            get { return GetValue("YoutubeAudioQuality", "0"); }
+
+            set { SetValue("YoutubeAudioQuality", value); }
+        }
+
+        public string YoutubeSponsorBlockMode
+        {
+            // off | music | aggressive | custom — music trims intro/outro/sponsors for music videos
+            get { return GetValue("YoutubeSponsorBlockMode", "music"); }
+
+            set { SetValue("YoutubeSponsorBlockMode", value); }
+        }
+
+        public string YoutubeSponsorBlockCategories
+        {
+            get { return GetValue("YoutubeSponsorBlockCategories", "intro,outro,sponsor,selfpromo,music_offtopic"); }
+
+            set { SetValue("YoutubeSponsorBlockCategories", value); }
+        }
+
+        public bool YoutubeExcludeShorts
+        {
+            get { return GetValueBoolean("YoutubeExcludeShorts", true); }
+
+            set { SetValue("YoutubeExcludeShorts", value); }
+        }
+
+        public bool YoutubeMusicOnly
+        {
+            get { return GetValueBoolean("YoutubeMusicOnly", true); }
+
+            set { SetValue("YoutubeMusicOnly", value); }
+        }
+
         public WriteAudioTagsType WriteAudioTags
         {
             get { return GetValueEnum("WriteAudioTags", WriteAudioTagsType.No); }

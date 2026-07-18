@@ -25,8 +25,8 @@ namespace NzbDrone.Core.Test.NotificationTests.EmailTests
             _emailSettings = Builder<EmailSettings>.CreateNew()
                                         .With(s => s.Server = "someserver")
                                         .With(s => s.Port = 567)
-                                        .With(s => s.From = "lidarr@lidarr.audio")
-                                        .With(s => s.To = new string[] { "lidarr@lidarr.audio" })
+                                        .With(s => s.From = "lidarr@github.com/tjet009/Musictubearr")
+                                        .With(s => s.To = new string[] { "lidarr@github.com/tjet009/Musictubearr" })
                                         .Build();
         }
 
@@ -59,7 +59,7 @@ namespace NzbDrone.Core.Test.NotificationTests.EmailTests
         }
 
         [TestCase("lidarr")]
-        [TestCase("lidarr.audio")]
+        [TestCase("github.com/tjet009/Musictubearr")]
         public void should_not_be_valid_if_to_is_invalid(string email)
         {
             _emailSettings.To = new string[] { email };
@@ -68,7 +68,7 @@ namespace NzbDrone.Core.Test.NotificationTests.EmailTests
         }
 
         [TestCase("lidarr")]
-        [TestCase("lidarr.audio")]
+        [TestCase("github.com/tjet009/Musictubearr")]
         public void should_not_be_valid_if_cc_is_invalid(string email)
         {
             _emailSettings.Cc = new string[] { email };
@@ -77,7 +77,7 @@ namespace NzbDrone.Core.Test.NotificationTests.EmailTests
         }
 
         [TestCase("lidarr")]
-        [TestCase("lidarr.audio")]
+        [TestCase("github.com/tjet009/Musictubearr")]
         public void should_not_be_valid_if_bcc_is_invalid(string email)
         {
             _emailSettings.Bcc = new string[] { email };

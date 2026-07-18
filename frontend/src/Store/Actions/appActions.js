@@ -36,7 +36,7 @@ export const defaultState = {
   messages: {
     items: []
   },
-  version: window.Lidarr.version,
+  version: window.MusicTubearr.version,
   isUpdated: false,
   isConnected: true,
   isReconnecting: false,

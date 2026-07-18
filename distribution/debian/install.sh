@@ -31,7 +31,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 app="lidarr"
-app_port="8686"
+app_port="8585"
 app_prereq="curl sqlite3 wget"
 app_umask="0002"
 branch="main"

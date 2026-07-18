@@ -81,7 +81,7 @@ namespace Lidarr.Api.V1.Albums
                 Overview = model.Overview,
                 Images = model.Images,
                 Links = model.Links,
-                Ratings = model.Ratings,
+                Ratings = model.Ratings ?? new Ratings(),
                 Duration = selectedRelease?.Duration ?? 0,
                 AlbumType = model.AlbumType,
                 SecondaryTypes = model.SecondaryTypes.Select(s => s.Name).ToList(),

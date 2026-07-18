@@ -1,7 +1,7 @@
 {
-  "name": "lidarr",
-  "version": "1.0.0",
-  "description": "Lidarr",
+  "name": "musictubearr",
+  "version": "0.1.0",
+  "description": "MusicTubearr",
   "scripts": {
     "build": "webpack --config ./frontend/build/webpack.config.js",
     "prebuild": "yarn clean",
@@ -15,9 +15,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Lidarr/Lidarr.git"
+    "url": "git://github.com/tjet009/Musictubearr.git"
   },
-  "author": "Team Lidarr",
+  "author": "MusicTubearr",
   "license": "GPL-3.0",
   "readmeFilename": "readme.md",
   "main": "index.ts",

@@ -69,12 +69,13 @@
 
   <!-- Set the Product and Version info for our own projects -->
   <PropertyGroup Condition="'$(LidarrProject)'=='true'">
-    <Product>Lidarr</Product>
-    <Company>lidarr.audio</Company>
-    <Copyright>Copyright 2017-$([System.DateTime]::Now.ToString('yyyy')) lidarr.audio (GNU General Public v3)</Copyright>
+    <Product>MusicTubearr</Product>
+    <Company>MusicTubearr</Company>
+    <Copyright>Copyright 2017-$([System.DateTime]::Now.ToString('yyyy')) MusicTubearr (GNU General Public v3)</Copyright>
 
     <!-- Should be replaced by CI -->
-    <AssemblyVersion>10.0.0.*</AssemblyVersion>
+    <!-- MusicTubearr fork version line (not upstream Lidarr 10.x / 3.x) -->
+    <AssemblyVersion>0.1.0.*</AssemblyVersion>
     <AssemblyConfiguration>$(Configuration)-dev</AssemblyConfiguration>
     <NeutralLanguage>en</NeutralLanguage>
 

@@ -31,14 +31,14 @@ namespace NzbDrone.Core.HealthCheck.Checks
                 return new HealthCheck(GetType());
             }
 
-            var artistText = deletedArtists.Select(s => $"{s.Name} (mbid {s.ForeignArtistId})").Join(", ");
+            var artistText = deletedArtists.Select(s => $"{s.Name} ({s.ForeignArtistId})").Join(", ");
 
             if (deletedArtists.Count == 1)
             {
-                return new HealthCheck(GetType(), HealthCheckResult.Error, $"Artist {artistText} was removed from MusicBrainz");
+                return new HealthCheck(GetType(), HealthCheckResult.Error, $"Artist {artistText} was removed from YouTube");
             }
 
-            return new HealthCheck(GetType(), HealthCheckResult.Error, $"Artists {artistText} were removed from MusicBrainz");
+            return new HealthCheck(GetType(), HealthCheckResult.Error, $"Artists {artistText} were removed from YouTube");
         }
 
         public bool ShouldCheckOnEvent(ArtistsDeletedEvent deletedEvent)

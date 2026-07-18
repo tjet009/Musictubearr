@@ -20,7 +20,13 @@ namespace NzbDrone.Core.Datastore
                 .Build();
 
             var postgresOptions = new PostgresOptions();
-            config.GetSection("Lidarr:Postgres").Bind(postgresOptions);
+            config.GetSection("MusicTubearr:Postgres").Bind(postgresOptions);
+
+            // Compat for existing MusicTubearr-style env vars
+            if (string.IsNullOrWhiteSpace(postgresOptions.Host))
+            {
+                config.GetSection("Lidarr:Postgres").Bind(postgresOptions);
+            }
 
             return postgresOptions;
         }

@@ -10,9 +10,9 @@ namespace NzbDrone.Core.ImportLists.MusicBrainzSeries
 {
     public class MusicBrainzSeries : HttpImportListBase<MusicBrainzSeriesSettings>
     {
-        public override string Name => "MusicBrainz Series";
+        public override string Name => "MusicBrainz Series (unsupported)";
 
-        public override ProviderMessage Message => new ProviderMessage("MusicBrainz Series only supports release groups within series, other types of member will not be picked up by Lidarr", ProviderMessageType.Warning);
+        public override ProviderMessage Message => new ProviderMessage("This legacy MusicBrainz import list is unsupported in MusicTubearr. Use YouTube-based import lists instead.", ProviderMessageType.Warning);
 
         public override ImportListType ListType => ImportListType.Other;
         public override TimeSpan MinRefreshInterval => TimeSpan.FromHours(12);

@@ -21,8 +21,8 @@ namespace NzbDrone.Common.EnvironmentInfo
             IsWindowsService = hostLifetime is WindowsServiceLifetime;
             IsStarting = true;
 
-            // net8.0 will return Lidarr.dll for entry assembly, we need the actual
-            // executable name (Lidarr on linux).  On mono this will return the location of
+            // net8.0 will return MusicTubearr.dll for entry assembly, we need the actual
+            // executable name (MusicTubearr on linux).  On mono this will return the location of
             // the mono executable itself, which is not what we want.
             var entry = Process.GetCurrentProcess().MainModule;
 

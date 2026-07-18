@@ -9,6 +9,17 @@ namespace Lidarr.Api.V1.Config
         public WriteAudioTagsType WriteAudioTags { get; set; }
         public bool ScrubAudioTags { get; set; }
         public bool EmbedCoverArt { get; set; }
+
+        // YouTube / yt-dlp (MusicTubearr)
+        public string YoutubeCookiesPath { get; set; }
+        public string YtDlpPath { get; set; }
+        public string FfmpegPath { get; set; }
+        public string YoutubeAudioFormat { get; set; }
+        public string YoutubeAudioQuality { get; set; }
+        public string YoutubeSponsorBlockMode { get; set; }
+        public string YoutubeSponsorBlockCategories { get; set; }
+        public bool YoutubeExcludeShorts { get; set; }
+        public bool YoutubeMusicOnly { get; set; }
     }
 
     public static class MetadataProviderConfigResourceMapper
@@ -21,6 +32,15 @@ namespace Lidarr.Api.V1.Config
                 WriteAudioTags = model.WriteAudioTags,
                 ScrubAudioTags = model.ScrubAudioTags,
                 EmbedCoverArt = model.EmbedCoverArt,
+                YoutubeCookiesPath = model.YoutubeCookiesPath,
+                YtDlpPath = model.YtDlpPath,
+                FfmpegPath = model.FfmpegPath,
+                YoutubeAudioFormat = model.YoutubeAudioFormat,
+                YoutubeAudioQuality = model.YoutubeAudioQuality,
+                YoutubeSponsorBlockMode = model.YoutubeSponsorBlockMode,
+                YoutubeSponsorBlockCategories = model.YoutubeSponsorBlockCategories,
+                YoutubeExcludeShorts = model.YoutubeExcludeShorts,
+                YoutubeMusicOnly = model.YoutubeMusicOnly,
             };
         }
     }

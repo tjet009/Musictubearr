@@ -17,32 +17,17 @@ class MoreInfo extends Component {
         <DescriptionList>
           <DescriptionListItemTitle>Home page</DescriptionListItemTitle>
           <DescriptionListItemDescription>
-            <Link to="https://lidarr.audio/">lidarr.audio</Link>
-          </DescriptionListItemDescription>
-
-          <DescriptionListItemTitle>Wiki</DescriptionListItemTitle>
-          <DescriptionListItemDescription>
-            <Link to="https://wiki.servarr.com/lidarr">wiki.servarr.com/lidarr</Link>
-          </DescriptionListItemDescription>
-
-          <DescriptionListItemTitle>Reddit</DescriptionListItemTitle>
-          <DescriptionListItemDescription>
-            <Link to="https://www.reddit.com/r/Lidarr/">/r/Lidarr</Link>
-          </DescriptionListItemDescription>
-
-          <DescriptionListItemTitle>Discord</DescriptionListItemTitle>
-          <DescriptionListItemDescription>
-            <Link to="https://lidarr.audio/discord">lidarr.audio/discord</Link>
+            <Link to="https://github.com/tjet009/Musictubearr">github.com/tjet009/Musictubearr</Link>
           </DescriptionListItemDescription>
 
           <DescriptionListItemTitle>Source</DescriptionListItemTitle>
           <DescriptionListItemDescription>
-            <Link to="https://github.com/lidarr/Lidarr/">github.com/Lidarr/Lidarr</Link>
+            <Link to="https://github.com/tjet009/Musictubearr">github.com/tjet009/Musictubearr</Link>
           </DescriptionListItemDescription>
 
           <DescriptionListItemTitle>Feature Requests</DescriptionListItemTitle>
           <DescriptionListItemDescription>
-            <Link to="https://github.com/lidarr/Lidarr/issues">github.com/Lidarr/Lidarr/issues</Link>
+            <Link to="https://github.com/tjet009/Musictubearr/issues">github.com/tjet009/Musictubearr/issues</Link>
           </DescriptionListItemDescription>
 
         </DescriptionList>

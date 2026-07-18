@@ -9,12 +9,12 @@ using NzbDrone.Core.Parser;
 using NzbDrone.Core.Parser.Model;
 using NzbDrone.Core.Validation;
 
-namespace NzbDrone.Core.ImportLists.Lidarr
+namespace NzbDrone.Core.ImportLists.MusicTubearr
 {
     public class LidarrImport : ImportListBase<LidarrSettings>
     {
         private readonly ILidarrV1Proxy _lidarrV1Proxy;
-        public override string Name => "Lidarr";
+        public override string Name => "MusicTubearr";
 
         public override ImportListType ListType => ImportListType.Program;
         public override TimeSpan MinRefreshInterval => TimeSpan.FromMinutes(15);

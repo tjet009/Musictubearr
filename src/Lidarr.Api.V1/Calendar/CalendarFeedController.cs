@@ -27,6 +27,7 @@ namespace Lidarr.Api.V1.Calendar
             _tagService = tagService;
         }
 
+        [HttpGet("MusicTubearr.ics")]
         [HttpGet("Lidarr.ics")]
         public IActionResult GetCalendarFeed(int pastDays = 7, int futureDays = 28, string tags = "", bool unmonitored = false)
         {
@@ -42,10 +43,10 @@ namespace Lidarr.Api.V1.Calendar
             var albums = _albumService.AlbumsBetweenDates(start, end, unmonitored);
             var calendar = new Ical.Net.Calendar
             {
-                ProductId = "-//lidarr.audio//Lidarr//EN"
+                ProductId = "-//github.com/tjet009/Musictubearr//MusicTubearr//EN"
             };
 
-            var calendarName = "Lidarr Music Schedule";
+            var calendarName = "MusicTubearr Music Schedule";
             calendar.AddProperty(new CalendarProperty("NAME", calendarName));
             calendar.AddProperty(new CalendarProperty("X-WR-CALNAME", calendarName));
 
@@ -59,7 +60,7 @@ namespace Lidarr.Api.V1.Calendar
                 }
 
                 var occurrence = calendar.Create<CalendarEvent>();
-                occurrence.Uid = "Lidarr_album_" + album.Id;
+                occurrence.Uid = "MusicTubearr_album_" + album.Id;
 
                 // occurrence.Status = album.HasFile ? EventStatus.Confirmed : EventStatus.Tentative;
                 occurrence.Description = album.Overview;

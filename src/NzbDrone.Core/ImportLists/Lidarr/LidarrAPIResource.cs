@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NzbDrone.Core.ImportLists.Lidarr
+namespace NzbDrone.Core.ImportLists.MusicTubearr
 {
     public class LidarrArtist
     {

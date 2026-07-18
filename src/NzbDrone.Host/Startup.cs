@@ -106,12 +106,12 @@ namespace NzbDrone.Host
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "1.0.0",
-                    Title = "Lidarr",
-                    Description = "Lidarr API docs",
+                    Title = "MusicTubearr",
+                    Description = "MusicTubearr API docs",
                     License = new OpenApiLicense
                     {
                         Name = "GPL-3.0",
-                        Url = new Uri("https://github.com/Lidarr/Lidarr/blob/develop/LICENSE.md")
+                        Url = new Uri("https://github.com/tjet009/Musictubearr/blob/develop/LICENSE.md")
                     }
                 });
 
@@ -156,7 +156,7 @@ namespace NzbDrone.Host
                     Variables = new Dictionary<string, OpenApiServerVariable>
                     {
                         { "protocol", new OpenApiServerVariable { Default = "http", Enum = new List<string> { "http", "https" } } },
-                        { "hostpath", new OpenApiServerVariable { Default = "localhost:8686" } }
+                        { "hostpath", new OpenApiServerVariable { Default = "localhost:8585" } }
                     }
                 });
 

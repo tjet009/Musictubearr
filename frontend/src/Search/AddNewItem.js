@@ -155,7 +155,7 @@ class AddNewItem extends Component {
                         <AddNewAlbumSearchResultConnector
                           key={item.id}
                           isExistingAlbum={'id' in album && album.id !== 0}
-                          isExistingArtist={'id' in album.artist && album.artist.id !== 0}
+                          isExistingArtist={!!album.artist && 'id' in album.artist && album.artist.id !== 0}
                           {...album}
                         />
                       );
@@ -173,9 +173,7 @@ class AddNewItem extends Component {
                   {translate('CouldntFindAnyResultsForTerm', [term])}
                 </div>
                 <div>
-                  You can also search using the
-                  <Link to="https://musicbrainz.org/search"> MusicBrainz ID </Link>
-                  of an artist or release group e.g. lidarr:cc197bad-dc9c-440d-a5b5-d52ba2e14234
+                  You can also paste a YouTube channel URL or ID, e.g. yt:channel:UCxxxxx or @artist
                 </div>
               </div>
           }
@@ -188,9 +186,7 @@ class AddNewItem extends Component {
                   {translate('ItsEasyToAddANewArtistJustStartTypingTheNameOfTheArtistYouWantToAdd')}
                 </div>
                 <div>
-                  You can also search using the
-                  <Link to="https://musicbrainz.org/search"> MusicBrainz ID </Link>
-                  of an artist e.g. lidarr:cc197bad-dc9c-440d-a5b5-d52ba2e14234
+                  You can also paste a YouTube channel URL or ID, e.g. yt:channel:UCxxxxx or @artist
                 </div>
               </div>
           }
