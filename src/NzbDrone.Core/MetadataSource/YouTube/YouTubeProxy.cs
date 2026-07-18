@@ -169,13 +169,26 @@ namespace NzbDrone.Core.MetadataSource.YouTube
                     lower.StartsWith("UC", StringComparison.Ordinal) ||
                     lower.StartsWith("@"))
                 {
-                    var id = lower.Contains(':') && !lower.Contains("://") && !lower.StartsWith("@")
-                        ? lower.Split(new[] { ':' }, 2)[1].Trim()
-                        : lower;
+                    string foreignId;
+                    if (lower.StartsWith("yt:channel:", StringComparison.OrdinalIgnoreCase) ||
+                        lower.StartsWith("yt:uploads:", StringComparison.OrdinalIgnoreCase))
+                    {
+                        foreignId = YouTubeIds.Channel(YouTubeIds.ExtractChannelId(title.Trim()));
+                    }
+                    else if (lower.StartsWith("lidarr:", StringComparison.OrdinalIgnoreCase) ||
+                             (lower.StartsWith("yt:", StringComparison.OrdinalIgnoreCase) && !lower.Contains("://")))
+                    {
+                        var raw = title.Trim().Split(new[] { ':' }, 2)[1].Trim();
+                        foreignId = YouTubeIds.Channel(YouTubeIds.ExtractChannelId(raw) ?? raw);
+                    }
+                    else
+                    {
+                        foreignId = YouTubeIds.Channel(YouTubeIds.ExtractChannelId(title.Trim()) ?? title.Trim());
+                    }
 
                     try
                     {
-                        var artist = GetArtistInfo(YouTubeIds.IsYouTubeId(id) ? id : YouTubeIds.Channel(id), 1);
+                        var artist = GetArtistInfo(foreignId, 1);
                         var existing = _artistService.FindById(artist.ForeignArtistId);
                         return new List<Artist> { existing ?? artist };
                     }

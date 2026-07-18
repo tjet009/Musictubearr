@@ -10,6 +10,7 @@ using NzbDrone.Core.Indexers;
 using NzbDrone.Core.Indexers.YouTube;
 using NzbDrone.Core.Lifecycle;
 using NzbDrone.Core.Messaging.Events;
+using NzbDrone.Core.Profiles.Delay;
 
 namespace NzbDrone.Core.MusicTubearr
 {
@@ -17,18 +18,21 @@ namespace NzbDrone.Core.MusicTubearr
     {
         private readonly IIndexerFactory _indexerFactory;
         private readonly IDownloadClientFactory _downloadClientFactory;
+        private readonly IDelayProfileService _delayProfileService;
         private readonly IAppFolderInfo _appFolderInfo;
         private readonly IDiskProvider _diskProvider;
         private readonly Logger _logger;
 
         public MusicTubearrBootstrapService(IIndexerFactory indexerFactory,
                                             IDownloadClientFactory downloadClientFactory,
+                                            IDelayProfileService delayProfileService,
                                             IAppFolderInfo appFolderInfo,
                                             IDiskProvider diskProvider,
                                             Logger logger)
         {
             _indexerFactory = indexerFactory;
             _downloadClientFactory = downloadClientFactory;
+            _delayProfileService = delayProfileService;
             _appFolderInfo = appFolderInfo;
             _diskProvider = diskProvider;
             _logger = logger;
@@ -38,6 +42,7 @@ namespace NzbDrone.Core.MusicTubearr
         {
             var client = EnsureYtDlpClient();
             EnsureYouTubeIndexer(client?.Id ?? 0);
+            EnsureYouTubeProtocolAllowed();
         }
 
         private void EnsureYouTubeIndexer(int downloadClientId)
@@ -75,6 +80,39 @@ namespace NzbDrone.Core.MusicTubearr
             catch (Exception ex)
             {
                 _logger.Warn(ex, "Unable to create default YouTube indexer");
+            }
+        }
+
+        private void EnsureYouTubeProtocolAllowed()
+        {
+            try
+            {
+                foreach (var profile in _delayProfileService.All())
+                {
+                    var item = profile.Items?.FirstOrDefault(i => i.Protocol == nameof(YouTubeDownloadProtocol));
+                    if (item == null)
+                    {
+                        profile.Items.Add(new DelayProfileProtocolItem
+                        {
+                            Name = "YouTube",
+                            Protocol = nameof(YouTubeDownloadProtocol),
+                            Allowed = true,
+                            Delay = 0
+                        });
+                        _delayProfileService.Update(profile);
+                        _logger.Info("Added YouTube protocol to delay profile {0}", profile.Name);
+                    }
+                    else if (!item.Allowed)
+                    {
+                        item.Allowed = true;
+                        _delayProfileService.Update(profile);
+                        _logger.Info("Enabled YouTube protocol on delay profile {0}", profile.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Warn(ex, "Unable to enable YouTube protocol on delay profiles");
             }
         }
 

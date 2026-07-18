@@ -232,9 +232,22 @@ namespace NzbDrone.Core.Indexers.YouTube
                 ? "MP3"
                 : _configService.YoutubeAudioFormat.ToUpperInvariant();
 
-            var releaseTitle = channel.IsNotNullOrWhiteSpace()
-                ? $"{channel} - {title} [{format}]"
-                : $"{title} [{format}]";
+            // Prefer "Artist - Album MP3" so Lidarr quality/album parsers succeed.
+            // Use bare codec token (not brackets-only) for QualityParser word-boundary matches.
+            var qualityToken = format.Equals("MP3", StringComparison.OrdinalIgnoreCase) ? "MP3 320" : format;
+            string releaseTitle;
+            if (channel.IsNotNullOrWhiteSpace() && album.IsNotNullOrWhiteSpace())
+            {
+                releaseTitle = $"{channel} - {album} {qualityToken}";
+            }
+            else if (channel.IsNotNullOrWhiteSpace())
+            {
+                releaseTitle = $"{channel} - {title} {qualityToken}";
+            }
+            else
+            {
+                releaseTitle = $"{title} {qualityToken}";
+            }
 
             var publishDate = DateTime.UtcNow;
             if (entry.Timestamp.HasValue)

@@ -24,6 +24,7 @@ namespace NzbDrone.Core.Download.Clients.YtDlp
             AudioFormat = "";
             AudioQuality = "0";
             OutputTemplate = "%(title)s.%(ext)s";
+            ExtraArguments = "--extractor-args youtube:player_client=default,android,web";
         }
 
         [FieldDefinition(0, Label = "Download Folder", Type = FieldType.Path, HelpText = "Folder where yt-dlp writes completed audio files for import")]
