@@ -82,17 +82,6 @@ function Settings() {
 
         <Link
           className={styles.link}
-          to="/settings/importlists"
-        >
-          {translate('ImportLists')}
-        </Link>
-
-        <div className={styles.summary}>
-          {translate('ImportListsSettingsSummary')}
-        </div>
-
-        <Link
-          className={styles.link}
           to="/settings/connect"
         >
           {translate('Connect')}

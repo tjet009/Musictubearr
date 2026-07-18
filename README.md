@@ -2,7 +2,11 @@
 
 YouTube-first music manager (*arr UI) powered by **yt-dlp** + **ffmpeg**.
 
+**Version:** `0.1.0` (MusicTubearr fork line — not upstream Lidarr numbering)
+
 Search YouTube artists → browse albums/playlists → download & convert → import into your library.
+
+By default MusicTubearr **excludes Shorts** and prefers **music / music videos** (Settings → Metadata).
 
 ## Easiest: Docker (recommended)
 

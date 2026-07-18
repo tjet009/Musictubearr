@@ -341,6 +341,20 @@ namespace NzbDrone.Core.Configuration
             set { SetValue("YoutubeSponsorBlockCategories", value); }
         }
 
+        public bool YoutubeExcludeShorts
+        {
+            get { return GetValueBoolean("YoutubeExcludeShorts", true); }
+
+            set { SetValue("YoutubeExcludeShorts", value); }
+        }
+
+        public bool YoutubeMusicOnly
+        {
+            get { return GetValueBoolean("YoutubeMusicOnly", true); }
+
+            set { SetValue("YoutubeMusicOnly", value); }
+        }
+
         public WriteAudioTagsType WriteAudioTags
         {
             get { return GetValueEnum("WriteAudioTags", WriteAudioTagsType.No); }

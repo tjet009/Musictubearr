@@ -1,6 +1,6 @@
 {
   "name": "musictubearr",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "MusicTubearr",
   "scripts": {
     "build": "webpack --config ./frontend/build/webpack.config.js",

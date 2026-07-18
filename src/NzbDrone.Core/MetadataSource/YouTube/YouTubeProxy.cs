@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using NLog;
 using NzbDrone.Common.Extensions;
+using NzbDrone.Core.Configuration;
 using NzbDrone.Core.Download.YtDlp;
 using NzbDrone.Core.Exceptions;
 using NzbDrone.Core.MediaCover;
@@ -16,18 +17,21 @@ namespace NzbDrone.Core.MetadataSource.YouTube
     public class YouTubeProxy : IProvideArtistInfo, ISearchForNewArtist, IProvideAlbumInfo, ISearchForNewAlbum, ISearchForNewEntity
     {
         private readonly IYtDlpService _ytDlp;
+        private readonly IConfigService _configService;
         private readonly IArtistService _artistService;
         private readonly IAlbumService _albumService;
         private readonly IMetadataProfileService _metadataProfileService;
         private readonly Logger _logger;
 
         public YouTubeProxy(IYtDlpService ytDlp,
+                            IConfigService configService,
                             IArtistService artistService,
                             IAlbumService albumService,
                             IMetadataProfileService metadataProfileService,
                             Logger logger)
         {
             _ytDlp = ytDlp;
+            _configService = configService;
             _artistService = artistService;
             _albumService = albumService;
             _metadataProfileService = metadataProfileService;
@@ -452,14 +456,10 @@ namespace NzbDrone.Core.MetadataSource.YouTube
             var tracks = new List<Track>();
             var trackNumber = 1;
 
-            foreach (var entry in entries.Where(e => e != null && e.Id.IsNotNullOrWhiteSpace()))
-            {
-                // Skip nested playlists / channels
-                if (entry.Type == "playlist" || entry.Type == "channel")
-                {
-                    continue;
-                }
+            var videoEntries = YouTubeContentFilter.FilterVideos(entries, _configService);
 
+            foreach (var entry in videoEntries)
+            {
                 var durationMs = entry.Duration.HasValue ? (int)(entry.Duration.Value * 1000) : 0;
                 tracks.Add(new Track
                 {

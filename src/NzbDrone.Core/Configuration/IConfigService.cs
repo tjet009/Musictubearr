@@ -89,6 +89,8 @@ namespace NzbDrone.Core.Configuration
         string YoutubeAudioQuality { get; set; }
         string YoutubeSponsorBlockMode { get; set; }
         string YoutubeSponsorBlockCategories { get; set; }
+        bool YoutubeExcludeShorts { get; set; }
+        bool YoutubeMusicOnly { get; set; }
 
         // Forms Auth
         string RijndaelPassphrase { get; }

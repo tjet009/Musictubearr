@@ -361,6 +361,34 @@ function MetadataProvider(props) {
                     />
                   </FormGroup>
               }
+
+              <FormGroup>
+                <FormLabel>
+                  Exclude Shorts
+                </FormLabel>
+
+                <FormInputGroup
+                  type={inputTypes.CHECK}
+                  name="youtubeExcludeShorts"
+                  helpText="Skip YouTube Shorts (≈60s or less, /shorts/ URLs, #shorts titles)"
+                  onChange={onInputChange}
+                  {...settings.youtubeExcludeShorts}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <FormLabel>
+                  Music / Music Videos Only
+                </FormLabel>
+
+                <FormInputGroup
+                  type={inputTypes.CHECK}
+                  name="youtubeMusicOnly"
+                  helpText="Prefer official audio / music videos; filter reactions, podcasts, gameplay, and similar non-music clutter"
+                  onChange={onInputChange}
+                  {...settings.youtubeMusicOnly}
+                />
+              </FormGroup>
             </FieldSet>
 
             <FieldSet legend={translate('WriteMetadataToAudioFiles')}>

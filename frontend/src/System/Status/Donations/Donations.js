@@ -12,45 +12,17 @@ class Donations extends Component {
   render() {
     return (
       <FieldSet legend={translate('Donations')}>
-        <div className={styles.logoContainer} title="Radarr">
-          <Link to="https://radarr.video/donate">
-            <img
-              className={styles.logo}
-              src={`${window.MusicTubearr.urlBase}/Content/Images/Icons/logo-radarr.png`}
-            />
-          </Link>
-        </div>
         <div className={styles.logoContainer} title="MusicTubearr">
           <Link to="https://github.com/tjet009/Musictubearr">
             <img
               className={styles.logo}
-              src={`${window.MusicTubearr.urlBase}/Content/Images/Icons/logo-lidarr.png`}
+              src={`${window.MusicTubearr.urlBase}/Content/Images/Icons/logo-musictubearr.png`}
+              alt="MusicTubearr"
             />
           </Link>
         </div>
-        <div className={styles.logoContainer} title="Readarr">
-          <Link to="https://readarr.com/donate">
-            <img
-              className={styles.logo}
-              src={`${window.MusicTubearr.urlBase}/Content/Images/Icons/logo-readarr.png`}
-            />
-          </Link>
-        </div>
-        <div className={styles.logoContainer} title="Prowlarr">
-          <Link to="https://prowlarr.com/donate">
-            <img
-              className={styles.logo}
-              src={`${window.MusicTubearr.urlBase}/Content/Images/Icons/logo-prowlarr.png`}
-            />
-          </Link>
-        </div>
-        <div className={styles.logoContainer} title="Sonarr">
-          <Link to="https://sonarr.tv/donate">
-            <img
-              className={styles.logo}
-              src={`${window.MusicTubearr.urlBase}/Content/Images/Icons/logo-sonarr.png`}
-            />
-          </Link>
+        <div className={styles.summary}>
+          MusicTubearr is a YouTube-first fork. Support the project on GitHub.
         </div>
       </FieldSet>
     );
@@ -58,7 +30,6 @@ class Donations extends Component {
 }
 
 Donations.propTypes = {
-
 };
 
 export default Donations;

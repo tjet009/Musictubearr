@@ -108,10 +108,15 @@ namespace NzbDrone.Core.Download.YtDlp
                 return new List<YtDlpEntry>();
             }
 
-            var searchUrl = $"ytsearch{maxResults}:{query}";
-            var result = GetJson(searchUrl, maxResults, cookiesPath, ytDlpPath);
+            // Over-fetch then filter Shorts / non-music so result counts stay useful.
+            var fetchCount = Math.Min(Math.Max(maxResults * 3, maxResults), 50);
+            var searchQuery = YouTubeContentFilter.BoostMusicSearchQuery(query, _configService.YoutubeMusicOnly);
+            var searchUrl = $"ytsearch{fetchCount}:{searchQuery}";
+            var result = GetJson(searchUrl, fetchCount, cookiesPath, ytDlpPath);
 
-            return FlattenEntries(result);
+            return YouTubeContentFilter.FilterVideos(FlattenEntries(result), _configService)
+                .Take(maxResults)
+                .ToList();
         }
 
         public List<YtDlpEntry> SearchChannels(string query, int maxResults = 10, string cookiesPath = null, string ytDlpPath = null)

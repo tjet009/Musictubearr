@@ -68,6 +68,12 @@ namespace NzbDrone.Core.Download.YtDlp
         [JsonProperty("availability")]
         public string Availability { get; set; }
 
+        [JsonProperty("categories")]
+        public List<string> Categories { get; set; }
+
+        [JsonProperty("tags")]
+        public List<string> Tags { get; set; }
+
         public string BestThumbnail
         {
             get

@@ -214,12 +214,10 @@ namespace NzbDrone.Core.Indexers.YouTube
 
         private ReleaseInfo MapRelease(YtDlpEntry entry, string artist = null, string album = null)
         {
-            if (entry == null || entry.Id.IsNullOrWhiteSpace())
-            {
-                return null;
-            }
-
-            if (entry.Type == "playlist" || entry.Type == "channel")
+            if (!YouTubeContentFilter.ShouldInclude(
+                    entry,
+                    _configService.YoutubeExcludeShorts,
+                    _configService.YoutubeMusicOnly))
             {
                 return null;
             }

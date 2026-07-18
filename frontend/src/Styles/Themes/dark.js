@@ -1,4 +1,4 @@
-const lidarrGreen = '#00A65B';
+const lidarrGreen = '#00C853';
 const darkGray = '#888';
 const gray = '#adadad';
 const black = '#000';
